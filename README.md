@@ -1,3 +1,4 @@
+
 # ThursdaySechdule
 
 
@@ -28,3 +29,13 @@
 
 
 ## tutorial
+1. clone 代码
+`git clone https://github.com/vv12138vv/ThursdaySchedule.git`
+2. 拉取最新代码
+`git pull`
+3. 确保位于main 分支 
+`git switch main`
+4. 创建本地分支并切换
+`git checkout -b <branch_name>`
+<branch_name>以 `feature/需求`命名
+eg：`git checkout -b feature/new_page`
