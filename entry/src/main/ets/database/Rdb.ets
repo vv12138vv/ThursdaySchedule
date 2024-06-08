@@ -15,7 +15,7 @@
 
 import relationalStore from '@ohos.data.relationalStore';
 import CommonConstants from '../constants/CommonConstants';
-import Logger from './Logger'
+import Logger from '../utils/Logger'
 
 export default class Rdb {
   //抽象数据库

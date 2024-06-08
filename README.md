@@ -9,11 +9,13 @@
     - ets:代码目录
         - constants：一些常量的定义
         - entryaAbility：app 入口
-        - models：数据抽象类
         - pages：页面
         - utils：工具类
-        - viemodels：存放 viewmodel ，参考 mvvm 模型
-        - views：页面中的小组件
+        - components：页面中的小组件
+        - database:数据相关
+          - tables:表
+          - models：数据模型
+          - Rdb.ets：无视，数据库抽象
     - resources:静态资源目录
         - base
             - element
