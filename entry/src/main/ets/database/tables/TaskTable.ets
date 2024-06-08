@@ -29,7 +29,7 @@ export default class TaskTable {
     this.taskTable.deleteData(predicates, callback);
   }
 
-  updateData(task: Task, callback: Function) {
+  updateData(task: Task, callback: (succeed:boolean)=>void) {
     const value = generateBucket(task);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
     predicates.equalTo('id', task.id);
