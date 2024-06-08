@@ -1,5 +1,6 @@
-import relationalStore from '@ohos.data.relationalStore';
-import CommonConstants from '../constants/CommonConstants';
+import relationalStore from '@ohos.data.relationalStore'
+import CommonConstants from '../constants/CommonConstants'
+import DataBaseConfig from '../constants/DataBaseConfig'
 import Logger from '../utils/Logger'
 
 export default class Rdb {
@@ -30,7 +31,7 @@ export default class Rdb {
       return;
     }
     let context: Context = getContext(this) as Context;
-    relationalStore.getRdbStore(context, CommonConstants.STORE_CONFIG, (err, rdb) => {
+    relationalStore.getRdbStore(context, DataBaseConfig.STORE_CONFIG, (err, rdb) => {
       if (err) {
         Logger.error(CommonConstants.RDB_TAG, `gerRdbStore() failed, err: ${err}`);
         return;
