@@ -27,6 +27,10 @@
         - zh_CN/element
             - string.json: app 中字符串的中文版
 
+## CodeStyle
+- 类(class/struct)名以及类所在文件名：大驼峰。eg:`class Constants` ,`Constant.ets`。
+- 变量名以及函数名：小驼峰。eg: `userName:string` `searchUserName()`,变量最好标注出类型。
+- 配置文件内部命名采用下划线+小写。eg:`login_input_line_height`。
 
 ## tutorial
 1. clone 代码
