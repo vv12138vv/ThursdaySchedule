@@ -30,8 +30,8 @@
 ## CodeStyle
 - 类(class/struct)名以及类所在文件名：大驼峰。eg:`class Constants` ,`Constant.ets`。
 - 变量名以及函数名：小驼峰。eg: `userName:string` `searchUserName()`,变量最好标注出类型。
-- 配置文件内部命名采用下划线+小写。eg:`login_input_line_height`。
-
+- 配置文件内部命名采用下划线+小写。eg:`login_input_line_height`。g
+- 非`struct`中的语句最好填写分号，避免不必要的错误。
 ## tutorial
 1. clone 代码
 `git clone https://github.com/vv12138vv/ThursdaySchedule.git`
