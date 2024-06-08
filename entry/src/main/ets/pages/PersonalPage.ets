@@ -43,8 +43,8 @@ struct Index {
           this.itemBuilder("桌面小组件选项", $r('app.media.icon_topic'), () => {
             Router.push(RoutePath.ContainerPage, { "containerType": "topic" })
           })
-          this.itemBuilder("使用帮助", $r('app.media.icon_about'), () => {
-            this.dialogController.open()
+          this.itemBuilder("使用帮助", $r('app.media.icon_sel_find'), () => {
+            Router.push(RoutePath.ContainerPage, { "containerType": "help" })
           })
           this.itemBuilder("关于", $r('app.media.icon_about'), () => {
             this.dialogController.open()

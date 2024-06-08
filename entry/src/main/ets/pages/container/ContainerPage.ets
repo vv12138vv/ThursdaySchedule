@@ -43,11 +43,14 @@ struct ContainerPage {
 
   convertTitle() {
     if (this.containerType == 'focus') {
-      this.title = "设置"
-    } else if (this.containerType == 'topic') {
-      this.title = "主题"
+      this.title = "背景设置"
     } else if (this.containerType == 'category') {
-      this.title = "分类"
+      this.title = "主题颜色搭配"
+    } else if (this.containerType == 'topic') {
+      this.title = "桌面小组件选项"
+    }
+    else if (this.containerType == 'help') {
+      this.title = "使用帮助"
     }
   }
 }
