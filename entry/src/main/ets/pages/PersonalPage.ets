@@ -1,6 +1,6 @@
-import { CommonDialog } from '../views/CommonDialog'
-import { RoutePath } from '../route/RoutePath'
-import { Router } from '../route/Router'
+import { CommonDialog } from '../components/CommonDialog'
+import { RoutePath } from '../constants/RoutePath'
+import { Router } from '../utils/Router'
 
 
 @Entry

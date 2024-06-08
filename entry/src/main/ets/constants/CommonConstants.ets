@@ -6,10 +6,10 @@ export default class CommonConstants {
   /**
    * Rdb database config.
    */
-  static readonly STORE_CONFIG: relationalStore.StoreConfig = {
-    name: 'ThursdaySchedule.db',
-    securityLevel: relationalStore.SecurityLevel.S1
-  };
+  // static readonly STORE_CONFIG: relationalStore.StoreConfig = {
+  //   name: 'ThursdaySchedule.db',
+  //   securityLevel: relationalStore.SecurityLevel.S1
+  // };
   /**
    * Account table config.
    */
@@ -49,6 +49,6 @@ export default class CommonConstants {
    * Log tag.
    */
   static readonly RDB_TAG = '[Debug.Rdb]';
-  static readonly TABLE_TAG = '[Debug.AccountTable]';
-  static readonly INDEX_TAG = '[Debug.Index]';
+  // static readonly TABLE_TAG = '[Debug.AccountTable]';
+  // static readonly INDEX_TAG = '[Debug.Index]';
 }

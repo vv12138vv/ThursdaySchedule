@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { CommonTopBar } from '../../views/CommonTopBar'
+import { CommonTopBar } from '../../components/CommonTopBar'
 // import { CategoryPage } from '../find/category/CategoryPage'
 // import { FocusPage } from '../find/focus/FocusPage'
 // import { TopicPage } from '../find/topic/TopicPage'
