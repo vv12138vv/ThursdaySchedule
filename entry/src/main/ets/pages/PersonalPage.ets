@@ -5,7 +5,7 @@ import { Router } from '../route/Router'
 
 @Entry
 @Component
-struct Index {
+struct PersonalPage {
   @State dialogTitle: Resource = $r('app.string.dialog_about_title')
   @State dialogContent: Resource = $r('app.string.project_desc')
   dialogController: CustomDialogController = new CustomDialogController({
