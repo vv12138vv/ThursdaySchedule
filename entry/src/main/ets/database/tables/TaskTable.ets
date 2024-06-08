@@ -23,11 +23,6 @@ export default class TaskTable {
     this.taskTable.insertData(value, callback);
   }
 
-  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('id', id);
-    this.taskTable.deleteData(predicates, callback);
-  }
 
   updateData(task: Task, callback: (succeed:boolean)=>void) {
     const value = generateBucket(task);
@@ -62,6 +57,12 @@ export default class TaskTable {
         callback(result);
       }
     });
+  }
+
+  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
+    predicates.equalTo('id', id);
+    this.taskTable.deleteData(predicates, callback);
   }
 
   selectDataById(id: number, callback: (result: Task[]) => void) {

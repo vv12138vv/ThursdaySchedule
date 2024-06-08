@@ -22,12 +22,6 @@ export default class courseTable {
     this.courseTable.insertData(value, callback);
   }
 
-  deleteDataByCourseId(courseId: string, callback: (succeed:boolean)=>void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
-    predicates.equalTo('courseId', courseId);
-    this.courseTable.deleteData(predicates, callback);
-  }
-
   updateData(course: Course, callback: (succeed:boolean)=>void) {
     const value = generateBucket(course);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
@@ -62,6 +56,12 @@ export default class courseTable {
         callback(result);
       }
     });
+  }
+
+  deleteDataByCourseId(courseId: string, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
+    predicates.equalTo('courseId', courseId);
+    this.courseTable.deleteData(predicates, callback);
   }
 
   selectDataByCourseId(courseId: string, callback: (result: Course[]) => void) {

@@ -21,12 +21,6 @@ export default class UserTable {
     this.userTable.insertData(value, callback);
   }
 
-  deleteDataByStudentId(studentId: number, callback: (succeed: boolean) => void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.USER_TABLE.tableName);
-    predicates.equalTo('studentId', studentId);
-    this.userTable.deleteData(predicates, callback);
-  }
-
   updateData(user: User, callback: (succeed: boolean) => void) {
     const value = generateBucket(user);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.USER_TABLE.tableName);
@@ -56,6 +50,12 @@ export default class UserTable {
         callback(result);
       }
     });
+  }
+
+  deleteDataByStudentId(studentId: number, callback: (succeed: boolean) => void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.USER_TABLE.tableName);
+    predicates.equalTo('studentId', studentId);
+    this.userTable.deleteData(predicates, callback);
   }
 
   selectDataByStudentId(studentId: string, callback: (result: User[]) => void) {

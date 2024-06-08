@@ -21,12 +21,6 @@ export default class ExamTable {
     this.examTable.insertData(value, callback);
   }
 
-  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
-    predicates.equalTo('id', id);
-    this.examTable.deleteData(predicates, callback);
-  }
-
   updateData(exam: Exam, callback: (succeed:boolean)=>void) {
     const value = generateBucket(exam);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
@@ -57,6 +51,12 @@ export default class ExamTable {
         callback(result);
       }
     });
+  }
+
+  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
+    predicates.equalTo('id', id);
+    this.examTable.deleteData(predicates, callback);
   }
 
   selectDataByCourseId(courseId: string, callback: (result: Exam[]) => void) {
