@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { LogUtils } from '../utils/LogUtils';
+import { LogUtils } from './LogUtils';
 
 export class Router {
   static push(url: string, params?: Object) {
