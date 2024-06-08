@@ -11,7 +11,8 @@ export enum TestType{//考察方式
 
 
 export default class Course {
-  id: string;
+  id: number;//主键，与业务无关
+  courseId:string;//业务主键
   name: string;
   teacher: string;
   credit: number;//学分
