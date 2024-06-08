@@ -16,6 +16,55 @@ export default class ExamTable {
     this.examTable.getRdbStore(callback);
   }
 
+  insertData(exam: Exam, callback: (succeed:boolean)=>void) {
+    const value = generateBucket(exam);
+    this.examTable.insertData(value, callback);
+  }
+
+  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
+    predicates.equalTo('id', id);
+    this.examTable.deleteData(predicates, callback);
+  }
+
+  updateData(exam: Exam, callback: (succeed:boolean)=>void) {
+    const value = generateBucket(exam);
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
+    predicates.equalTo('id', exam.id);
+    this.examTable.updateData(predicates, value, callback);
+  }
+
+  private queryData(predicates: relationalStore.RdbPredicates, callback: (result: Exam[]) => void) {
+    this.examTable.query(predicates, (resultSet: relationalStore.ResultSet) => {
+      let count = resultSet.rowCount;
+      if (count === 0 || typeof count === 'string') {
+        callback([]);
+      } else {
+        resultSet.goToFirstRow();
+        const result: Exam[] = [];
+        for (let i = 0; i < count; i += 1) {
+          let temp: Exam = {
+            id:resultSet.getLong(resultSet.getColumnIndex('id')),
+            examId:resultSet.getString(resultSet.getColumnIndex('examId')),
+            courseId:resultSet.getString(resultSet.getColumnIndex('courseId')),
+            location:resultSet.getString(resultSet.getColumnIndex('location')),
+            seatId:resultSet.getLong(resultSet.getColumnIndex('seatId')),
+            time:resultSet.getLong(resultSet.getColumnIndex('time'))
+          };
+          result.push(temp);
+          resultSet.goToNextRow();
+        }
+        callback(result);
+      }
+    });
+  }
+
+  selectDataByCourseId(courseId: string, callback: (result: Exam[]) => void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
+    predicates.equalTo('courseId', courseId);
+    this.queryData(predicates, callback);
+  }
+
 }
 
 

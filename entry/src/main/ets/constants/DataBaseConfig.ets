@@ -5,7 +5,7 @@ export default class DataBaseConfig {
     name: 'ThursdaySchedule.db',
     securityLevel: relationalStore.SecurityLevel.S1
   };
-  static readonly TASK_TABLE = {
+  static readonly USER_TABLE = {
     tableName: "users",
     sqlCreate: `CREATE TABLE IF NOT EXISTS users (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,

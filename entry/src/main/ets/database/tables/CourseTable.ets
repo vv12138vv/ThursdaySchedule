@@ -17,6 +17,60 @@ export default class courseTable {
     this.courseTable.getRdbStore(callback);
   }
 
+  insertData(course: Course, callback: (succeed:boolean)=>void) {
+    const value = generateBucket(course);
+    this.courseTable.insertData(value, callback);
+  }
+
+  deleteDataByCourseId(courseId: string, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
+    predicates.equalTo('courseId', courseId);
+    this.courseTable.deleteData(predicates, callback);
+  }
+
+  updateData(course: Course, callback: (succeed:boolean)=>void) {
+    const value = generateBucket(course);
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
+    predicates.equalTo('courseId', course.courseId);
+    this.courseTable.updateData(predicates, value, callback);
+  }
+
+  private queryData(predicates: relationalStore.RdbPredicates, callback: (result: Course[]) => void) {
+    this.courseTable.query(predicates, (resultSet: relationalStore.ResultSet) => {
+      let count = resultSet.rowCount;
+      if (count === 0 || typeof count === 'string') {
+        callback([]);
+      } else {
+        resultSet.goToFirstRow();
+        const result: Course[] = [];
+        for (let i = 0; i < count; i += 1) {
+          let temp: Course = {
+            id:resultSet.getLong(resultSet.getColumnIndex('id')),
+            courseId:resultSet.getString(resultSet.getColumnIndex('courseId')),
+            name:resultSet.getString(resultSet.getColumnIndex('name')),
+            teacher:resultSet.getString(resultSet.getColumnIndex('teacher')),
+            credit:resultSet.getDouble(resultSet.getColumnIndex('credit')),
+            location:resultSet.getString(resultSet.getColumnIndex('location')),
+            courseType:resultSet.getString(resultSet.getColumnIndex('courseType')),
+            time:resultSet.getString(resultSet.getColumnIndex('time')),
+            testType:resultSet.getString(resultSet.getColumnIndex('testType')),
+            grade:resultSet.getString(resultSet.getColumnIndex('grade'))
+          };
+          result.push(temp);
+          resultSet.goToNextRow();
+        }
+        callback(result);
+      }
+    });
+  }
+
+  selectDataByCourseId(courseId: string, callback: (result: Course[]) => void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
+    predicates.equalTo('courseId', courseId);
+    this.queryData(predicates, callback);
+  }
+
+
 }
 
 
