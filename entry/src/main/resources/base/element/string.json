@@ -89,6 +89,26 @@
     {
       "name": "grade_summary_header_column4_label",
       "value": "GPA"
+    },
+    {
+      "name":"grade_block_header_column1_label",
+      "value": "课程名"
+    },
+    {
+      "name": "grade_block_header_column2_label",
+      "value": "成绩"
+    },
+    {
+      "name": "grade_block_header_column3_label",
+      "value": "学分"
+    },
+    {
+      "name": "grade_block_header_column4_label",
+      "value": "类型"
+    },
+    {
+      "name": "grade_block_header_column5_label",
+      "value": "绩点"
     }
   ]
 }

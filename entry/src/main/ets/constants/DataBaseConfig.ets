@@ -45,8 +45,9 @@ export default class DataBaseConfig {
                   time TEXT NOT NULL,
                   testType TEXT NOT NULL,
                   grade TEXT,
+                  gpa REAL,
                 )`,
-    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade"]
+    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade","gpa"]
   };
 
   static readonly  EXAM_TABLE={

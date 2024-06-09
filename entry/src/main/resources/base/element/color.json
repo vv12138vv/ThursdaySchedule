@@ -107,6 +107,14 @@
     {
       "name": "grade_summary_row_font_color",
       "value": "#000000"
+    },
+    {
+      "name": "grade_block_header_font_color",
+      "value": "#000000"
+    },
+    {
+      "name": "grade_block_row_font_color",
+      "value": "12fp"
     }
   ]
 }

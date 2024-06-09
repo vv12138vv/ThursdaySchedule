@@ -19,7 +19,7 @@ export default class Rdb {
     this.columns = columns;
   }
 
-  getRdbStore(callback: () => void = () => {
+  getRdbStore(callback: ()=>void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstants.RDB_TAG, 'getRdbStore() has no callback!');

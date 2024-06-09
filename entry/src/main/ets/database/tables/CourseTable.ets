@@ -1,28 +1,27 @@
-
 import relationalStore from '@ohos.data.relationalStore';
 import DataBaseConfig from '../../constants/DataBaseConfig';
 import Course from '../models/Course';
 import Rdb from '../rdb';
 
-export default class courseTable {
+class CourseTable {
   private courseTable = new Rdb(DataBaseConfig.COURSE_TABLE.tableName, DataBaseConfig.COURSE_TABLE.sqlCreate, DataBaseConfig.COURSE_TABLE.columns);
 
-  constructor(callback: Function = () => {
+  constructor(callback: () => void = () => {
   }) {
     this.courseTable.getRdbStore(callback);
   }
 
-  getRdbStore(callback: Function = () => {
+  getRdbStore(callback: () => void = () => {
   }) {
     this.courseTable.getRdbStore(callback);
   }
 
-  insertData(course: Course, callback: (succeed:boolean)=>void) {
+  insertData(course: Course, callback: (succeed: boolean) => void) {
     const value = generateBucket(course);
     this.courseTable.insertData(value, callback);
   }
 
-  updateData(course: Course, callback: (succeed:boolean)=>void) {
+  updateData(course: Course, callback: (succeed: boolean) => void) {
     const value = generateBucket(course);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
     predicates.equalTo('courseId', course.courseId);
@@ -39,16 +38,17 @@ export default class courseTable {
         const result: Course[] = [];
         for (let i = 0; i < count; i += 1) {
           let temp: Course = {
-            id:resultSet.getLong(resultSet.getColumnIndex('id')),
-            courseId:resultSet.getString(resultSet.getColumnIndex('courseId')),
-            name:resultSet.getString(resultSet.getColumnIndex('name')),
-            teacher:resultSet.getString(resultSet.getColumnIndex('teacher')),
-            credit:resultSet.getDouble(resultSet.getColumnIndex('credit')),
-            location:resultSet.getString(resultSet.getColumnIndex('location')),
-            courseType:resultSet.getString(resultSet.getColumnIndex('courseType')),
-            time:resultSet.getString(resultSet.getColumnIndex('time')),
-            testType:resultSet.getString(resultSet.getColumnIndex('testType')),
-            grade:resultSet.getString(resultSet.getColumnIndex('grade'))
+            id: resultSet.getLong(resultSet.getColumnIndex('id')),
+            courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
+            name: resultSet.getString(resultSet.getColumnIndex('name')),
+            teacher: resultSet.getString(resultSet.getColumnIndex('teacher')),
+            credit: resultSet.getDouble(resultSet.getColumnIndex('credit')),
+            location: resultSet.getString(resultSet.getColumnIndex('location')),
+            courseType: resultSet.getString(resultSet.getColumnIndex('courseType')),
+            time: resultSet.getString(resultSet.getColumnIndex('time')),
+            testType: resultSet.getString(resultSet.getColumnIndex('testType')),
+            grade: resultSet.getString(resultSet.getColumnIndex('grade')),
+            gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa'))
           };
           result.push(temp);
           resultSet.goToNextRow();
@@ -58,7 +58,7 @@ export default class courseTable {
     });
   }
 
-  deleteDataByCourseId(courseId: string, callback: (succeed:boolean)=>void) {
+  deleteDataByCourseId(courseId: string, callback: (succeed: boolean) => void) {
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
     predicates.equalTo('courseId', courseId);
     this.courseTable.deleteData(predicates, callback);
@@ -69,22 +69,23 @@ export default class courseTable {
     predicates.equalTo('courseId', courseId);
     this.queryData(predicates, callback);
   }
-
-
 }
 
 
-function generateBucket(course:Course):relationalStore.ValuesBucket{
-  let obj:relationalStore.ValuesBucket={
-    courseId:course.courseId,
-    name:course.name,
-    teacher:course.teacher,
-    credit:course.credit,
-    location:course.location,
-    courseType:course.courseType,
-    time:course.time,
-    testType:course.testType,
-    grade:course.grade
+function generateBucket(course: Course): relationalStore.ValuesBucket {
+  let obj: relationalStore.ValuesBucket = {
+    courseId: course.courseId,
+    name: course.name,
+    teacher: course.teacher,
+    credit: course.credit,
+    location: course.location,
+    courseType: course.courseType,
+    time: course.time,
+    testType: course.testType,
+    grade: course.grade,
+    gpa: course.gpa
   };
   return obj;
 }
+
+export default new CourseTable() as CourseTable;

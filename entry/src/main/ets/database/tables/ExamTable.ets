@@ -3,25 +3,25 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Exam from '../models/Exam';
 import Rdb from '../rdb';
 
-export default class ExamTable {
+class ExamTable {
   private examTable = new Rdb(DataBaseConfig.EXAM_TABLE.tableName, DataBaseConfig.EXAM_TABLE.sqlCreate, DataBaseConfig.EXAM_TABLE.columns);
 
-  constructor(callback: Function = () => {
+  constructor(callback: () => void = () => {
   }) {
     this.examTable.getRdbStore(callback);
   }
 
-  getRdbStore(callback: Function = () => {
+  getRdbStore(callback: () => void = () => {
   }) {
     this.examTable.getRdbStore(callback);
   }
 
-  insertData(exam: Exam, callback: (succeed:boolean)=>void) {
+  insertData(exam: Exam, callback: (succeed: boolean) => void) {
     const value = generateBucket(exam);
     this.examTable.insertData(value, callback);
   }
 
-  updateData(exam: Exam, callback: (succeed:boolean)=>void) {
+  updateData(exam: Exam, callback: (succeed: boolean) => void) {
     const value = generateBucket(exam);
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
     predicates.equalTo('id', exam.id);
@@ -38,12 +38,12 @@ export default class ExamTable {
         const result: Exam[] = [];
         for (let i = 0; i < count; i += 1) {
           let temp: Exam = {
-            id:resultSet.getLong(resultSet.getColumnIndex('id')),
-            examId:resultSet.getString(resultSet.getColumnIndex('examId')),
-            courseId:resultSet.getString(resultSet.getColumnIndex('courseId')),
-            location:resultSet.getString(resultSet.getColumnIndex('location')),
-            seatId:resultSet.getLong(resultSet.getColumnIndex('seatId')),
-            time:resultSet.getLong(resultSet.getColumnIndex('time'))
+            id: resultSet.getLong(resultSet.getColumnIndex('id')),
+            examId: resultSet.getString(resultSet.getColumnIndex('examId')),
+            courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
+            location: resultSet.getString(resultSet.getColumnIndex('location')),
+            seatId: resultSet.getLong(resultSet.getColumnIndex('seatId')),
+            time: resultSet.getLong(resultSet.getColumnIndex('time'))
           };
           result.push(temp);
           resultSet.goToNextRow();
@@ -53,7 +53,7 @@ export default class ExamTable {
     });
   }
 
-  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
+  deleteDataById(id: number, callback: (succeed: boolean) => void) {
     let predicates = new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
     predicates.equalTo('id', id);
     this.examTable.deleteData(predicates, callback);
@@ -64,17 +64,18 @@ export default class ExamTable {
     predicates.equalTo('courseId', courseId);
     this.queryData(predicates, callback);
   }
-
 }
 
 
-function generateBucket(exam:Exam):relationalStore.ValuesBucket{
-  let obj:relationalStore.ValuesBucket={
-    examId:exam.examId,
-    courseId:exam.courseId,
-    location:exam.location,
-    seatId:exam.seatId,
-    time:exam.time
+function generateBucket(exam: Exam): relationalStore.ValuesBucket {
+  let obj: relationalStore.ValuesBucket = {
+    examId: exam.examId,
+    courseId: exam.courseId,
+    location: exam.location,
+    seatId: exam.seatId,
+    time: exam.time
   };
   return obj;
 }
+
+export default new ExamTable() as ExamTable;
