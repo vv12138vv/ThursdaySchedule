@@ -175,6 +175,30 @@
     {
       "name": "bottom_bar_icon_height",
       "value": "32vp"
+    },
+    {
+      "name": "grade_summary_header_font_size",
+      "value": "12fp"
+    },
+    {
+      "name": "grade_summary_header_width",
+      "value": "300vp"
+    },
+    {
+      "name": "grade_summary_header_height",
+      "value": "32vp"
+    },
+    {
+      "name": "grade_summary_row_font_size",
+      "value": "12fp"
+    },
+    {
+      "name": "grade_summary_row_width",
+      "value": "300vp"
+    },
+    {
+      "name": "grade_summary_row_height",
+      "value": "32vp"
     }
   ]
 }

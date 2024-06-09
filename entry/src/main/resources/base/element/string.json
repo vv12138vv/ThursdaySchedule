@@ -73,6 +73,22 @@
     {
       "name": "project_desc",
       "value": "该项目是基于鸿蒙HarmonyOS Api9版本开发的周四课表App（主要使用ArkTs+ArkUI开发），主要用来学习和了解HarmonyOS开发App的使用方式；项目成员：王杰，郑宇晗，徐菲阳，王一涵；如果大佬们有好的实现方式也请不吝赐教！！！"
+    },
+    {
+      "name": "grade_summary_header_column1_label",
+      "value": "课程类型"
+    },
+    {
+      "name": "grade_summary_header_column2_label",
+      "value": "总学分"
+    },
+    {
+      "name": "grade_summary_header_column3_label",
+      "value": "加权平均分"
+    },
+    {
+      "name": "grade_summary_header_column4_label",
+      "value": "GPA"
     }
   ]
 }
