@@ -5,7 +5,7 @@ export default class DataBaseConfig {
     name: 'ThursdaySchedule.db',
     securityLevel: relationalStore.SecurityLevel.S1
   };
-  static readonly TASK_TABLE = {
+  static readonly USER_TABLE = {
     tableName: "users",
     sqlCreate: `CREATE TABLE IF NOT EXISTS users (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -45,8 +45,9 @@ export default class DataBaseConfig {
                   time TEXT NOT NULL,
                   testType TEXT NOT NULL,
                   grade TEXT,
+                  gpa REAL,
                 )`,
-    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade"]
+    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade","gpa"]
   };
 
   static readonly  EXAM_TABLE={

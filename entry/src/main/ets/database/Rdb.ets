@@ -1,20 +1,6 @@
-/*
- * Copyright (c) 2023 Huawei Device Co., Ltd.
- * Licensed under the Apache License,Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import relationalStore from '@ohos.data.relationalStore';
-import CommonConstants from '../constants/CommonConstants';
+import relationalStore from '@ohos.data.relationalStore'
+import CommonConstants from '../constants/CommonConstants'
+import DataBaseConfig from '../constants/DataBaseConfig'
 import Logger from '../utils/Logger'
 
 export default class Rdb {
@@ -33,7 +19,7 @@ export default class Rdb {
     this.columns = columns;
   }
 
-  getRdbStore(callback: Function = () => {
+  getRdbStore(callback: ()=>void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstants.RDB_TAG, 'getRdbStore() has no callback!');
@@ -45,7 +31,7 @@ export default class Rdb {
       return;
     }
     let context: Context = getContext(this) as Context;
-    relationalStore.getRdbStore(context, CommonConstants.STORE_CONFIG, (err, rdb) => {
+    relationalStore.getRdbStore(context, DataBaseConfig.STORE_CONFIG, (err, rdb) => {
       if (err) {
         Logger.error(CommonConstants.RDB_TAG, `gerRdbStore() failed, err: ${err}`);
         return;
@@ -57,64 +43,61 @@ export default class Rdb {
     });
   }
 
-  insertData(data: relationalStore.ValuesBucket, callback: Function = () => {
+  insertData(data: relationalStore.ValuesBucket, callback: (succeed:boolean)=>void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstants.RDB_TAG, 'insertData() has no callback!');
       return;
     }
-    let resFlag: boolean = false;
     const valueBucket: relationalStore.ValuesBucket = data;
     if (this.rdbStore) {
       this.rdbStore.insert(this.tableName, valueBucket, (err, ret) => {
         if (err) {
           Logger.error(CommonConstants.RDB_TAG, `insertData() failed, err: ${err}`);
-          callback(resFlag);
+          callback(false);
           return;
         }
         Logger.info(CommonConstants.RDB_TAG, `insertData() finished: ${ret}`);
-        callback(ret);
+        callback(true);
       });
     }
   }
 
-  deleteData(predicates: relationalStore.RdbPredicates, callback: Function = () => {
+  deleteData(predicates: relationalStore.RdbPredicates, callback: (succeed: boolean) => void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstants.RDB_TAG, 'deleteData() has no callback!');
       return;
     }
-    let resFlag: boolean = false;
     if (this.rdbStore) {
       this.rdbStore.delete(predicates, (err, ret) => {
         if (err) {
           Logger.error(CommonConstants.RDB_TAG, `deleteData() failed, err: ${err}`);
-          callback(resFlag);
+          callback(false);
           return;
         }
         Logger.info(CommonConstants.RDB_TAG, `deleteData() finished: ${ret}`);
-        callback(!resFlag);
+        callback(true);
       });
     }
   }
 
-  updateData(predicates: relationalStore.RdbPredicates, data: relationalStore.ValuesBucket, callback: Function = () => {
+  updateData(predicates: relationalStore.RdbPredicates, data: relationalStore.ValuesBucket, callback: (succeed: boolean) => void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstants.RDB_TAG, 'updateDate() has no callback!');
       return;
     }
-    let resFlag: boolean = false;
     const valueBucket: relationalStore.ValuesBucket = data;
     if (this.rdbStore) {
       this.rdbStore.update(valueBucket, predicates, (err, ret) => {
         if (err) {
           Logger.error(CommonConstants.RDB_TAG, `updateData() failed, err: ${err}`);
-          callback(resFlag);
+          callback(false);
           return;
         }
         Logger.info(CommonConstants.RDB_TAG, `updateData() finished: ${ret}`);
-        callback(!resFlag);
+        callback(true);
       });
     }
   }
