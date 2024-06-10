@@ -54,7 +54,7 @@ export default class DataBaseConfig {
                   examId TEXT NOT NULL UNIQUE,
                   courseId TEXT NOT NULL UNIQUE,
                   location TEXT NOT NULL,
-                  seatId INTEGER,
+                  seatId INTEGER NOT NULL,
                   time INTEGER NOT NULL,
                 )`,
     columns:["id","examId","courseId","location","seatId","time"]
@@ -66,12 +66,13 @@ export default class DataBaseConfig {
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   courseId TEXT NOT NULL UNIQUE,
                   courseName TEXT NOT NULL UNIQUE,
+                  credit REAL NOT NULL,
                   grade TEXT NOT NULL,
                   testType TEXT NOT NULL,
                   gpa REAL NOT NULL,
                   time INTEGER NOT NULL
                 )`,
-    columns:["id","courseId","courseName","grade","testType","gpa","time"]
+    columns:["id","courseId","courseName","credit","grade","testType","gpa","time"]
   };
 
 }

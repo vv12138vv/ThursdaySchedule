@@ -38,13 +38,14 @@ class GradeTable {
         const result: Grade[] = [];
         for (let i = 0; i < count; i += 1) {
           let temp: Grade = {
-            id:resultSet.getLong(resultSet.getColumnIndex('id')),
-            courseId:resultSet.getString(resultSet.getColumnIndex('courseId')),
-            courseName:resultSet.getString(resultSet.getColumnIndex('courseName')),
-            grade:resultSet.getString(resultSet.getColumnIndex('grade')),
-            testType:resultSet.getString(resultSet.getColumnIndex('testType')),
-            gpa:resultSet.getDouble(resultSet.getColumnIndex('gpa')),
-            time:resultSet.getLong(resultSet.getColumnIndex('time'))
+            id: resultSet.getLong(resultSet.getColumnIndex('id')),
+            courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
+            courseName: resultSet.getString(resultSet.getColumnIndex('courseName')),
+            credit: resultSet.getDouble(resultSet.getColumnIndex('credit')),
+            grade: resultSet.getString(resultSet.getColumnIndex('grade')),
+            testType: resultSet.getString(resultSet.getColumnIndex('testType')),
+            gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa')),
+            time: resultSet.getLong(resultSet.getColumnIndex('time'))
           };
           result.push(temp);
           resultSet.goToNextRow();
@@ -60,22 +61,24 @@ class GradeTable {
   //   this.gradeTable.deleteData(predicates, callback);
   // }
   //
-  // selectDataByCourseId(courseId: string, callback: (result: Grade[]) => void) {
-  //   let predicates = new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
-  //   predicates.equalTo('courseId', courseId);
-  //   this.queryData(predicates, callback);
-  // }
+
+  selectDataByTime(time: string, callback: (result: Grade[]) => void) {
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.GRADE_TABLE.tableName);
+    predicates.equalTo('time',time);
+    this.queryData(predicates,callback);
+  }
 }
 
 
 function generateBucket(grade: Grade): relationalStore.ValuesBucket {
   let obj: relationalStore.ValuesBucket = {
     courseId: grade.courseId,
-    courseName:grade.courseName,
-    grade:grade.grade,
-    testType:grade.testType,
-    gpa:grade.gpa,
-    time:grade.time
+    courseName: grade.courseName,
+    credit: grade.credit,
+    grade: grade.grade,
+    testType: grade.testType,
+    gpa: grade.gpa,
+    time: grade.time
   };
   return obj;
 }
