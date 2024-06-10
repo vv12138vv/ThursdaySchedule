@@ -3,12 +3,8 @@ export enum CourseType { //课程属性
   Elective = "Elective"
 }
 
-//Todo:更好的命名
-export enum TestType { //考察方式
-  Exam = "Exam", //考试
-  Evaluation = "Evaluation" //考察
-}
 
+@Observed
 export default class Course {
   id: number; //主键，与业务无关
   courseId: string; //业务主键
@@ -18,9 +14,6 @@ export default class Course {
   location: string;
   courseType: string; //课程类型
   time: string; //时间有多种，这里使用 string，后面做中间层适配
-  testType: string; //考察方式
-  grade: string;
-  gpa: number;
 }
 
 // function canBeNumber(gradeString: string) {

@@ -1,3 +1,4 @@
+@Observed
 export default class Task{
   id:number;//主键
   content:string;

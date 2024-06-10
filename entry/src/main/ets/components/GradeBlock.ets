@@ -1,6 +1,14 @@
 import Course from '../database/models/Course'
+import CourseTable from '../database/tables/CourseTable'
 @Component
 export default struct GradeBlock {
+  termInNumber:string;
+  termInString:string;
+  courses:Course[];
+
+  aboutToAppear(){
+  }
+
   @Builder TermBar($$: {
     termInNumber: string,
     termInString: string
@@ -34,9 +42,12 @@ export default struct GradeBlock {
     .height($r('app.float.grade_block_header_height'))
   }
 
-  @Builder GradeBlockRow(course:Course){
+  @Builder GradeBlockRow(course:Course,onChange:(selected:boolean)=>void){
     Row(){
       Checkbox()
+        .select(true)
+        .selectedColor($r('app.color.grade_block_row_checkbox_selected_color'))
+        .onChange(onChange)
       Text(course.name)
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
@@ -55,11 +66,16 @@ export default struct GradeBlock {
     }
     .width($r('app.float.grade_block_row_width'))
     .height($r('app.float.grade_block_row_height'))
+  }
+
+  @Builder GradeBlockSummary(){
 
   }
 
   build() {
+    this.TermBar({termInNumber:this.termInNumber,termInString:this.termInString})
     this.GradeBlockHeader()
+    //Todo 等待爬虫数据
   }
 }
 

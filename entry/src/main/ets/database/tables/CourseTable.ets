@@ -46,9 +46,6 @@ class CourseTable {
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             courseType: resultSet.getString(resultSet.getColumnIndex('courseType')),
             time: resultSet.getString(resultSet.getColumnIndex('time')),
-            testType: resultSet.getString(resultSet.getColumnIndex('testType')),
-            grade: resultSet.getString(resultSet.getColumnIndex('grade')),
-            gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa'))
           };
           result.push(temp);
           resultSet.goToNextRow();
@@ -81,9 +78,6 @@ function generateBucket(course: Course): relationalStore.ValuesBucket {
     location: course.location,
     courseType: course.courseType,
     time: course.time,
-    testType: course.testType,
-    grade: course.grade,
-    gpa: course.gpa
   };
   return obj;
 }

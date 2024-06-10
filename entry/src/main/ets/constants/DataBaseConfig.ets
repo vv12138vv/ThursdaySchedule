@@ -42,12 +42,9 @@ export default class DataBaseConfig {
                   credit REAL NOT NULL，
                   location TEXT NOT NULL,
                   courseType TEXT NOT NULL,
-                  time TEXT NOT NULL,
-                  testType TEXT NOT NULL,
-                  grade TEXT,
-                  gpa REAL,
+                  time TEXT NOT NULL
                 )`,
-    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade","gpa"]
+    columns: ["id","courseId","name","teacher","credit","location","courseType","time"]
   };
 
   static readonly  EXAM_TABLE={
@@ -62,5 +59,20 @@ export default class DataBaseConfig {
                 )`,
     columns:["id","examId","courseId","location","seatId","time"]
   };
+
+  static readonly  GRADE_TABLE={
+    tableName: "grades",
+    sqlCreate: `CREATE TABLE IF NOT EXISTS grades (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  courseId TEXT NOT NULL UNIQUE,
+                  courseName TEXT NOT NULL UNIQUE,
+                  grade TEXT NOT NULL,
+                  testType TEXT NOT NULL,
+                  gpa REAL NOT NULL,
+                  time INTEGER NOT NULL
+                )`,
+    columns:["id","courseId","courseName","grade","testType","gpa","time"]
+  };
+
 }
 
