@@ -1,14 +1,14 @@
 @Component
 export default struct GradeSummary {
-  @Link totalCredit: number;
-  @Link totalAverageGrade: number;
-  @Link totalGPA: number;
-  @Link requiredCourseCredit: number;
-  @Link requiredCourseAverageGrade: number;
-  @Link requireCourseGPA: number;
-  @Link electiveCourseCredit: number;
-  @Link electiveCourseAverageGrade: number;
-  @Link electiveCourseGPA: number;
+  totalCredit: number;
+  totalAverageGrade: number;
+  totalGPA: number;
+  requiredCourseCredit: number;
+  requiredCourseAverageGrade: number;
+  requireCourseGPA: number;
+  electiveCourseCredit: number;
+  electiveCourseAverageGrade: number;
+  electiveCourseGPA: number;
   @Link selectedCredit: number;
   @Link selectedAverageGrade: number;
   @Link selectedGPA: number;
@@ -117,15 +117,15 @@ struct GradeSummaryPreview {
 
   build() {
     GradeSummary({
-      totalCredit: $totalCredit,
-      totalAverageGrade: $totalAverageGrade,
-      totalGPA: $totalGPA,
-      requiredCourseCredit: $requiredCourseCredit,
-      requiredCourseAverageGrade: $requiredCourseAverageGrade,
-      requireCourseGPA: $requireCourseGPA,
-      electiveCourseCredit: $electiveCourseCredit,
-      electiveCourseAverageGrade: $electiveCourseAverageGrade,
-      electiveCourseGPA: $electiveCourseGPA,
+      totalCredit: this.totalCredit,
+      totalAverageGrade: this.totalAverageGrade,
+      totalGPA: this.totalGPA,
+      requiredCourseCredit: this.requiredCourseCredit,
+      requiredCourseAverageGrade: this.requiredCourseAverageGrade,
+      requireCourseGPA: this.requireCourseGPA,
+      electiveCourseCredit: this.electiveCourseCredit,
+      electiveCourseAverageGrade: this.electiveCourseAverageGrade,
+      electiveCourseGPA: this.electiveCourseGPA,
       selectedCredit: $selectedCredit,
       selectedAverageGrade: $selectedAverageGrade,
       selectedGPA: $selectedGPA

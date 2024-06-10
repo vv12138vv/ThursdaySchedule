@@ -1,6 +1,6 @@
 import GradeTable from '../database/tables/GradeTable';
 import Grade, { gradeToGPA, transToGradeNum } from '../database/models/Grade';
-import relationalStore from '@ohos.data.relationalStore';
+import GradeSummary from './GradeSummary';
 
 @Component
 export default struct GradeBlock {
@@ -22,10 +22,9 @@ export default struct GradeBlock {
   electiveGradeWithWeight: number = 0;
   electiveGPAWithWeight: number = 0;
 
-  //被勾选的 grade 行的 id。
+  //被勾选的 grade 的 id。
   selectedId: Set<number> = new Set();
 
-  //计算 Total 相关的数据
   initTotalInfo(grades: Grade[]) {
     grades.forEach((item: Grade, index: number) => {
       this.totalCredit += item.credit;
@@ -157,6 +156,21 @@ export default struct GradeBlock {
             }
           }
         })
+      })
+
+      GradeSummary({
+        totalCredit:this.totalCredit,
+        totalAverageGrade:this.totalGradeWithWeight/this.totalCredit,
+        totalGPA:this.totalGPAWithWeight/this.totalCredit,
+        requiredCourseCredit:this.requiredCredit,
+        requiredCourseAverageGrade:this.requiredGradeWithWeight/this.requiredCredit,
+        requireCourseGPA:this.requiredGPAWithWeight/this.requiredCredit,
+        electiveCourseCredit:this.electiveCredit,
+        electiveCourseAverageGrade:this.electiveGradeWithWeight/this.electiveCredit,
+        electiveCourseGPA:this.electiveGPAWithWeight/this.electiveCredit,
+        selectedCredit:$selectedCredit,
+        selectedAverageGrade:$selectedAverageGrade,
+        selectedGPA:$selectedAverageGPA
       })
     }
   }

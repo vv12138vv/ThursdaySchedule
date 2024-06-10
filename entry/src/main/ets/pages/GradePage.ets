@@ -1,19 +1,20 @@
+import GradeSummary from '../components/GradeSummary';
+import GradeBlock from '../components/GradeBlock';
+
 @Entry
 @Component
-export default class GradePage {
+export default struct GradePage {
+  totalCredit:number=0;
+
   build() {
     Scroll() {
+      Column() {
+        GradeSummary({
 
+        })
+        GradeBlock()
+      }
     }
   }
 }
 
-
-
-
-@Component
-struct GradeList {
-  build() {
-
-  }
-}
