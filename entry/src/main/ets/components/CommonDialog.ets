@@ -32,21 +32,21 @@ export struct CommonDialog {
     Stack() {
       Column() {
         Text(this.title)
-          .fontSize($r('app.float.size_text_16'))
+          .fontSize($r('app.float.commondialog_size'))
           .fontColor($r('app.color.color_red'))
           .fontWeight(FontWeight.Bold)
           .maxLines(1)
-          .height($r('app.float.size_text_50'))
+          .height($r('app.float.commondialog_height'))
           .textAlign(TextAlign.Center)
           .textOverflow({ overflow: TextOverflow.Ellipsis })
 
         Divider().color($r('app.color.color_f5f5f5'))
 
         Text(this.description)
-          .fontSize($r('app.float.size_text_15'))
+          .fontSize($r('app.float.description_size'))
           .fontColor($r('app.color.color_555'))
           .textAlign(TextAlign.Center)
-          .padding($r('app.float.size_text_20'))
+          .padding($r('app.float.description_padding'))
 
 
         Divider().color($r('app.color.color_f5f5f5')).padding(0)
@@ -75,11 +75,11 @@ export struct CommonDialog {
               this.controller.close()
             })
         }
-        .height($r('app.float.size_50'))
+        .height($r('app.float.commondialog_height2'))
         .width("100%")
       }
       .backgroundColor($r('app.color.color_white'))
-      .border({ radius: $r('app.float.size_6') })
+      .border({ radius: $r('app.float.commondialog_border') })
       .alignItems(HorizontalAlign.Center)
     }
     .width("100%")

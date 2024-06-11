@@ -54,7 +54,7 @@ export struct CommonTopBar {
         .opacity(this.alpha)
       Stack({ alignContent: Alignment.Start }) {
         Stack()
-          .height($r('app.float.size_50'))
+          .height($r('app.float.topbar_height1'))
           .width("100%")
           .opacity(this.alpha)
           .backgroundColor($r("app.color.color_red"))
@@ -63,31 +63,31 @@ export struct CommonTopBar {
             .flexGrow(1)
             .textAlign(this.titleAlignment)
             .fontColor($r('app.color.color_fff'))
-            .fontSize($r('app.float.size_text_16'))
+            .fontSize($r('app.float.topbar_title'))
             .align(Alignment.Center)
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
-        .height($r('app.float.size_50'))
-        .margin({ left: $r('app.float.size_50'), right: $r('app.float.size_50') })
+        .height($r('app.float.topbar_height2'))
+        .margin({ left: $r('app.float.topbar_marginl'), right: $r('app.float.topbar_marginr') })
         .alignSelf(ItemAlign.Center)
 
         if (this.backButton) {
           Stack() {
             Image($r('app.media.ic_action_back'))
-              .height($r('app.float.size_16'))
-              .width($r('app.float.size_16'))
+              .height($r('app.float.backbutton_height'))
+              .width($r('app.float.backbutton_width'))
               .align(Alignment.Center)
               .onClick(() => {
                 this.onBackClick?.()
                 router.back();
               })
           }
-          .height($r('app.float.size_50'))
-          .width($r('app.float.size_50'))
+          .height($r('app.float.topbar_height3'))
+          .width($r('app.float.topbar_width3'))
         }
       }
-      .height($r('app.float.size_50'))
+      .height($r('app.float.topbar_height4'))
       .width("100%")
     }.height(this.statusBarHeight)
 

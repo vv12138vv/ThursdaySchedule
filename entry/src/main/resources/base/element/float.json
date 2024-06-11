@@ -1,4 +1,4 @@
-{
+ {
   "float": [
     {
       "name": "tab_text_font_size",
@@ -223,6 +223,126 @@
     {
       "name": "grade_block_row_font_size",
       "value": "12fp"
+    },
+    {
+      "name": "avatar_height",
+      "value": "70vp"
+    },
+    {
+      "name": "avatar_width",
+      "value": "70vp"
+    },
+    {
+      "name": "avatar_border",
+      "value": "35vp"
+    },
+    {
+      "name": "personal_size",
+      "value": "20vp"
+    },
+    {
+      "name": "personal_margin",
+      "value": "15vp"
+    },
+    {
+      "name": "personal_height1",
+      "value": "350vp"
+    },
+    {
+      "name": "personal_height2",
+      "value": "270vp"
+    },
+    {
+      "name": "icon_height",
+      "value": "25vp"
+    },
+    {
+      "name": "icon_width",
+      "value": "25vp"
+    },
+    {
+      "name": "title_size",
+      "value": "15vp"
+    },
+    {
+      "name": "title_margin",
+      "value": "10vp"
+    },
+    {
+      "name": "personal_height3",
+      "value": "50vp"
+    },
+    {
+      "name": "personal_padding",
+      "value": "10vp"
+    },
+    {
+      "name": "personal_height4",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_height1",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_title",
+      "value": "16vp"
+    },
+    {
+      "name": "topbar_height2",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_marginl",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_marginr",
+      "value": "50vp"
+    },
+    {
+      "name": "backbutton_height",
+      "value": "16vp"
+    },
+    {
+      "name": "backbutton_width",
+      "value": "16vp"
+    },
+    {
+      "name": "topbar_height3",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_width3",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_height4",
+      "value": "50vp"
+    },
+    {
+      "name": "commondialog_size",
+      "value": "16vp"
+    },
+    {
+      "name": "commondialog_height",
+      "value": "50vp"
+    },
+    {
+      "name": "description_size",
+      "value": "15vp"
+    },
+    {
+      "name": "description_padding",
+      "value": "20vp"
+    },
+    {
+      "name": "commondialog_height2",
+      "value": "50vp"
+    },
+    {
+      "name": "commondialog_border",
+      "value": "6vp"
     }
   ]
 }
