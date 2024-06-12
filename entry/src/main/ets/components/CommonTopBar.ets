@@ -54,7 +54,7 @@ export struct CommonTopBar {
         .opacity(this.alpha)
       Stack({ alignContent: Alignment.Start }) {
         Stack()
-          .height($r('app.float.topbar_height1'))
+          .height($r('app.float.topbar_topbar_height'))
           .width("100%")
           .opacity(this.alpha)
           .backgroundColor($r("app.color.color_red"))
@@ -68,7 +68,7 @@ export struct CommonTopBar {
             .maxLines(1)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
-        .height($r('app.float.topbar_height2'))
+        .height($r('app.float.topbar_topbar_height'))
         .margin({ left: $r('app.float.topbar_marginl'), right: $r('app.float.topbar_marginr') })
         .alignSelf(ItemAlign.Center)
 
@@ -83,11 +83,11 @@ export struct CommonTopBar {
                 router.back();
               })
           }
-          .height($r('app.float.topbar_height3'))
-          .width($r('app.float.topbar_width3'))
+          .height($r('app.float.topbar_topbar_height'))
+          .width($r('app.float.topbar_backButton_width'))
         }
       }
-      .height($r('app.float.topbar_height4'))
+      .height($r('app.float.topbar_topbar_height'))
       .width("100%")
     }.height(this.statusBarHeight)
 

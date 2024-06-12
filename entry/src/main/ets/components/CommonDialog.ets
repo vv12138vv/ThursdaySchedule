@@ -75,7 +75,7 @@ export struct CommonDialog {
               this.controller.close()
             })
         }
-        .height($r('app.float.commondialog_height2'))
+        .height($r('app.float.commondialog_cancel_button_height'))
         .width("100%")
       }
       .backgroundColor($r('app.color.color_white'))

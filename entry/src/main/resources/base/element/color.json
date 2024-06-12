@@ -111,7 +111,10 @@
     {
       "name": "grade_block_header_font_color",
       "value": "#000000"
+    },
+    {
+      "name": "theme_background",
+      "value": "#EDA0E9FF"
     }
-
   ]
 }

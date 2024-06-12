@@ -28,7 +28,7 @@ struct PersonalPage {
             .margin({ top: $r('app.float.personal_margin') })
         }
         .width("100%")
-        .height($r('app.float.personal_height1'))
+        .height($r('app.float.personal_avatar_title_height'))
         .justifyContent(FlexAlign.Center)
         .alignItems(HorizontalAlign.Center)
 
@@ -51,7 +51,7 @@ struct PersonalPage {
           })
         }
         .width("90%")
-        .height($r('app.float.personal_height2'))
+        .height($r('app.float.personal_options_height'))
         .borderColor('#000000')
         .borderWidth(1)
         .borderRadius(10)
@@ -75,7 +75,7 @@ struct PersonalPage {
           .fontColor($r('app.color.color_333'))
           .margin({ left: $r('app.float.title_margin') })
       }
-      .height($r('app.float.personal_height3'))
+      .height($r('app.float.personal_option_height'))
       .width("100%")
       .alignItems(VerticalAlign.Center)
       .padding({ left: $r('app.float.personal_padding') })
@@ -84,7 +84,7 @@ struct PersonalPage {
         .color($r('app.color.color_f5f5f5'))
         .width("100%")
     }
-    .height($r('app.float.personal_height4'))
+    .height($r('app.float.personal_itembuilder_height'))
     .width("100%")
     .onClick(() => {
       onItemClick?.()
