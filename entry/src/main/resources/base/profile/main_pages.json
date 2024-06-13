@@ -1,6 +1,8 @@
 {
   "src": [
+    "pages/LaunchPage",
     "pages/PersonalPage",
+    "pages/LoginPage",
     "pages/container/ContainerPage"
   ]
 }
