@@ -223,6 +223,10 @@
     {
       "name": "grade_block_row_font_size",
       "value": "12fp"
+    },
+    {
+      "name": "nav_bar_height",
+      "value": "36vp"
     }
   ]
 }

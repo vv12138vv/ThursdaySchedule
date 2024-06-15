@@ -119,6 +119,11 @@
     {
       "name": "grade_block_row_checkbox_selected_color",
       "value": "#519AD6"
+    },
+    {
+      "name": "nav_bar_background_color",
+      "value": "#132FA3"
     }
+
   ]
 }
