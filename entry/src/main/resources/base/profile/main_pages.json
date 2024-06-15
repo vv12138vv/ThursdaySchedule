@@ -1,8 +1,8 @@
 {
   "src": [
+    "pages/LaunchPage",
     "pages/PersonalPage",
-    "pages/container/ContainerPage",
-    "pages/AllCoursePage",
-    "pages/GradePage"
+    "pages/LoginPage",
+    "pages/container/ContainerPage"
   ]
 }

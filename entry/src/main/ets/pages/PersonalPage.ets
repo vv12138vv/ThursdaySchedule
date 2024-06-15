@@ -19,16 +19,16 @@ struct PersonalPage {
       Column() {
         Column() {
           Image($r('app.media.default_avatar'))
-            .height($r('app.float.size_70'))
-            .width($r('app.float.size_70'))
-            .border({ radius: $r('app.float.size_35') })
+            .height($r('app.float.avatar_height'))
+            .width($r('app.float.avatar_width'))
+            .border({ radius: $r('app.float.avatar_border') })
           Text("Harmony-周四课表")
             .fontColor($r('app.color.color_black'))
-            .fontSize($r('app.float.size_text_20'))
-            .margin({ top: $r('app.float.size_15') })
+            .fontSize($r('app.float.personal_size'))
+            .margin({ top: $r('app.float.personal_margin') })
         }
         .width("100%")
-        .height($r('app.float.size_350'))
+        .height($r('app.float.personal_avatar_title_height'))
         .justifyContent(FlexAlign.Center)
         .alignItems(HorizontalAlign.Center)
 
@@ -51,7 +51,7 @@ struct PersonalPage {
           })
         }
         .width("90%")
-        .height($r('app.float.size_270'))
+        .height($r('app.float.personal_options_height'))
         .borderColor('#000000')
         .borderWidth(1)
         .borderRadius(10)
@@ -69,22 +69,22 @@ struct PersonalPage {
   itemBuilder(title: string, icon: Resource, onItemClick?: () => void) {
     Stack({ alignContent: Alignment.Bottom }) {
       Row() {
-        Image(icon).width($r('app.float.size_25')).height($r('app.float.size_25'))
+        Image(icon).width($r('app.float.icon_width')).height($r('app.float.icon_height'))
         Text(title)
-          .fontSize($r('app.float.size_text_15'))
+          .fontSize($r('app.float.title_size'))
           .fontColor($r('app.color.color_333'))
-          .margin({ left: $r('app.float.size_10') })
+          .margin({ left: $r('app.float.title_margin') })
       }
-      .height($r('app.float.size_50'))
+      .height($r('app.float.personal_option_height'))
       .width("100%")
       .alignItems(VerticalAlign.Center)
-      .padding({ left: $r('app.float.size_10') })
+      .padding({ left: $r('app.float.personal_padding') })
 
       Divider()
         .color($r('app.color.color_f5f5f5'))
         .width("100%")
     }
-    .height($r('app.float.size_50'))
+    .height($r('app.float.personal_itembuilder_height'))
     .width("100%")
     .onClick(() => {
       onItemClick?.()

@@ -1,4 +1,4 @@
-{
+ {
   "float": [
     {
       "name": "tab_text_font_size",
@@ -225,8 +225,180 @@
       "value": "12fp"
     },
     {
-      "name": "nav_bar_height",
-      "value": "36vp"
+      "name": "avatar_height",
+      "value": "70vp"
+    },
+    {
+      "name": "avatar_width",
+      "value": "70vp"
+    },
+    {
+      "name": "avatar_border",
+      "value": "35vp"
+    },
+    {
+      "name": "personal_size",
+      "value": "20vp"
+    },
+    {
+      "name": "personal_margin",
+      "value": "15vp"
+    },
+    {
+      "name": "personal_avatar_title_height",
+      "value": "350vp"
+    },
+    {
+      "name": "personal_options_height",
+      "value": "270vp"
+    },
+    {
+      "name": "icon_height",
+      "value": "25vp"
+    },
+    {
+      "name": "icon_width",
+      "value": "25vp"
+    },
+    {
+      "name": "title_size",
+      "value": "15vp"
+    },
+    {
+      "name": "title_margin",
+      "value": "10vp"
+    },
+    {
+      "name": "personal_option_height",
+      "value": "50vp"
+    },
+    {
+      "name": "personal_padding",
+      "value": "10vp"
+    },
+    {
+      "name": "personal_itembuilder_height",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_topbar_height",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_title",
+      "value": "16vp"
+    },
+    {
+      "name": "topbar_marginl",
+      "value": "50vp"
+    },
+    {
+      "name": "topbar_marginr",
+      "value": "50vp"
+    },
+    {
+      "name": "backbutton_height",
+      "value": "16vp"
+    },
+    {
+      "name": "backbutton_width",
+      "value": "16vp"
+    },
+    {
+      "name": "topbar_backButton_width",
+      "value": "50vp"
+    },
+    {
+      "name": "commondialog_size",
+      "value": "16vp"
+    },
+    {
+      "name": "commondialog_height",
+      "value": "50vp"
+    },
+    {
+      "name": "description_size",
+      "value": "15vp"
+    },
+    {
+      "name": "description_padding",
+      "value": "20vp"
+    },
+    {
+      "name": "commondialog_cancel_button_height",
+      "value": "50vp"
+    },
+    {
+      "name": "commondialog_border",
+      "value": "6vp"
+    },
+    {
+      "name": "Launch_logo_width",
+      "value": "62vp"
+    },
+    {
+      "name": "Launch_logo_height",
+      "value": "62vp"
+    },
+    {
+      "name": "Launch_logo_radius",
+      "value": "32vp"
+    },
+    {
+      "name": "Launch_logo_margin",
+      "value": "134vp"
+    },
+    {
+      "name": "Launch_login_button_width",
+      "value": "282vp"
+    },
+    {
+      "name": "Launch_login_button_height",
+      "value": "38vp"
+    },
+    {
+      "name": "Launch_login_button_border_radius",
+      "value": "50vp"
+    },
+    {
+      "name": "Launch_button_border_width",
+      "value": "1vp"
+    },
+    {
+      "name": "Launch_button_border_margin",
+      "value": "25vp"
+    },
+    {
+      "name": "Login_login_text_font",
+      "value": "50vp"
+    },
+    {
+      "name": "Login_login_text_bottom",
+      "value": "60vp"
+    },
+    {
+      "name": "Login_title_text_font",
+      "value": "18vp"
+    },
+    {
+      "name": "Login_icon_width",
+      "value": "30vp"
+    },
+    {
+      "name": "Login_input_token_width",
+      "value": "200vp"
+    },
+    {
+      "name": "Login_bottom_margin",
+      "value": "8vp"
+    },
+    {
+      "name": "Login_top_margin",
+      "value": "8vp"
+    },
+    {
+      "name": "Login_button_height",
+      "value": "60vp"
     }
   ]
 }

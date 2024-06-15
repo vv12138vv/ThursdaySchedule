@@ -14,7 +14,7 @@
     },
     {
       "name": "ability_label",
-      "value": "Harmony开眼"
+      "value": "Harmony周四课表"
     },
     {
       "name": "list_item_text",
@@ -109,6 +109,10 @@
     {
       "name": "grade_block_header_column5_label",
       "value": "绩点"
+    },
+    {
+      "name": "detail_default_title",
+      "value": "Default title"
     }
   ]
 }

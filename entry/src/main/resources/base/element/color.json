@@ -113,17 +113,8 @@
       "value": "#000000"
     },
     {
-      "name": "grade_block_row_font_color",
-      "value": "#000000"
-    },
-    {
-      "name": "grade_block_row_checkbox_selected_color",
-      "value": "#519AD6"
-    },
-    {
-      "name": "nav_bar_background_color",
-      "value": "#132FA3"
+      "name": "theme_background",
+      "value": "#EDA0E9FF"
     }
-
   ]
 }
