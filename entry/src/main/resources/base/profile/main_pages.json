@@ -1,6 +1,8 @@
 {
   "src": [
     "pages/PersonalPage",
-    "pages/container/ContainerPage"
+    "pages/container/ContainerPage",
+    "pages/AllCoursePage",
+    "pages/GradePage"
   ]
 }

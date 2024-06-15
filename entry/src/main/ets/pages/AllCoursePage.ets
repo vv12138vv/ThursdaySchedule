@@ -1,13 +1,13 @@
 import Course from '../database/models/Course';
 import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
-
+import Logger from '../utils/Logger';
+import systemDateTime from '@ohos.systemDateTime';
 
 @CustomDialog
 struct CourseDetailDialog{
   dialogController?: CustomDialogController;
   course:Course;
-
   build(){
     Column(){
       Text()
@@ -37,16 +37,26 @@ struct AllCoursePage {
     onClickLeftButton: () => {
       router.back();
     }
-  };
+  }
+
   //课程详细控制器
   courseDetailDialogController:CustomDialogController=new CustomDialogController({
     builder:CourseDetailDialog({
-
     }),
     autoCancel:true,
     alignment:DialogAlignment.Bottom,
     customStyle:true
   })
+
+  weekDays:string[]=['周一','周二','周三','周四','周五','周六','周日'];
+
+  private dateInfo:Date;
+
+  aboutToAppear(){
+    this.dateInfo=new Date();
+    Logger.info(this.dateInfo.toLocaleString())
+  }
+
 
   //单个课程的可点击块
   @Builder CourseCube(course: Course) {
@@ -71,10 +81,10 @@ struct AllCoursePage {
 
   //课表顶部的时间 bar
   @Builder DateBar() {
-    Row() {
-      Text()
+    Grid(){
 
     }
+    .columnsTemplate('1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr')
   }
 
   //课表核心主主体
@@ -113,7 +123,7 @@ struct AllCoursePage {
   build() {
     Column(){
       NavBar({navBarConfig:this.navBarConfig})
-      this.CourseTable()
+
     }
   }
 }
