@@ -5,16 +5,17 @@ import Logger from '../utils/Logger';
 import systemDateTime from '@ohos.systemDateTime';
 
 @CustomDialog
-struct CourseDetailDialog{
+struct CourseDetailDialog {
   dialogController?: CustomDialogController;
-  course:Course;
-  build(){
-    Column(){
+  course: Course;
+
+  build() {
+    Column() {
       Text()
       Text()
-      Row(){
+      Row() {
         Text()
-        Column(){
+        Column() {
           Text()
           Text()
           Text()
@@ -24,7 +25,6 @@ struct CourseDetailDialog{
     }
   }
 }
-
 
 
 @Entry
@@ -40,21 +40,40 @@ struct AllCoursePage {
   }
 
   //课程详细控制器
-  courseDetailDialogController:CustomDialogController=new CustomDialogController({
-    builder:CourseDetailDialog({
-    }),
-    autoCancel:true,
-    alignment:DialogAlignment.Bottom,
-    customStyle:true
+  courseDetailDialogController: CustomDialogController = new CustomDialogController({
+    builder: CourseDetailDialog({}),
+    autoCancel: true,
+    alignment: DialogAlignment.Bottom,
+    customStyle: true
   })
+  readonly weekDaysString: string[] = ['周日','周一', '周二', '周三', '周四', '周五', '周六'];
+  private dateInfo: Date;
+  private weekDates: Date [];
 
-  weekDays:string[]=['周一','周二','周三','周四','周五','周六','周日'];
+  aboutToAppear() {
+    this.dateInfo = new Date();
+    this.weekDates=this.getWeekDates(this.dateInfo);
 
-  private dateInfo:Date;
+  }
 
-  aboutToAppear(){
-    this.dateInfo=new Date();
-    Logger.info(this.dateInfo.toLocaleString())
+  //获得所在日一周的日期
+  getWeekDates(date: Date): Date[] {
+    const startOfWeek: Date = new Date(date);
+    const dayOfWeek: number = startOfWeek.getDay(); // 获取给定日期是星期几
+    const diff: number = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // 计算需要向前调整的天数
+
+    startOfWeek.setDate(date.getDate() - diff); // 将日期调整到本周的第一天 (周一为一周的起始)
+
+    const weekDates: Date[] = [];
+
+    // 循环生成本周的日期
+    for (let i = 0; i < 7; i++) {
+      const currentDate: Date = new Date(startOfWeek);
+      currentDate.setDate(startOfWeek.getDate() + i);
+      weekDates.push(currentDate);
+    }
+
+    return weekDates;
   }
 
 
@@ -72,25 +91,41 @@ struct AllCoursePage {
   }
 
   //表示时间的ui，课表顶部使用
-  @Builder DateCube(date: number) {
+  @Builder DateCube(date:Date) {
     Column() {
-      Text()
-      Text()
+      Text(this.weekDaysString[date.getDay()])
+        .fontColor(date.getDate()==this.dateInfo.getDate()?Color.Blue:Color.Black)
+      Text((date.getMonth()+1).toString()+'/'+date.getDate().toString())
+        .fontColor(date.getDate()==this.dateInfo.getDate()?Color.Blue:Color.Black)
+
     }
+    .alignItems(HorizontalAlign.Center)
+    .justifyContent(FlexAlign.Center)
   }
 
   //课表顶部的时间 bar
   @Builder DateBar() {
-    Grid(){
+    Grid() {
+      GridItem() {
+        Column() {
+          Text('星期')
+          Text('日期')
+        }
+      }
 
+      ForEach(this.weekDates, (item: Date, index: number) => {
+        GridItem() {
+          this.DateCube(item)
+        }
+      })
     }
     .columnsTemplate('1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr')
   }
 
   //课表核心主主体
   @Builder CourseTable() {
-    Grid(){
-      GridItem(){
+    Grid() {
+      GridItem() {
         Text('1')
       }
       .backgroundColor(Color.Black)
@@ -98,7 +133,8 @@ struct AllCoursePage {
       .rowEnd(2)
       .columnStart(1)
       .columnEnd(2)
-      GridItem(){
+
+      GridItem() {
         Text('2')
       }
       .rowStart(4)
@@ -121,9 +157,9 @@ struct AllCoursePage {
   }
 
   build() {
-    Column(){
-      NavBar({navBarConfig:this.navBarConfig})
-
+    Column() {
+      NavBar({ navBarConfig: this.navBarConfig })
+      this.DateBar()
     }
   }
 }

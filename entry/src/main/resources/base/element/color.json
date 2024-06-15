@@ -115,6 +115,10 @@
     {
       "name": "theme_background",
       "value": "#EDA0E9FF"
+    },
+    {
+      "name": "nav_bar_background_color",
+      "value": "#71D2E1"
     }
   ]
 }

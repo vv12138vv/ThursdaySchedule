@@ -12,48 +12,48 @@ struct LoginPage {
 
     Column() {
       Text("登录")
-        .fontSize($r('app.float.Login_login_text_font'))
+        .fontSize($r("app.float.login_login_text_font"))
         .fontWeight(FontWeight.Bold).margin({
-        bottom: $r('app.float.Login_login_text_bottom')
+        bottom: $r("app.float.login_login_text_bottom")
       })
       Row() {
         Text("用户名")
-          .fontSize($r('app.float.Login_title_text_font'))
+          .fontSize($r("app.float.login_title_text_font"))
           .fontWeight(FontWeight.Bold)
       }.width("100%")
 
       Row() {
-        Image($r("app.media.icon")).width($r('app.float.Login_icon_width'))
+        Image($r("app.media.icon")).width($r("app.float.login_icon_width"))
 
         TextInput({
           placeholder: "请输入用户名"
-        }).width($r('app.float.Login_input_token_width')).onChange((val: string) => {
+        }).width($r("app.float.login_input_token_width")).onChange((val: string) => {
           this.username = val
 
 
         })
       }.margin({
-        bottom: $r('app.float.Login_bottom_margin'),
-        top: $r('app.float.Login_bottom_margin')
+        bottom: $r("app.float.login_bottom_margin"),
+        top: $r("app.float.login_bottom_margin")
       }).width("100%")
 
       Divider().strokeWidth(4)
 
       Row() {
         Text("密码")
-          .fontSize($r('app.float.Login_title_text_font'))
+          .fontSize($r("app.float.login_title_text_font"))
           .fontWeight(FontWeight.Bold).margin({
-          bottom: $r('app.float.Login_bottom_margin'),
-          top: $r('app.float.Login_bottom_margin')
+          bottom: $r("app.float.login_bottom_margin"),
+          top: $r("app.float.login_bottom_margin")
         })
       }.width("100%")
 
       Row() {
-        Image($r("app.media.icon")).width($r('app.float.Login_icon_width'))
+        Image($r("app.media.icon")).width($r("app.float.login_icon_width"))
 
         TextInput({
           placeholder: "请输入密码"
-        }).width($r('app.float.Login_input_token_width')).onChange((val: string) => {
+        }).width($r("app.float.login_input_token_width")).onChange((val: string) => {
           this.password = val
 
 
@@ -64,11 +64,11 @@ struct LoginPage {
       Row() {
         Blank()
         Text("忘记密码？")
-          .fontSize($r('app.float.Login_title_text_font'))
+          .fontSize($r("app.float.login_title_text_font"))
           .fontWeight(FontWeight.Bold)
       }.width("100%")
 
-      Button("登陆").width("90%").height($r('app.float.Login_button_height')).backgroundColor(Color.Orange).onClick(() => {
+      Button("登陆").width("90%").height($r("app.float.login_button_height")).backgroundColor(Color.Orange).onClick(() => {
 
         if (this.username == "admin" && this.password == "admin") {
 

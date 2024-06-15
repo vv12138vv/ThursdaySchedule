@@ -333,72 +333,76 @@
       "value": "6vp"
     },
     {
-      "name": "Launch_logo_width",
+      "name": "launch_logo_width",
       "value": "62vp"
     },
     {
-      "name": "Launch_logo_height",
+      "name": "launch_logo_height",
       "value": "62vp"
     },
     {
-      "name": "Launch_logo_radius",
+      "name": "launch_logo_radius",
       "value": "32vp"
     },
     {
-      "name": "Launch_logo_margin",
+      "name": "launch_logo_margin",
       "value": "134vp"
     },
     {
-      "name": "Launch_login_button_width",
+      "name": "launch_login_button_width",
       "value": "282vp"
     },
     {
-      "name": "Launch_login_button_height",
+      "name": "launch_login_button_height",
       "value": "38vp"
     },
     {
-      "name": "Launch_login_button_border_radius",
+      "name": "launch_login_button_border_radius",
       "value": "50vp"
     },
     {
-      "name": "Launch_button_border_width",
+      "name": "launch_button_border_width",
       "value": "1vp"
     },
     {
-      "name": "Launch_button_border_margin",
+      "name": "launch_button_border_margin",
       "value": "25vp"
     },
     {
-      "name": "Login_login_text_font",
+      "name": "login_login_text_font",
       "value": "50vp"
     },
     {
-      "name": "Login_login_text_bottom",
+      "name": "login_login_text_bottom",
       "value": "60vp"
     },
     {
-      "name": "Login_title_text_font",
+      "name": "login_title_text_font",
       "value": "18vp"
     },
     {
-      "name": "Login_icon_width",
+      "name": "login_icon_width",
       "value": "30vp"
     },
     {
-      "name": "Login_input_token_width",
+      "name": "login_input_token_width",
       "value": "200vp"
     },
     {
-      "name": "Login_bottom_margin",
+      "name": "login_bottom_margin",
       "value": "8vp"
     },
     {
-      "name": "Login_top_margin",
+      "name": "login_top_margin",
       "value": "8vp"
     },
     {
-      "name": "Login_button_height",
+      "name": "login_button_height",
       "value": "60vp"
+    },
+    {
+      "name": "nav_bar_height",
+      "value": "48vp"
     }
   ]
 }
