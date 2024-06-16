@@ -22,7 +22,7 @@ export default class DataBaseConfig {
                   content TEXT NOT NULL,
                   isFinished INTEGER NOT NULL,
                   priority INTEGER NOT NULL,
-                  alertTime INTEGER，
+                  alertTime INTEGER,
                   startTime INTEGER,
                   endTime INTEGER,
                   createTime INTEGER NOT NULL,
@@ -35,12 +35,13 @@ export default class DataBaseConfig {
     sqlCreate: `CREATE TABLE IF NOT EXISTS courses (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   courseId TEXT NOT NULL UNIQUE,
-                  name TEXT NOT NULL,teacher TEXT NOT NULL,
-                  credit REAL NOT NULL，
+                  name TEXT NOT NULL UNIQUE,
+                  teacher TEXT NOT NULL,
+                  credit REAL NOT NULL,
                   location TEXT NOT NULL,
                   courseType TEXT NOT NULL,
                   time TEXT NOT NULL
-                 )`,
+                )`,
     columns: ["id", "courseId", "name", "teacher", "credit", "location", "courseType", "time"]
   };
   static readonly EXAM_TABLE = {

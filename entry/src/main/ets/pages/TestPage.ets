@@ -32,24 +32,24 @@ struct TestPage {
   }
 
   courseDemo: Course = {
-    courseId: '12345',
-    name: 'test_class',
-    teacher: 'test_teacher',
+    courseId: '123435',
+    name: 'test_cla4ss',
+    teacher: 'test_tea4cher',
     credit: 1.5,
-    location: 'test_location',
+    location: 'test_locat5ion',
     courseType: 'Required',
-    time: "test_time"
+    time: "test_ti6me"
   };
   examDemo: Exam = {
-    examId: '1234',
+    examId: '12234',
     courseId: '222222',
     location: 'test_place',
     seatId: 12,
     time: 1111
   };
   gradeDemo: Grade = {
-    courseId: '1111',
-    courseName: 'test_name',
+    courseId: '11211',
+    courseName: 'test3_name',
     credit: 1.5,
     grade: '92',
     testType: "Exam",
@@ -57,7 +57,7 @@ struct TestPage {
     time: 12333
   };
   taskDemo: Task = {
-    content: 'task',
+    content: 'ta222sk',
     isFinished: 0,
     priority: 1,
     alertTime: 1233,
@@ -67,9 +67,9 @@ struct TestPage {
     updateTime: 1111
   };
   userDemo: User = {
-    studentId: '11111',
-    name: 'www',
-    password: '11111',
+    studentId: '11113231',
+    name: 'ww4w',
+    password: '1111321',
     lastUpdateTime: 1123
   };
 

@@ -88,16 +88,25 @@ export default class TaskTable {
 
 
 function generateBucket(task: Task): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    content: task.content,
-    isFinished: task.isFinished,
-    priority: task.priority,
-    alertTime: task.alertTime,
-    startTime: task.startTime,
-    endTime: task.endTime,
-    createTime: task.createTime,
-    updateTime: task.updateTime
-  };
+  // let obj: relationalStore.ValuesBucket = {
+  //   content: task.content,
+  //   isFinished: task.isFinished,
+  //   priority: task.priority,
+  //   alertTime: task.alertTime,
+  //   startTime: task.startTime,
+  //   endTime: task.endTime,
+  //   createTime: task.createTime,
+  //   updateTime: task.updateTime
+  // };
+  let obj:relationalStore.ValuesBucket={};
+  obj.content=task.content;
+  obj.isFinished=task.isFinished;
+  obj.priority=task.priority;
+  obj.alertTime=task.alertTime;
+  obj.startTime=task.startTime;
+  obj.endTime=task.endTime;
+  obj.createTime=task.createTime;
+  obj.updateTime=task.updateTime;
   return obj;
 }
 
