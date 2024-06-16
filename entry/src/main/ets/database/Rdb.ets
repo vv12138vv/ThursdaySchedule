@@ -1,5 +1,5 @@
 import relationalStore from '@ohos.data.relationalStore'
-import CommonConstants from '../constants/CommonConstants'
+import { CommonConstants } from '../constants/CommonConstants'
 import DataBaseConfig from '../constants/DataBaseConfig'
 import Logger from '../utils/Logger'
 

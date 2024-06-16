@@ -1,6 +1,7 @@
 import { CommonDialog } from '../components/CommonDialog'
 import { RoutePath } from '../constants/RoutePath'
 import { Router } from '../utils/Router'
+import CommonUI from '../constants/CommonUIConstants'
 
 
 @Entry
@@ -13,54 +14,51 @@ struct PersonalPage {
   })
 
   build() {
-    Stack(){
-      Image($r('app.media.back_mine1'))
-
+    Column() {
       Column() {
-        Column() {
-          Image($r('app.media.default_avatar'))
-            .height($r('app.float.avatar_height'))
-            .width($r('app.float.avatar_width'))
-            .border({ radius: $r('app.float.avatar_border') })
-          Text("Harmony-周四课表")
-            .fontColor($r('app.color.color_black'))
-            .fontSize($r('app.float.personal_size'))
-            .margin({ top: $r('app.float.personal_margin') })
-        }
-        .width("100%")
-        .height($r('app.float.personal_avatar_title_height'))
-        .justifyContent(FlexAlign.Center)
-        .alignItems(HorizontalAlign.Center)
-
-
-        Column(){
-          this.itemBuilder("背景设置", $r('app.media.icon_focus'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "focus" })
-          })
-          this.itemBuilder("主题颜色搭配", $r('app.media.icon_type'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "category" })
-          })
-          this.itemBuilder("桌面小组件选项", $r('app.media.icon_topic'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "topic" })
-          })
-          this.itemBuilder("使用帮助", $r('app.media.icon_sel_find'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "help" })
-          })
-          this.itemBuilder("关于", $r('app.media.icon_about'), () => {
-            this.dialogController.open()
-          })
-        }
-        .width("90%")
-        .height($r('app.float.personal_options_height'))
-        .borderColor('#000000')
-        .borderWidth(1)
-        .borderRadius(10)
-
+        Image($r('app.media.default_avatar'))
+          .height($r('app.float.avatar_height'))
+          .width($r('app.float.avatar_width'))
+          .border({ radius: $r('app.float.avatar_border') })
+        Text("Harmony-周四课表")
+          .fontColor($r('app.color.color_black'))
+          .fontSize($r('app.float.personal_size'))
+          .margin({ top: $r('app.float.personal_margin') })
       }
       .width("100%")
-      .height("100%")
-      // .justifyContent(FlexAlign.Start).height("100%")
+      .height($r('app.float.personal_avatar_title_height'))
+      .justifyContent(FlexAlign.Center)
+      .alignItems(HorizontalAlign.Center)
+
+
+      Column(){
+        this.itemBuilder("背景设置", $r('app.media.icon_focus'), () => {
+          Router.push(RoutePath.ContainerPage, { "containerType": "focus" })
+        })
+        this.itemBuilder("主题颜色搭配", $r('app.media.icon_type'), () => {
+          Router.push(RoutePath.ContainerPage, { "containerType": "category" })
+        })
+        this.itemBuilder("桌面小组件选项", $r('app.media.icon_topic'), () => {
+          Router.push(RoutePath.ContainerPage, { "containerType": "topic" })
+        })
+        this.itemBuilder("使用帮助", $r('app.media.icon_sel_find'), () => {
+          Router.push(RoutePath.ContainerPage, { "containerType": "help" })
+        })
+        this.itemBuilder("关于", $r('app.media.icon_about'), () => {
+          this.dialogController.open()
+        })
+      }
+      .width("90%")
+      .height($r('app.float.personal_options_height'))
+      .borderColor('#000000')
+      .borderWidth(1)
+      .borderRadius(10)
+
     }
+    .width("100%")
+    .height("100%")
+    .backgroundColor(CommonUI.COLOR_DEFAULT.background)
+    // .justifyContent(FlexAlign.Start).height("100%")
   }
 
 

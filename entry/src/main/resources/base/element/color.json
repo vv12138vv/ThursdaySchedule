@@ -115,6 +115,14 @@
     {
       "name": "theme_background",
       "value": "#EDA0E9FF"
+    },
+    {
+      "name": "current_index",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "target_index",
+      "value": "#6B6B6B"
     }
   ]
 }

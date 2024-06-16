@@ -21,6 +21,7 @@ export default class Course {
   testType: string; //考察方式
   grade: string;
   gpa: number;
+  is_today: number;
 }
 
 // function canBeNumber(gradeString: string) {
@@ -41,6 +42,3 @@ export default class Course {
 //
 //   }
 // }
-
-
-

@@ -1,4 +1,5 @@
 import router from '@ohos.router'
+import CommonUI from '../constants/CommonUIConstants'
 import prompt from '@ohos.prompt'
 import promptAction from '@ohos.promptAction'
 
@@ -9,7 +10,6 @@ struct LoginPage {
   @State username: string = ''
 
   build() {
-
     Column() {
       Text("登录")
         .fontSize($r('app.float.Login_login_text_font'))
@@ -68,19 +68,23 @@ struct LoginPage {
           .fontWeight(FontWeight.Bold)
       }.width("100%")
 
-      Button("登陆").width("90%").height($r('app.float.Login_button_height')).backgroundColor(Color.Orange).onClick(() => {
-
-        if (this.username == "admin" && this.password == "admin") {
-
-          router.pushUrl({
-            url: "pages/PersonalPage"
-          })
-        }
-        else {
-          promptAction.showToast({
-            message:"密码或用户名错误，请重新输入"
-          })
-        }
+      Button("登录")
+        .width($r('app.float.Launch_login_button_width'))
+        .height($r('app.float.Launch_login_button_height'))
+        .borderRadius($r('app.float.Launch_login_button_border_radius'))
+        .fontColor('#000')
+        .backgroundColor('#fff')
+        .onClick(() => {
+          if (this.username == "admin" && this.password == "admin") {
+            router.pushUrl({
+              url: "pages/PersonalPage"
+            })
+          }
+          else {
+            promptAction.showToast({
+              message:"密码或用户名错误，请重新输入"
+            })
+          }
       })
 
       // Text("第三方登陆")
@@ -109,5 +113,6 @@ struct LoginPage {
       left: 20,
       right: 20
     })
+    .backgroundColor(CommonUI.COLOR_DEFAULT.background)
   }
 }

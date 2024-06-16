@@ -122,4 +122,6 @@ export class CommonConstants {
    */
   static readonly DETAIL_COLUMN_HEIGHT_PERCENT = '100%';
 
+  static readonly FULL_SIZE = 1;
+
 }

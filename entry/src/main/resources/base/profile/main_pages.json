@@ -3,6 +3,7 @@
     "pages/LaunchPage",
     "pages/PersonalPage",
     "pages/LoginPage",
+    "pages/CoursePage",
     "pages/container/ContainerPage"
   ]
 }

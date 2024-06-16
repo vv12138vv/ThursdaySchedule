@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Course from '../models/Course';
 import Rdb from '../rdb';
 
-class CourseTable {
+export default class CourseTable {
   private courseTable = new Rdb(DataBaseConfig.COURSE_TABLE.tableName, DataBaseConfig.COURSE_TABLE.sqlCreate, DataBaseConfig.COURSE_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -28,7 +28,7 @@ class CourseTable {
     this.courseTable.updateData(predicates, value, callback);
   }
 
-  private queryData(predicates: relationalStore.RdbPredicates, callback: (result: Course[]) => void) {
+  queryData(predicates: relationalStore.RdbPredicates, callback: (result: Course[]) => void) {
     this.courseTable.query(predicates, (resultSet: relationalStore.ResultSet) => {
       let count = resultSet.rowCount;
       if (count === 0 || typeof count === 'string') {
@@ -48,7 +48,8 @@ class CourseTable {
             time: resultSet.getString(resultSet.getColumnIndex('time')),
             testType: resultSet.getString(resultSet.getColumnIndex('testType')),
             grade: resultSet.getString(resultSet.getColumnIndex('grade')),
-            gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa'))
+            gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa')),
+            is_today: resultSet.getLong(resultSet.getColumnIndex('is_today'))
           };
           result.push(temp);
           resultSet.goToNextRow();
@@ -88,4 +89,4 @@ function generateBucket(course: Course): relationalStore.ValuesBucket {
   return obj;
 }
 
-export default new CourseTable() as CourseTable;
+// export default new CourseTable() as CourseTable;
