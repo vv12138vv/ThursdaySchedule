@@ -2,6 +2,76 @@ import Course, { CourseType } from '../database/models/Course';
 import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
+import { courseDemo } from '../database/models/Course';
+
+class CourseView {
+  id:number;
+  courseId: string;
+  name: string;
+  teacher: string;
+  credit: number;
+  location: string;
+  courseType: string;
+  startWeek:number;
+  endWeek:number;
+  weekday: number;
+  courseSeq: number;
+
+  static fromCourse(course: Course): CourseView[] {
+    let res: CourseView[] = [];
+    const parseRes=CourseView.parseScheduleString(course.time);
+    parseRes.forEach((time:[number,number],index:number)=>{
+      res.push({
+        id:course.id,
+        courseId:course.courseId,
+        name:course.name,
+        teacher:course.teacher,
+        credit:course.credit,
+        location:course.location,
+        courseType:course.courseType,
+        startWeek:course.startWeek,
+        endWeek:course.endWeek,
+        weekday:time[0],
+        courseSeq:time[1]
+      })
+    })
+    return res;
+  }
+
+  static parseScheduleString(scheduleString: string): [number, number][] {
+    const result: [number, number][] = [];
+    // 映射星期到数字
+    const dayMap: { [key: string]: number } = {
+      "星期一": 1,
+      "星期二": 2,
+      "星期三": 3,
+      "星期四": 4,
+      "星期五": 5,
+      "星期六": 6,
+      "星期日": 7
+    };
+
+    // 按分号拆分字符串以获取每个单独的时间段
+    const parts = scheduleString.split(';');
+
+    for (const part of parts) {
+      // 使用正则表达式匹配星期和小节部分
+      const match = part.match(/(星期[一二三四五六日])\((\d{2})-(\d{2})小节\)/);
+      if (match) {
+        const dayString = match[1];
+        const startPeriod = parseInt(match[2], 10);
+        const endPeriod = parseInt(match[3], 10);
+        // 将星期转换为对应的数字
+        const day = dayMap[dayString];
+        // 生成小节范围数组
+        for (let period = startPeriod; period <= endPeriod; period++) {
+          result.push([day, period]);
+        }
+      }
+    }
+    return result;
+  }
+}
 
 
 @CustomDialog
@@ -61,7 +131,10 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-  coursesInWeek: (Course | null)[] = Array.from({ length: 120 }, () => null);
+
+  coursesInWeek:(CourseView|null)[]=Array(120).fill(null);
+  private courseViews:CourseView[]=[];
+  courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(120).fill(null));
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -76,6 +149,16 @@ struct AllCoursePage {
     this.showWeekDates = this.allWeekStartDates[weekDiff];
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
+
+
+    //预载课程
+    this.courseViews=CourseView.fromCourse(courseDemo);
+    this.courseViews.forEach((item:CourseView, index:number)=>{
+      for(let i=item.startWeek;i<=item.endWeek;i+=1){
+        let idx=item.weekday+(item.courseSeq-1)*8;
+        this.courseSchedule[i-1][idx]=item;
+      }
+    })
   }
 
   //获得某日的起始点
@@ -169,15 +252,19 @@ struct AllCoursePage {
 
 
   //单个课程的可点击块
-  @Builder CourseCube(course: Course) {
+  @Builder CourseCube(course: CourseView) {
     Column() {
-      //Todo 时间还可能需要处理
-      Text(course.time)
       Text(course.location)
+        .fontSize(8)
       Text(course.name)
+        .fontSize(8)
     }
+    .height(64)
+    .width("100%")
+    .justifyContent(FlexAlign.Center)
+    .backgroundColor(Color.Pink)
     .onClick(() => {
-
+      this.courseDetailDialogController.open();
     })
   }
 
@@ -193,24 +280,25 @@ struct AllCoursePage {
   }
 
   //课表核心主主体
-  @Builder CourseTable(coursesInWeek: (Course | null)[]) {
+  @Builder CourseTable(coursesInWeek: (CourseView | null)[]) {
     Row() {
       Grid() {
-        ForEach(coursesInWeek, (value: Course | null, index: number) => {
+        ForEach(coursesInWeek, (value: CourseView | null, index: number) => {
           GridItem() {
             if (index % 8 === 0) {
               this.EmptyCourseCube(Math.floor(index / 8) + 1)
             } else if (value === null) {
               this.EmptyCourseCube(null)
             } else {
-              this.EmptyCourseCube(index)
+              this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 }, })
+          .border({ width: { bottom: 0.5 }})
         })
       }
       .columnsTemplate('1fr '.repeat(8).trim())
       .columnsGap(5)
+      .rowsGap(2)
     }
     .layoutWeight(1)
     .width("100%")
@@ -220,10 +308,11 @@ struct AllCoursePage {
   //课表底部
   @Builder CourseTableFooter() {
     Row() {
-      Stack(){
+      Stack() {
 
       }
       .layoutWeight(1)
+
       Stack() {
         Row() {
           Button() {
@@ -249,14 +338,15 @@ struct AllCoursePage {
         .justifyContent(FlexAlign.SpaceBetween)
       }
       .layoutWeight(6)
-      Stack(){
+
+      Stack() {
 
       }
       .layoutWeight(1)
 
     }
     .width("100%")
-    .height($r("app.float.nav_bar_height"))
+    .height($r("app.float.course_page_footer_height"))
     .justifyContent(FlexAlign.Center)
     .backgroundColor($r('app.color.nav_bar_background_color'))
   }
@@ -267,8 +357,8 @@ struct AllCoursePage {
       Column() {
         this.DateBar()
         Swiper(this.swiperController) {
-          ForEach([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], (item: number, index: number) => {
-            this.CourseTable(this.coursesInWeek)
+          ForEach(this.courseSchedule, (item: (CourseView|null)[], index: number) => {
+            this.CourseTable(item)
           })
         }
         .loop(false)
@@ -282,6 +372,7 @@ struct AllCoursePage {
           this.showWeekDates = this.allWeekStartDates[index];
           this.showWeekString = '第' + this.showWeek.toString() + '周';
         })
+
         this.CourseTableFooter()
       }
       .justifyContent(FlexAlign.SpaceBetween)

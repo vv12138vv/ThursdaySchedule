@@ -45,6 +45,8 @@ class CourseTable {
             credit: resultSet.getDouble(resultSet.getColumnIndex('credit')),
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             courseType: resultSet.getString(resultSet.getColumnIndex('courseType')),
+            startWeek:resultSet.getLong(resultSet.getColumnIndex('startWeek')),
+            endWeek:resultSet.getLong(resultSet.getColumnIndex('endWeek')),
             time: resultSet.getString(resultSet.getColumnIndex('time')),
           };
           result.push(temp);
@@ -74,15 +76,6 @@ class CourseTable {
 
 
 function generateBucket(course: Course): relationalStore.ValuesBucket {
-  // let obj: relationalStore.ValuesBucket = {
-  //   courseId: course.courseId,
-  //   name: course.name,
-  //   teacher: course.teacher,
-  //   credit: course.credit,
-  //   location: course.location,
-  //   courseType: course.courseType,
-  //   time: course.time,
-  // };
   let obj:relationalStore.ValuesBucket={};
   obj.courseId=course.courseId;
   obj.name=course.name;
@@ -90,6 +83,8 @@ function generateBucket(course: Course): relationalStore.ValuesBucket {
   obj.credit=course.credit;
   obj.location=course.location;
   obj.courseType=course.courseType;
+  obj.startWeek=course.startWeek;
+  obj.endWeek=course.endWeek;
   obj.time=course.time;
   return obj;
 }

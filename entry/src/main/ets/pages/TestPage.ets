@@ -39,6 +39,8 @@ struct TestPage {
     credit: 1.5,
     location: 'test_locat5ion',
     courseType: 'Required',
+    startWeek:1,
+    endWeek:2,
     time: "test_ti6me"
   };
   examDemo: Exam = {

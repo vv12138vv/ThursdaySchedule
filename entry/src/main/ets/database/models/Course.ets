@@ -13,17 +13,21 @@ export default class Course {
   credit: number; //学分
   location: string;
   courseType: string; //课程类型
+  startWeek:number;
+  endWeek:number;
   time: string; //时间有多种，这里使用 string，后面做中间层适配
 }
 
 
 
 export let courseDemo:Course={
-  courseId:'12345',
-  name:'测试课程',
-  teacher:'测试教师',
-  credit:1.5,
-  location:'测试位置',
+  courseId:'06036101',
+  name:'高性能计算引论',
+  teacher:'李翔宇',
+  credit:2,
+  location:'I-206',
   courseType:CourseType.Required,
-  time:"测试时间"
+  time:"星期一(02-04小节);星期五(02-04小节)",
+  startWeek:9,
+  endWeek:16
 }

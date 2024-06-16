@@ -403,6 +403,10 @@
     {
       "name": "nav_bar_height",
       "value": "48vp"
+    },
+    {
+      "name": "course_page_footer_height",
+      "value": "40vp"
     }
   ]
 }
