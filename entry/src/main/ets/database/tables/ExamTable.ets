@@ -4,7 +4,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Exam from '../models/Exam';
 import Rdb from '../rdb';
 
-export default class ExamTable {
+class ExamTable {
   private examTable = new Rdb(DataBaseConfig.EXAM_TABLE.tableName, DataBaseConfig.EXAM_TABLE.sqlCreate, DataBaseConfig.EXAM_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -82,4 +82,6 @@ function generateBucket(exam: Exam): relationalStore.ValuesBucket {
   obj.time=exam.time;
   return obj;
 }
+
+export default new ExamTable(()=>{}) as ExamTable;
 

@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import User from '../models/User';
 import Rdb from '../rdb';
 
-export default class UserTable {
+class UserTable {
   private userTable = new Rdb(DataBaseConfig.USER_TABLE.tableName, DataBaseConfig.USER_TABLE.sqlCreate, DataBaseConfig.USER_TABLE.columns);
 
   constructor(callback: ()=>void = () => {
@@ -79,3 +79,4 @@ function generateBucket(user: User): relationalStore.ValuesBucket {
   return obj;
 }
 
+export default new UserTable(()=>{}) as UserTable;

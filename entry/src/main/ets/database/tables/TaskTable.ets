@@ -4,7 +4,7 @@ import Rdb from '../rdb';
 import Task from '../models/Task'
 import call from '@ohos.telephony.call';
 
-export default class TaskTable {
+class TaskTable {
   private taskTable = new Rdb(DataBaseConfig.TASK_TABLE.tableName, DataBaseConfig.TASK_TABLE.sqlCreate, DataBaseConfig.TASK_TABLE.columns);
 
   constructor(callback: ()=>void = () => {
@@ -103,4 +103,4 @@ function generateBucket(task: Task): relationalStore.ValuesBucket {
   obj.updateTime=task.updateTime;
   return obj;
 }
-
+export default new TaskTable(()=>{}) as TaskTable;

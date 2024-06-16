@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Course from '../models/Course';
 import Rdb from '../rdb';
 
-export default class CourseTable {
+class CourseTable {
   private courseTable = new Rdb(DataBaseConfig.COURSE_TABLE.tableName, DataBaseConfig.COURSE_TABLE.sqlCreate, DataBaseConfig.COURSE_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -93,3 +93,5 @@ function generateBucket(course: Course): relationalStore.ValuesBucket {
   obj.time=course.time;
   return obj;
 }
+
+export default new CourseTable(()=>{}) as CourseTable;

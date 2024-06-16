@@ -9,28 +9,27 @@ import Grade from '../database/models/Grade';
 import Task from '../database/models/Task';
 import User from '../database/models/User';
 
-
 //用于测试
 @Entry
 @Component
 struct TestPage {
-  private courseTable = new CourseTable(() => {
-  });
-  private examTable = new ExamTable(() => {
-  });
-  private gradeTable = new GradeTable(() => {
-  });
-  private taskTable = new TaskTable(() => {
-  });
-  private userTable = new UserTable(() => {
-  });
+  // private courseTable = new CourseTable(() => {
+  // });
+  // private examTable = new ExamTable(() => {
+  // });
+  // private gradeTable = new GradeTable(() => {
+  // });
+  // private taskTable = new TaskTable(() => {
+  // });
+  // private userTable = new UserTable(() => {
+  // });
 
   aboutToAppear() {
-    this.courseTable.getRdbStore();
-    this.examTable.getRdbStore();
-    this.gradeTable.getRdbStore();
-    this.taskTable.getRdbStore();
-    this.userTable.getRdbStore();
+    // this.courseTable.getRdbStore();
+    // this.examTable.getRdbStore();
+    // this.gradeTable.getRdbStore();
+    // this.taskTable.getRdbStore();
+    // this.userTable.getRdbStore();
   }
 
   courseDemo: Course = {
@@ -83,8 +82,8 @@ struct TestPage {
           Text('add course')
         }
         .onClick(() => {
-          this.courseTable.getRdbStore(() => {
-            this.courseTable.insertData(this.courseDemo, (succeed: boolean) => {
+          CourseTable.getRdbStore(() => {
+            CourseTable.insertData(this.courseDemo, (succeed: boolean) => {
               if (succeed) {
                 let i = 1;
               } else {
@@ -98,8 +97,8 @@ struct TestPage {
           Text('add exam')
         }
         .onClick(() => {
-          this.examTable.getRdbStore(() => {
-            this.examTable.insertData(this.examDemo, (succeed: boolean) => {
+          ExamTable.getRdbStore(() => {
+            ExamTable.insertData(this.examDemo, (succeed: boolean) => {
               if (succeed) {
                 let i = 1;
               } else {
@@ -113,7 +112,7 @@ struct TestPage {
           Text('add grade')
         }
         .onClick(() => {
-          this.gradeTable.insertData(this.gradeDemo, (succeed: boolean) => {
+          GradeTable.insertData(this.gradeDemo, (succeed: boolean) => {
             if (succeed) {
               let i = 1;
             } else {
@@ -126,7 +125,7 @@ struct TestPage {
           Text('add task')
         }
         .onClick(() => {
-          this.taskTable.insertData(this.taskDemo, (succeed: boolean) => {
+          TaskTable.insertData(this.taskDemo, (succeed: boolean) => {
             if (succeed) {
               let i = 1;
             } else {
@@ -139,7 +138,7 @@ struct TestPage {
           Text('add user')
         }
         .onClick(() => {
-          this.userTable.insertData(this.userDemo, (succeed: boolean) => {
+          UserTable.insertData(this.userDemo, (succeed: boolean) => {
             if (succeed) {
               let i = 1;
             } else {
@@ -157,7 +156,7 @@ struct TestPage {
         }
         .onClick(() => {
           let course: Course[];
-          this.courseTable.selectDataAll((result: Course[]) => {
+          CourseTable.selectDataAll((result: Course[]) => {
             course = result;
           })
         })
@@ -167,7 +166,7 @@ struct TestPage {
         }
         .onClick(() => {
           let exam: Exam[];
-          this.examTable.selectDataAll((result: Exam[]) => {
+          ExamTable.selectDataAll((result: Exam[]) => {
             exam = result;
           })
         })
@@ -177,7 +176,7 @@ struct TestPage {
         }
         .onClick(() => {
           let grade: Grade[];
-          this.gradeTable.selectDataAll((result: Grade[]) => {
+          GradeTable.selectDataAll((result: Grade[]) => {
             grade = result;
           })
         })
@@ -187,7 +186,7 @@ struct TestPage {
         }
         .onClick(() => {
           let task: Task[];
-          this.taskTable.selectDataAll((result: Task[]) => {
+          TaskTable.selectDataAll((result: Task[]) => {
             task = result;
           })
         })
@@ -197,7 +196,7 @@ struct TestPage {
         }
         .onClick(() => {
           let user: User[];
-          this.userTable.selectDataAll((result: User[]) => {
+          UserTable.selectDataAll((result: User[]) => {
             user = result;
           })
         })
