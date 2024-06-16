@@ -81,36 +81,36 @@ export default struct GradeSummary {
   }
 }
 
-@Preview
-@Component
-struct GradeSummaryPreview {
-  @State totalCredit: number = 90;
-  @State totalAverageGrade: number = 93.3;
-  @State totalGPA: number = 3.9;
-  @State requiredCourseCredit: number = 60;
-  @State requiredCourseAverageGrade: number = 94;
-  @State requireCourseGPA: number = 3.95;
-  @State electiveCourseCredit: number = 30;
-  @State electiveCourseAverageGrade: number = 91;
-  @State electiveCourseGPA: number = 3.82;
-  @State selectedCredit: number = 34;
-  @State selectedAverageGrade: number = 92;
-  @State selectedGPA: number = 3.89;
-
-  build() {
-    GradeSummary({
-      totalCredit: this.totalCredit,
-      totalAverageGrade: this.totalAverageGrade,
-      totalGPA: this.totalGPA,
-      requiredCourseCredit: this.requiredCourseCredit,
-      requiredCourseAverageGrade: this.requiredCourseAverageGrade,
-      requireCourseGPA: this.requireCourseGPA,
-      electiveCourseCredit: this.electiveCourseCredit,
-      electiveCourseAverageGrade: this.electiveCourseAverageGrade,
-      electiveCourseGPA: this.electiveCourseGPA,
-      selectedCredit: $selectedCredit,
-      selectedAverageGrade: $selectedAverageGrade,
-      selectedGPA: $selectedGPA
-    })
-  }
-}
+// @Preview
+// @Component
+// struct GradeSummaryPreview {
+//   @State totalCredit: number = 90;
+//   @State totalAverageGrade: number = 93.3;
+//   @State totalGPA: number = 3.9;
+//   @State requiredCourseCredit: number = 60;
+//   @State requiredCourseAverageGrade: number = 94;
+//   @State requireCourseGPA: number = 3.95;
+//   @State electiveCourseCredit: number = 30;
+//   @State electiveCourseAverageGrade: number = 91;
+//   @State electiveCourseGPA: number = 3.82;
+//   @State selectedCredit: number = 34;
+//   @State selectedAverageGrade: number = 92;
+//   @State selectedGPA: number = 3.89;
+//
+//   build() {
+//     GradeSummary({
+//       totalCredit: this.totalCredit,
+//       totalAverageGrade: this.totalAverageGrade,
+//       totalGPA: this.totalGPA,
+//       requiredCourseCredit: this.requiredCourseCredit,
+//       requiredCourseAverageGrade: this.requiredCourseAverageGrade,
+//       requireCourseGPA: this.requireCourseGPA,
+//       electiveCourseCredit: this.electiveCourseCredit,
+//       electiveCourseAverageGrade: this.electiveCourseAverageGrade,
+//       electiveCourseGPA: this.electiveCourseGPA,
+//       selectedCredit: $selectedCredit,
+//       selectedAverageGrade: $selectedAverageGrade,
+//       selectedGPA: $selectedGPA
+//     })
+//   }
+// }

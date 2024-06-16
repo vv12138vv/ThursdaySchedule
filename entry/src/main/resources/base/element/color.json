@@ -127,6 +127,10 @@
     {
       "name": "grade_block_row_checkbox_selected_color",
       "value": "#509EBA"
+    },
+    {
+      "name": "all_course_page_footer_background_color",
+      "value": "#71D2E1"
     }
   ]
 }

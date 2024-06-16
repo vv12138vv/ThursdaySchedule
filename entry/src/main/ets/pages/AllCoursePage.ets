@@ -3,10 +3,6 @@ import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
 
-class CourseView{
-
-}
-
 
 @CustomDialog
 struct CourseDetailDialog {
@@ -51,18 +47,24 @@ struct AllCoursePage {
     customStyle: true
   })
 
+  //滚动控制器
+  private swiperController=new SwiperController();
+
   //日期相关
   readonly weekDaysString: string[] = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-  private dateInfo: Date;
-  private weekDates: Date [];
-  private courses: Course[]=[];
+  private todayDateInfo: Date;
+  @State weekDates: Date [] = [];
+  @State curShowWeek:string="第十六周";
+  private courses: Course[] = [];
+  coursesInWeek: (Course | null)[] = Array.from({ length: 120 }, () => null);
 
   aboutToAppear() {
-    this.dateInfo = new Date();
-    this.weekDates = this.getWeekDates(this.dateInfo);
+    this.todayDateInfo = new Date();
+    this.weekDates = this.getWeekDates(this.todayDateInfo);
   }
 
   onPageShow() {
+
 
   }
 
@@ -83,26 +85,13 @@ struct AllCoursePage {
   }
 
 
-  //单个课程的可点击块
-  @Builder CourseCube(course: Course) {
-    Column() {
-      //Todo 时间还可能需要处理
-      Text(course.time)
-      Text(course.location)
-      Text(course.name)
-    }
-    .onClick(() => {
-
-    })
-  }
-
   //表示时间的ui，课表顶部使用
   @Builder DateCube(date: Date) {
     Column() {
       Text(this.weekDaysString[date.getDay()])
-        .fontColor(date.getDate() == this.dateInfo.getDate() ? Color.Blue : Color.Black)
+        .fontColor(date.getDate() == this.todayDateInfo.getDate() ? Color.Blue : Color.Black)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
-        .fontColor(date.getDate() == this.dateInfo.getDate() ? Color.Blue : Color.Black)
+        .fontColor(date.getDate() == this.todayDateInfo.getDate() ? Color.Blue : Color.Black)
     }
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
@@ -111,7 +100,6 @@ struct AllCoursePage {
   //课表顶部的DateBar
   @Builder DateBar() {
     Row() {
-
       Grid() {
         GridItem() {
           Column() {
@@ -132,43 +120,99 @@ struct AllCoursePage {
 
   }
 
-  //课表核心主主体
-  @Builder CourseTable() {
-    Row() {
-      Swiper() {
-        List() {
 
-        }
+  //单个课程的可点击块
+  @Builder CourseCube(course: Course) {
+    Column() {
+      //Todo 时间还可能需要处理
+      Text(course.time)
+      Text(course.location)
+      Text(course.name)
+    }
+    .onClick(() => {
+
+    })
+  }
+
+  @Builder EmptyCourseCube(idx: number | null) {
+    Column() {
+      if (idx != null) {
+        Text(idx.toString())
+          .fontSize(20)
       }
+    }
+    .height(64)
+    .justifyContent(FlexAlign.Center)
+  }
 
+  //课表核心主主体
+  @Builder CourseTable(coursesInWeek: (Course | null)[]) {
+    Row() {
+      Grid() {
+        ForEach(coursesInWeek, (value: Course | null, index: number) => {
+          GridItem() {
+            if (index % 8 === 0) {
+              this.EmptyCourseCube(Math.floor(index / 8) + 1)
+            } else if (value === null) {
+              this.EmptyCourseCube(null)
+            } else {
+              this.EmptyCourseCube(index)
+            }
+          }
+          .border({ width: { bottom: 0.5 }, })
+        })
+      }
+      .columnsTemplate('1fr '.repeat(8).trim())
+      .columnsGap(5)
     }
     .layoutWeight(1)
     .width("100%")
   }
 
-  @Builder CourseLine(){
-    Row(){
-      Grid(){
-        ForEach([1,2,3,4,5,6,7,8],(item:number,index:number)=>{
-          GridItem(){
-            CourseCube
-          }
-        })
-      }
-      .width('100%')
-      .columnsTemplate('1fr '.repeat(8).trim())
-    }
-  }
 
   //课表底部
   @Builder CourseTableFooter() {
     Row() {
-      Text('test database')
+      Stack() {
+        Text(this.weekDaysString[this.todayDateInfo.getDay()])
+      }
+      .layoutWeight(1)
+
+      Stack() {
+        Row(){
+          Button(){
+            Image($r('app.media.icon_back'))
+              .width(16)
+          }
+          .backgroundColor(Color.Transparent)
+          .onClick((event?:ClickEvent)=>{
+            this.swiperController.showPrevious();
+          })
+          Text(this.curShowWeek)
+          Button(){
+            Image($r('app.media.icon_forward'))
+              .width(16)
+          }
+          .backgroundColor(Color.Transparent)
+          .onClick((event?:ClickEvent)=>{
+            this.swiperController.showNext();
+          })
+        }
+        .width(100)
+        .justifyContent(FlexAlign.SpaceBetween)
+      }
+      .layoutWeight(6)
+
+      Stack() {
+      }
+      .layoutWeight(1)
+
     }
     .width("100%")
-    .backgroundColor(Color.Pink)
-    .justifyContent(FlexAlign.Center)
-    .height(40)
+    .height($r("app.float.nav_bar_height"))
+    .justifyContent(FlexAlign.Start)
+    .backgroundColor($r('app.color.nav_bar_background_color'))
+    .alignItems(VerticalAlign.Center)
   }
 
   build() {
@@ -176,7 +220,15 @@ struct AllCoursePage {
       NavBar({ navBarConfig: this.navBarConfig })
       Column() {
         this.DateBar()
-        this.CourseTable()
+        Swiper(this.swiperController) {
+          this.CourseTable(this.coursesInWeek)
+          this.CourseTable(this.coursesInWeek)
+          this.CourseTable(this.coursesInWeek)
+        }
+        .loop(false)
+        .index(0)
+        .layoutWeight(1)
+        .indicator(false)
         this.CourseTableFooter()
       }
       .justifyContent(FlexAlign.SpaceBetween)

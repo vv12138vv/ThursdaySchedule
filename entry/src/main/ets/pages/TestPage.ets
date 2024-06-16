@@ -55,7 +55,7 @@ struct TestPage {
     grade: '92',
     testType: "Exam",
     gpa: 4,
-    time: 12333
+    time: '2222'
   };
   taskDemo: Task = {
     content: 'ta222sk',
