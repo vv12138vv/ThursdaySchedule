@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import User from '../models/User';
 import Rdb from '../rdb';
 
-class UserTable {
+export default class UserTable {
   private userTable = new Rdb(DataBaseConfig.USER_TABLE.tableName, DataBaseConfig.USER_TABLE.sqlCreate, DataBaseConfig.USER_TABLE.columns);
 
   constructor(callback: ()=>void = () => {
@@ -63,17 +63,25 @@ class UserTable {
     predicates.equalTo('studentId', studentId);
     this.queryData(predicates, callback);
   }
+  selectDataAll(callback: (result: User[]) => void){
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.USER_TABLE.tableName);
+    this.queryData(predicates,callback);
+  }
 }
 
 
 function generateBucket(user: User): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    studentId: user.studentId,
-    name: user.name,
-    password: user.password,
-    lastUpdateTime: user.lastUpdateTime
-  };
+  // let obj: relationalStore.ValuesBucket = {
+  //   studentId: user.studentId,
+  //   name: user.name,
+  //   password: user.password,
+  //   lastUpdateTime: user.lastUpdateTime
+  // };
+  let obj:relationalStore.ValuesBucket={};
+  obj.studentId=user.studentId;
+  obj.name=user.name;
+  obj.password=user.password;
+  obj.lastUpdateTime=user.lastUpdateTime;
   return obj;
 }
 
-export default new UserTable() as UserTable;

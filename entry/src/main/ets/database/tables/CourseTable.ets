@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Course from '../models/Course';
 import Rdb from '../rdb';
 
-class CourseTable {
+export default class CourseTable {
   private courseTable = new Rdb(DataBaseConfig.COURSE_TABLE.tableName, DataBaseConfig.COURSE_TABLE.sqlCreate, DataBaseConfig.COURSE_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -42,7 +42,7 @@ class CourseTable {
             courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
             name: resultSet.getString(resultSet.getColumnIndex('name')),
             teacher: resultSet.getString(resultSet.getColumnIndex('teacher')),
-            credit: resultSet.getDouble(resultSet.getColumnIndex('credit')),
+            credit: resultSet.getString(resultSet.getColumnIndex('credit')),
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             courseType: resultSet.getString(resultSet.getColumnIndex('courseType')),
             time: resultSet.getString(resultSet.getColumnIndex('time')),
@@ -70,16 +70,22 @@ class CourseTable {
 
 
 function generateBucket(course: Course): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    courseId: course.courseId,
-    name: course.name,
-    teacher: course.teacher,
-    credit: course.credit,
-    location: course.location,
-    courseType: course.courseType,
-    time: course.time,
-  };
+  // let obj: relationalStore.ValuesBucket = {
+  //   courseId: course.courseId,
+  //   name: course.name,
+  //   teacher: course.teacher,
+  //   credit: course.credit,
+  //   location: course.location,
+  //   courseType: course.courseType,
+  //   time: course.time,
+  // };
+  let obj:relationalStore.ValuesBucket={};
+  obj.courseId=course.courseId;
+  obj.name=course.name;
+  obj.teacher=course.teacher;
+  obj.credit=course.credit;
+  obj.location=course.location;
+  obj.courseType=course.courseType;
+  obj.time=course.time;
   return obj;
 }
-
-export default new CourseTable() as CourseTable;

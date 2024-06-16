@@ -6,7 +6,7 @@ export enum CourseType { //课程属性
 
 @Observed
 export default class Course {
-  id: number; //主键，与业务无关
+  id?: number; //主键，与业务无关
   courseId: string; //业务主键
   name: string;
   teacher: string;
@@ -18,4 +18,12 @@ export default class Course {
 
 
 
-
+export let courseDemo:Course={
+  courseId:'12345',
+  name:'测试课程',
+  teacher:'测试教师',
+  credit:'1.5',
+  location:'测试位置',
+  courseType:CourseType.Required,
+  time:"测试时间"
+}
