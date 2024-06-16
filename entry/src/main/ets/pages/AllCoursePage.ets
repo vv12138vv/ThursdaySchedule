@@ -3,6 +3,11 @@ import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
 
+class CourseView{
+
+}
+
+
 @CustomDialog
 struct CourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -45,10 +50,12 @@ struct AllCoursePage {
     alignment: DialogAlignment.Bottom,
     customStyle: true
   })
+
   //日期相关
   readonly weekDaysString: string[] = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   private dateInfo: Date;
   private weekDates: Date [];
+  private courses: Course[]=[];
 
   aboutToAppear() {
     this.dateInfo = new Date();
@@ -56,6 +63,7 @@ struct AllCoursePage {
   }
 
   onPageShow() {
+
   }
 
   //获得所在日一周的日期
@@ -129,12 +137,27 @@ struct AllCoursePage {
     Row() {
       Swiper() {
         List() {
+
         }
       }
 
     }
     .layoutWeight(1)
     .width("100%")
+  }
+
+  @Builder CourseLine(){
+    Row(){
+      Grid(){
+        ForEach([1,2,3,4,5,6,7,8],(item:number,index:number)=>{
+          GridItem(){
+            CourseCube
+          }
+        })
+      }
+      .width('100%')
+      .columnsTemplate('1fr '.repeat(8).trim())
+    }
   }
 
   //课表底部

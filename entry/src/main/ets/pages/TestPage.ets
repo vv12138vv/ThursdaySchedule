@@ -9,7 +9,7 @@ import Grade from '../database/models/Grade';
 import Task from '../database/models/Task';
 import User from '../database/models/User';
 
-//用于测试
+//用于测试数据库相关
 @Entry
 @Component
 struct TestPage {

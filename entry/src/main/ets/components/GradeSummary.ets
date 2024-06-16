@@ -1,17 +1,11 @@
 @Component
 export default struct GradeSummary {
   totalCredit: number;
-  totalAverageGrade: number;
-  totalGPA: number;
-  requiredCourseCredit: number;
-  requiredCourseAverageGrade: number;
-  requireCourseGPA: number;
-  electiveCourseCredit: number;
-  electiveCourseAverageGrade: number;
-  electiveCourseGPA: number;
+  totalGradeWithWeight: number;
+  totalGPAWithWeight: number;
   @Link selectedCredit: number;
-  @Link selectedAverageGrade: number;
-  @Link selectedGPA: number;
+  @Link selectedGradeWithWeight: number;
+  @Link selectedGPAWithWeight: number;
 
   //Todo header 与 row 还有些对齐问题
   @Builder GradeSummaryHeader() {
@@ -51,8 +45,6 @@ export default struct GradeSummary {
       Text($$.selectedCredit.toFixed(1))
         .fontColor($r('app.color.grade_summary_row_font_color'))
         .fontSize($r('app.float.grade_summary_row_font_size'))
-
-
       Text($$.selectedAverageGrade.toFixed(3))
         .fontColor($r('app.color.grade_summary_row_font_color'))
         .fontSize($r('app.float.grade_summary_row_font_size'))
@@ -74,23 +66,13 @@ export default struct GradeSummary {
       this.GradeSummaryHeader()
       this.GradeSummaryRow("全部课程", {
         selectedCredit: this.totalCredit,
-        selectedAverageGrade: this.totalAverageGrade,
-        selectedGPA: this.totalGPA
-      })
-      this.GradeSummaryRow("必修课程", {
-        selectedCredit: this.requiredCourseCredit,
-        selectedAverageGrade: this.requiredCourseAverageGrade,
-        selectedGPA: this.requireCourseGPA
-      })
-      this.GradeSummaryRow("选修课程", {
-        selectedCredit: this.electiveCourseCredit,
-        selectedAverageGrade: this.electiveCourseAverageGrade,
-        selectedGPA: this.electiveCourseGPA
+        selectedAverageGrade: this.totalGradeWithWeight/this.totalCredit,
+        selectedGPA: this.totalGPAWithWeight/this.totalCredit
       })
       this.GradeSummaryRow("已选课程", {
         selectedCredit: this.selectedCredit,
-        selectedAverageGrade: this.selectedAverageGrade,
-        selectedGPA: this.selectedGPA
+        selectedAverageGrade: this.selectedGradeWithWeight/this.selectedCredit,
+        selectedGPA: this.selectedGPAWithWeight/this.selectedCredit
       })
     }
     .alignItems(HorizontalAlign.Center)
