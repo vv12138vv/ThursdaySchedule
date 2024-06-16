@@ -38,8 +38,7 @@ struct AllCoursePage {
       router.back();
     }
   }
-
-  //课程详细控制器
+  //课程详细对话框控制器
   courseDetailDialogController: CustomDialogController = new CustomDialogController({
     builder: CourseDetailDialog({}),
     autoCancel: true,
@@ -54,16 +53,14 @@ struct AllCoursePage {
   readonly weekDaysString: string[] = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   private todayDateInfo: Date;
   //当前周数
-  curWeek:number;
-  showWeek:number;
+  curWeek: number;
+  showWeek: number;
   //当前学期的起始日期
   termStartDate: Date = new Date('2024-02-26');
-  //所有周的起始日期
-  allWeekStartDates: Date[] = [];
+  //所有周的日期
+  allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-
-
   coursesInWeek: (Course | null)[] = Array.from({ length: 120 }, () => null);
 
   aboutToAppear() {
@@ -73,27 +70,20 @@ struct AllCoursePage {
     this.todayDateInfo = this.getStartOfDay(new Date());
     //今日所属周的偏移
     let weekDiff = this.getWeekDiff(this.termStartDate, this.todayDateInfo);
-    this.curWeek=weekDiff+1;
-    this.showWeek=this.curWeek;
-    //当前所在周的第一天日期
-    let curWeekStartDate = this.allWeekStartDates[weekDiff];
+    this.curWeek = weekDiff + 1;
+    this.showWeek = this.curWeek;
     //当前显示的周数据
-    this.showWeekDates = this.getWeekDates(curWeekStartDate);
+    this.showWeekDates = this.allWeekStartDates[weekDiff];
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
   }
 
-  onPageShow() {
-
-
-  }
-
   //获得某日的起始点
   getStartOfDay(date: Date): Date {
-  // 创建一个新的 Date 对象，设置为指定日期的年、月、日的 00:00:00
-  const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  return startOfDay;
-}
+    // 创建一个新的 Date 对象，设置为指定日期的年、月、日的 00:00:00
+    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    return startOfDay;
+  }
   //获得所在日一周的日期
   getWeekDates(date: Date): Date[] {
     const startOfWeek: Date = new Date(date);
@@ -119,9 +109,9 @@ struct AllCoursePage {
     return weeksDifference;
   }
 
-  getAllWeekStartDates(start: Date, weekNum: number): Date[] {
+  getAllWeekStartDates(start: Date, weekNum: number): Date[][] {
     let startDate = new Date(start);
-    let weeksDates: Date [] = [];
+    let weeksDates: Date [][] = [];
 
     // 循环获取 20 个周的日期数据
     for (let i = 0; i < weekNum; i++) {
@@ -132,8 +122,9 @@ struct AllCoursePage {
       // 获取当前周的起始日期（星期一）
       const currentStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - diffDays);
 
+      let weekDate = this.getWeekDates(currentStartDate);
       // 添加到结果数组
-      weeksDates.push(currentStartDate);
+      weeksDates.push(weekDate);
 
       // 将 startDate 设置为下一周的起始日期
       startDate.setDate(startDate.getDate() + 7);
@@ -163,6 +154,7 @@ struct AllCoursePage {
             Text('日期')
           }
         }
+
         ForEach(this.showWeekDates, (item: Date, index: number) => {
           GridItem() {
             this.DateCube(item)
@@ -228,6 +220,10 @@ struct AllCoursePage {
   //课表底部
   @Builder CourseTableFooter() {
     Row() {
+      Stack(){
+
+      }
+      .layoutWeight(1)
       Stack() {
         Row() {
           Button() {
@@ -253,13 +249,16 @@ struct AllCoursePage {
         .justifyContent(FlexAlign.SpaceBetween)
       }
       .layoutWeight(6)
+      Stack(){
+
+      }
+      .layoutWeight(1)
 
     }
     .width("100%")
     .height($r("app.float.nav_bar_height"))
     .justifyContent(FlexAlign.Center)
     .backgroundColor($r('app.color.nav_bar_background_color'))
-    .alignItems(VerticalAlign.Center)
   }
 
   build() {
@@ -268,20 +267,21 @@ struct AllCoursePage {
       Column() {
         this.DateBar()
         Swiper(this.swiperController) {
-          ForEach([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16,17,18,19,20], (item: number, index: number) => {
+          ForEach([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], (item: number, index: number) => {
             this.CourseTable(this.coursesInWeek)
           })
         }
         .loop(false)
-        .index(this.curWeek-1)
+        .index(this.curWeek - 1)
         .layoutWeight(1)
         .indicator(false)
+        .cachedCount(3)
+        .autoPlay(false)
         .onChange((index: number) => {
-          this.showWeek=index+1;
-          this.showWeekDates=this.getWeekDates(this.allWeekStartDates[this.showWeek-1]);
-          this.showWeekString='第'+this.showWeek.toString()+'周';
+          this.showWeek = index + 1;
+          this.showWeekDates = this.allWeekStartDates[index];
+          this.showWeekString = '第' + this.showWeek.toString() + '周';
         })
-
         this.CourseTableFooter()
       }
       .justifyContent(FlexAlign.SpaceBetween)
