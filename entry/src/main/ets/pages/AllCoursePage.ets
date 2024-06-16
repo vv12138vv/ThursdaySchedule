@@ -5,34 +5,34 @@ import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
 
 class CourseView {
-  id:number;
+  id: number;
   courseId: string;
   name: string;
   teacher: string;
   credit: number;
   location: string;
   courseType: string;
-  startWeek:number;
-  endWeek:number;
-  weekday: number;
-  courseSeq: number;
+  startWeek: number;
+  endWeek: number;
+  weekday: number;//周几
+  courseSeq: number;//当天课序号
 
   static fromCourse(course: Course): CourseView[] {
     let res: CourseView[] = [];
-    const parseRes=CourseView.parseScheduleString(course.time);
-    parseRes.forEach((time:[number,number],index:number)=>{
+    const parseRes = CourseView.parseScheduleString(course.time);
+    parseRes.forEach((time: [number, number], index: number) => {
       res.push({
-        id:course.id,
-        courseId:course.courseId,
-        name:course.name,
-        teacher:course.teacher,
-        credit:course.credit,
-        location:course.location,
-        courseType:course.courseType,
-        startWeek:course.startWeek,
-        endWeek:course.endWeek,
-        weekday:time[0],
-        courseSeq:time[1]
+        id: course.id,
+        courseId: course.courseId,
+        name: course.name,
+        teacher: course.teacher,
+        credit: course.credit,
+        location: course.location,
+        courseType: course.courseType,
+        startWeek: course.startWeek,
+        endWeek: course.endWeek,
+        weekday: time[0],
+        courseSeq: time[1]
       })
     })
     return res;
@@ -71,13 +71,29 @@ class CourseView {
     }
     return result;
   }
+
+  static courseSeqToTime: Map<number, string> = new Map([
+    [1,'08:00'],
+    [2,'08:50'],
+    [3,'09:40'],
+    [4,'10:40'],
+    [5,'11:30'],
+    [6,'14:00'],
+    [7,'14:50'],
+    [8,'15:50'],
+    [9,'16:40'],
+    [10,'17:30'],
+    [11,'19:00'],
+    [12,'19:50'],
+    [13,'20:40']
+  ]);
 }
 
-
+//Todo Dialog
 @CustomDialog
 struct CourseDetailDialog {
   dialogController?: CustomDialogController;
-  course: Course;
+  courseView: CourseView;
 
   build() {
     Column() {
@@ -131,14 +147,14 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-
-  coursesInWeek:(CourseView|null)[]=Array(120).fill(null);
-  private courseViews:CourseView[]=[];
-  courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(120).fill(null));
+  readonly TOTAL_COURSE_CUBE:number=112;
+  coursesInWeek: (CourseView | null)[] = Array(this.TOTAL_COURSE_CUBE).fill(null);
+  private courseViews: CourseView[] = [];
+  courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
-    this.allWeekStartDates = this.getAllWeekStartDates(this.termStartDate, 25);
+    this.allWeekStartDates = this.getAllWeekStartDates(this.termStartDate, 24);
     //今日日期
     this.todayDateInfo = this.getStartOfDay(new Date());
     //今日所属周的偏移
@@ -152,11 +168,11 @@ struct AllCoursePage {
 
 
     //预载课程
-    this.courseViews=CourseView.fromCourse(courseDemo);
-    this.courseViews.forEach((item:CourseView, index:number)=>{
-      for(let i=item.startWeek;i<=item.endWeek;i+=1){
-        let idx=item.weekday+(item.courseSeq-1)*8;
-        this.courseSchedule[i-1][idx]=item;
+    this.courseViews = CourseView.fromCourse(courseDemo);
+    this.courseViews.forEach((item: CourseView, index: number) => {
+      for (let i = item.startWeek;i <= item.endWeek; i += 1) {
+        let idx = item.weekday + (item.courseSeq - 1) * 8;
+        this.courseSchedule[i-1][idx] = item;
       }
     })
   }
@@ -247,19 +263,20 @@ struct AllCoursePage {
       .columnsTemplate('1fr '.repeat(8).trim())
     }
     .height(40)
-
   }
 
 
   //单个课程的可点击块
-  @Builder CourseCube(course: CourseView) {
+  @Builder CourseCube(courseView: CourseView) {
     Column() {
-      Text(course.location)
-        .fontSize(8)
-      Text(course.name)
-        .fontSize(8)
+      Text(CourseView.courseSeqToTime.get(courseView.courseSeq))
+        .fontSize(10)
+      Text(courseView.location)
+        .fontSize(10)
+      Text(courseView.name)
+        .fontSize(10)
     }
-    .height(64)
+    .height(72)
     .width("100%")
     .justifyContent(FlexAlign.Center)
     .backgroundColor(Color.Pink)
@@ -275,7 +292,8 @@ struct AllCoursePage {
           .fontSize(20)
       }
     }
-    .height(64)
+    .height(72)
+    .width("100%")
     .justifyContent(FlexAlign.Center)
   }
 
@@ -293,7 +311,7 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 }})
+          .border({ width: { bottom: 0.5 } })
         })
       }
       .columnsTemplate('1fr '.repeat(8).trim())
@@ -357,7 +375,7 @@ struct AllCoursePage {
       Column() {
         this.DateBar()
         Swiper(this.swiperController) {
-          ForEach(this.courseSchedule, (item: (CourseView|null)[], index: number) => {
+          ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
             this.CourseTable(item)
           })
         }
@@ -365,7 +383,7 @@ struct AllCoursePage {
         .index(this.curWeek - 1)
         .layoutWeight(1)
         .indicator(false)
-        .cachedCount(3)
+        .cachedCount(4)
         .autoPlay(false)
         .onChange((index: number) => {
           this.showWeek = index + 1;
