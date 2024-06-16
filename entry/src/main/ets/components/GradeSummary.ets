@@ -1,11 +1,11 @@
 @Component
 export default struct GradeSummary {
   totalCredit: number;
-  totalGradeWithWeight: number;
-  totalGPAWithWeight: number;
+  totalAverageGrade: number;
+  totalAverageGPA: number;
   @Link selectedCredit: number;
-  @Link selectedGradeWithWeight: number;
-  @Link selectedGPAWithWeight: number;
+  @Link selectedAverageGrade: number;
+  @Link selectedAverageGPA: number;
 
   //Todo header 与 row 还有些对齐问题
   @Builder GradeSummaryHeader() {
@@ -66,13 +66,13 @@ export default struct GradeSummary {
       this.GradeSummaryHeader()
       this.GradeSummaryRow("全部课程", {
         selectedCredit: this.totalCredit,
-        selectedAverageGrade: this.totalGradeWithWeight/this.totalCredit,
-        selectedGPA: this.totalGPAWithWeight/this.totalCredit
+        selectedAverageGrade: this.totalAverageGrade,
+        selectedGPA: this.totalAverageGPA
       })
       this.GradeSummaryRow("已选课程", {
         selectedCredit: this.selectedCredit,
-        selectedAverageGrade: this.selectedGradeWithWeight/this.selectedCredit,
-        selectedGPA: this.selectedGPAWithWeight/this.selectedCredit
+        selectedAverageGrade: this.selectedAverageGrade,
+        selectedGPA: this.selectedAverageGPA
       })
     }
     .alignItems(HorizontalAlign.Center)

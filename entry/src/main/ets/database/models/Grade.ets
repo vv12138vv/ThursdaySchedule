@@ -13,7 +13,7 @@ export default class Grade{
   grade:string;
   testType: string; //考察方式
   gpa: number;
-  time:number;
+  time:string;
 }
 
 function canBeNumber(gradeString: string) {

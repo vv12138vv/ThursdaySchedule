@@ -4,56 +4,46 @@ import GradeSummary from './GradeSummary';
 
 @Component
 export default struct GradeBlock {
-  termInNumber: string;
   termInString: string;
-  grades: Grade[];
+  termInNumber: string;
+  grades: Grade[] = [];
   @State selectedCredit: number = 0;
   @State selectedGradeWithWeight: number = 0;
   @State selectedGPAWithWeight: number = 0;
   @State selectedAverageGrade: number = 0;
   @State selectedAverageGPA: number = 0;
-  totalCredit: number = 0;
-  totalGradeWithWeight: number = 0;
-  totalGPAWithWeight: number = 0;
-  requiredCredit: number = 0;
-  requiredGradeWithWeight: number = 0;
-  requiredGPAWithWeight: number = 0;
-  electiveCredit: number = 0;
-  electiveGradeWithWeight: number = 0;
-  electiveGPAWithWeight: number = 0;
+  blockTotalCredit: number = 0;
+  blockTotalGradeWithWeight: number = 0;
+  blockTotalGPAWithWeight: number = 0;
+  @Consume('allSelectedGradeId') allSelectedGradeId: number[];
 
   //被勾选的 grade 的 id。
-  selectedId: Set<number> = new Set();
+  blockSelectedId: number[] = [];
 
-  initTotalInfo(grades: Grade[]) {
+  initGradeInfo(grades: Grade[]) {
     grades.forEach((item: Grade, index: number) => {
-      this.totalCredit += item.credit;
+      this.blockTotalCredit += item.credit;
       let gradeNum = transToGradeNum(item.grade);
-      this.totalGradeWithWeight += gradeNum * item.credit;
-      this.totalGPAWithWeight += gradeToGPA(item.grade) * item.credit;
+      this.blockTotalGradeWithWeight += gradeNum * item.credit;
+      this.blockTotalGPAWithWeight += gradeToGPA(item.grade) * item.credit;
+      if (!this.blockSelectedId.includes(item.id)) {
+        this.blockSelectedId.push(item.id);
+      }
     });
-  }
-
-  initSelectedInfo(grades: Grade[]) {
-    grades.forEach((item: Grade, index: number) => {
-      this.selectedId.add(item.id);
-      this.selectedCredit += item.credit;
-      let gradeNum = transToGradeNum(item.grade);
-      this.selectedGradeWithWeight += gradeNum * item.credit;
-      this.selectedGPAWithWeight += gradeToGPA(item.grade) * item.credit;
-    });
+    //默认全选
+    this.selectedCredit = this.blockTotalCredit;
+    this.selectedGradeWithWeight = this.blockTotalGradeWithWeight;
+    this.selectedGPAWithWeight = this.blockTotalGPAWithWeight;
     this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
     this.selectedAverageGPA = this.selectedAverageGPA / this.selectedCredit;
   }
 
-  //required以及 elective 视爬虫而定。
 
   aboutToAppear() {
-    // GradeTable.selectDataByTime('2021-2022-1', (result: Grade[]) => {
-    //   this.grades = result;
-    // });
-    this.initTotalInfo(this.grades);
-    this.initSelectedInfo(this.grades);
+    GradeTable.selectDataByTime(this.termInString, (result: Grade[]) => {
+      this.grades = result;
+      this.initGradeInfo(this.grades);
+    });
 
   }
 
@@ -128,15 +118,13 @@ export default struct GradeBlock {
 
   build() {
     Column() {
-
       this.TermBar({ termInNumber: this.termInNumber, termInString: this.termInString })
       this.GradeBlockHeader()
-      //Todo 等待爬虫数据
       ForEach(this.grades, (item: Grade, index: number) => {
         this.GradeBlockRow(item, (selected: boolean) => {
           if (selected) {
-            if (!(this.selectedId.has(item.id))) {
-              this.selectedId.add(item.id);
+            if (!(this.blockSelectedId.includes(item.id))) {
+              this.blockSelectedId.push(item.id);
               let gradeNum = transToGradeNum(item.grade);
               this.selectedCredit += item.credit;
               this.selectedGradeWithWeight += gradeNum * item.credit;
@@ -144,9 +132,14 @@ export default struct GradeBlock {
               this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
               this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
             }
+            //更新全局的数据
+            if(!(this.allSelectedGradeId.includes(item.id))){
+              this.allSelectedGradeId.push(item.id);
+            }
           } else {
-            if ((this.selectedId.has(item.id))) {
-              this.selectedId.delete(item.id);
+            if ((this.blockSelectedId.includes(item.id))) {
+              let idx=this.blockSelectedId.indexOf(item.id);
+              this.blockSelectedId.splice(idx,1);
               let gradeNum = transToGradeNum(item.grade);
               this.selectedCredit -= item.credit;
               this.selectedGradeWithWeight -= gradeNum * item.credit;
@@ -154,23 +147,22 @@ export default struct GradeBlock {
               this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
               this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
             }
+            //更新全局的选中数据
+            if(this.allSelectedGradeId.includes(item.id)){
+              let idx=this.allSelectedGradeId.indexOf(item.id);
+              this.allSelectedGradeId.splice(idx,1);
+            }
           }
         })
       })
 
       GradeSummary({
-        totalCredit:this.totalCredit,
-        totalAverageGrade:this.totalGradeWithWeight/this.totalCredit,
-        totalGPA:this.totalGPAWithWeight/this.totalCredit,
-        requiredCourseCredit:this.requiredCredit,
-        requiredCourseAverageGrade:this.requiredGradeWithWeight/this.requiredCredit,
-        requireCourseGPA:this.requiredGPAWithWeight/this.requiredCredit,
-        electiveCourseCredit:this.electiveCredit,
-        electiveCourseAverageGrade:this.electiveGradeWithWeight/this.electiveCredit,
-        electiveCourseGPA:this.electiveGPAWithWeight/this.electiveCredit,
-        selectedCredit:$selectedCredit,
-        selectedAverageGrade:$selectedAverageGrade,
-        selectedGPA:$selectedAverageGPA
+        totalCredit: this.blockTotalCredit,
+        totalAverageGrade: this.blockTotalGradeWithWeight / this.blockTotalCredit,
+        totalAverageGPA: this.blockTotalGPAWithWeight / this.blockTotalCredit,
+        selectedCredit: $selectedCredit,
+        selectedAverageGrade: $selectedAverageGrade,
+        selectedAverageGPA: $selectedAverageGPA
       })
     }
   }

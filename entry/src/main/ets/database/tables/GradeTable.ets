@@ -45,7 +45,7 @@ class GradeTable {
             grade: resultSet.getString(resultSet.getColumnIndex('grade')),
             testType: resultSet.getString(resultSet.getColumnIndex('testType')),
             gpa: resultSet.getDouble(resultSet.getColumnIndex('gpa')),
-            time: resultSet.getLong(resultSet.getColumnIndex('time'))
+            time: resultSet.getString(resultSet.getColumnIndex('time'))
           };
           result.push(temp);
           resultSet.goToNextRow();
