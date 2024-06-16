@@ -48,19 +48,39 @@ struct AllCoursePage {
   })
 
   //滚动控制器
-  private swiperController=new SwiperController();
+  private swiperController = new SwiperController();
 
   //日期相关
   readonly weekDaysString: string[] = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   private todayDateInfo: Date;
-  @State weekDates: Date [] = [];
-  @State curShowWeek:string="第十六周";
-  private courses: Course[] = [];
+  //当前周数
+  curWeek:number;
+  showWeek:number;
+  //当前学期的起始日期
+  termStartDate: Date = new Date('2024-02-26');
+  //所有周的起始日期
+  allWeekStartDates: Date[] = [];
+  @State showWeekDates: Date [] = [];
+  @State showWeekString: string = "第1周";
+
+
   coursesInWeek: (Course | null)[] = Array.from({ length: 120 }, () => null);
 
   aboutToAppear() {
-    this.todayDateInfo = new Date();
-    this.weekDates = this.getWeekDates(this.todayDateInfo);
+    //获得自学期开始时 25周的起始日期
+    this.allWeekStartDates = this.getAllWeekStartDates(this.termStartDate, 25);
+    //今日日期
+    this.todayDateInfo = this.getStartOfDay(new Date());
+    //今日所属周的偏移
+    let weekDiff = this.getWeekDiff(this.termStartDate, this.todayDateInfo);
+    this.curWeek=weekDiff+1;
+    this.showWeek=this.curWeek;
+    //当前所在周的第一天日期
+    let curWeekStartDate = this.allWeekStartDates[weekDiff];
+    //当前显示的周数据
+    this.showWeekDates = this.getWeekDates(curWeekStartDate);
+    //当前显示第几周
+    this.showWeekString = '第' + this.showWeek.toString() + '周';
   }
 
   onPageShow() {
@@ -68,6 +88,12 @@ struct AllCoursePage {
 
   }
 
+  //获得某日的起始点
+  getStartOfDay(date: Date): Date {
+  // 创建一个新的 Date 对象，设置为指定日期的年、月、日的 00:00:00
+  const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return startOfDay;
+}
   //获得所在日一周的日期
   getWeekDates(date: Date): Date[] {
     const startOfWeek: Date = new Date(date);
@@ -84,14 +110,44 @@ struct AllCoursePage {
     return weekDates;
   }
 
+  getWeekDiff(startDate: Date, endDate: Date): number {
+    // 计算日期之间的毫秒数差
+    const timeDifference = endDate.getTime() - startDate.getTime();
+    // 将毫秒数差转换为天数差，再转换为周数差
+    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+    const weeksDifference = Math.floor(daysDifference / 7);
+    return weeksDifference;
+  }
+
+  getAllWeekStartDates(start: Date, weekNum: number): Date[] {
+    let startDate = new Date(start);
+    let weeksDates: Date [] = [];
+
+    // 循环获取 20 个周的日期数据
+    for (let i = 0; i < weekNum; i++) {
+      // 计算当前周的起始日期和结束日期
+      const dayOfWeek = startDate.getDay(); // 获取当前日期是星期几
+      const diffDays = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 计算当前日期距离上一个星期一的天数差
+
+      // 获取当前周的起始日期（星期一）
+      const currentStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - diffDays);
+
+      // 添加到结果数组
+      weeksDates.push(currentStartDate);
+
+      // 将 startDate 设置为下一周的起始日期
+      startDate.setDate(startDate.getDate() + 7);
+    }
+    return weeksDates;
+  }
 
   //表示时间的ui，课表顶部使用
   @Builder DateCube(date: Date) {
     Column() {
       Text(this.weekDaysString[date.getDay()])
-        .fontColor(date.getDate() == this.todayDateInfo.getDate() ? Color.Blue : Color.Black)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
-        .fontColor(date.getDate() == this.todayDateInfo.getDate() ? Color.Blue : Color.Black)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
     }
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
@@ -107,8 +163,7 @@ struct AllCoursePage {
             Text('日期')
           }
         }
-
-        ForEach(this.weekDates, (item: Date, index: number) => {
+        ForEach(this.showWeekDates, (item: Date, index: number) => {
           GridItem() {
             this.DateCube(item)
           }
@@ -174,27 +229,23 @@ struct AllCoursePage {
   @Builder CourseTableFooter() {
     Row() {
       Stack() {
-        Text(this.weekDaysString[this.todayDateInfo.getDay()])
-      }
-      .layoutWeight(1)
-
-      Stack() {
-        Row(){
-          Button(){
+        Row() {
+          Button() {
             Image($r('app.media.icon_back'))
               .width(16)
           }
           .backgroundColor(Color.Transparent)
-          .onClick((event?:ClickEvent)=>{
+          .onClick((event?: ClickEvent) => {
             this.swiperController.showPrevious();
           })
-          Text(this.curShowWeek)
-          Button(){
+
+          Text(this.showWeekString)
+          Button() {
             Image($r('app.media.icon_forward'))
               .width(16)
           }
           .backgroundColor(Color.Transparent)
-          .onClick((event?:ClickEvent)=>{
+          .onClick((event?: ClickEvent) => {
             this.swiperController.showNext();
           })
         }
@@ -203,14 +254,10 @@ struct AllCoursePage {
       }
       .layoutWeight(6)
 
-      Stack() {
-      }
-      .layoutWeight(1)
-
     }
     .width("100%")
     .height($r("app.float.nav_bar_height"))
-    .justifyContent(FlexAlign.Start)
+    .justifyContent(FlexAlign.Center)
     .backgroundColor($r('app.color.nav_bar_background_color'))
     .alignItems(VerticalAlign.Center)
   }
@@ -221,14 +268,20 @@ struct AllCoursePage {
       Column() {
         this.DateBar()
         Swiper(this.swiperController) {
-          this.CourseTable(this.coursesInWeek)
-          this.CourseTable(this.coursesInWeek)
-          this.CourseTable(this.coursesInWeek)
+          ForEach([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13,14,15,16,17,18,19,20], (item: number, index: number) => {
+            this.CourseTable(this.coursesInWeek)
+          })
         }
         .loop(false)
-        .index(0)
+        .index(this.curWeek-1)
         .layoutWeight(1)
         .indicator(false)
+        .onChange((index: number) => {
+          this.showWeek=index+1;
+          this.showWeekDates=this.getWeekDates(this.allWeekStartDates[this.showWeek-1]);
+          this.showWeekString='第'+this.showWeek.toString()+'周';
+        })
+
         this.CourseTableFooter()
       }
       .justifyContent(FlexAlign.SpaceBetween)
