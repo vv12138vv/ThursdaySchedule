@@ -66,6 +66,10 @@ export default class CourseTable {
     predicates.equalTo('courseId', courseId);
     this.queryData(predicates, callback);
   }
+  selectDataAll(callback:(result:Course[])=>void){
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.COURSE_TABLE.tableName);
+    this.queryData(predicates,callback);
+  }
 }
 
 

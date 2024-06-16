@@ -9,6 +9,8 @@ import Grade from '../database/models/Grade';
 import Task from '../database/models/Task';
 import User from '../database/models/User';
 
+
+//用于测试
 @Entry
 @Component
 struct TestPage {
@@ -74,13 +76,44 @@ struct TestPage {
   };
 
   build() {
-    Column() {
-      Button() {
-        Text('test courseTable')
-      }
-      .onClick(() => {
-        this.courseTable.getRdbStore(() => {
-          this.courseTable.insertData(this.courseDemo, (succeed: boolean) => {
+    Row() {
+
+      Column() {
+        Button() {
+          Text('add course')
+        }
+        .onClick(() => {
+          this.courseTable.getRdbStore(() => {
+            this.courseTable.insertData(this.courseDemo, (succeed: boolean) => {
+              if (succeed) {
+                let i = 1;
+              } else {
+                let i = 0;
+              }
+            })
+          })
+        })
+
+        Button() {
+          Text('add exam')
+        }
+        .onClick(() => {
+          this.examTable.getRdbStore(() => {
+            this.examTable.insertData(this.examDemo, (succeed: boolean) => {
+              if (succeed) {
+                let i = 1;
+              } else {
+                let i = 0;
+              }
+            })
+          })
+        })
+
+        Button() {
+          Text('add grade')
+        }
+        .onClick(() => {
+          this.gradeTable.insertData(this.gradeDemo, (succeed: boolean) => {
             if (succeed) {
               let i = 1;
             } else {
@@ -88,14 +121,12 @@ struct TestPage {
             }
           })
         })
-      })
 
-      Button() {
-        Text('test examTable')
-      }
-      .onClick(() => {
-        this.examTable.getRdbStore(() => {
-          this.examTable.insertData(this.examDemo, (succeed: boolean) => {
+        Button() {
+          Text('add task')
+        }
+        .onClick(() => {
+          this.taskTable.insertData(this.taskDemo, (succeed: boolean) => {
             if (succeed) {
               let i = 1;
             } else {
@@ -103,48 +134,76 @@ struct TestPage {
             }
           })
         })
-      })
 
-      Button() {
-        Text('test gradeTable')
-      }
-      .onClick(() => {
-        this.gradeTable.insertData(this.gradeDemo, (succeed: boolean) => {
-          if (succeed) {
-            let i = 1;
-          } else {
-            let i = 0;
-          }
+        Button() {
+          Text('add user')
+        }
+        .onClick(() => {
+          this.userTable.insertData(this.userDemo, (succeed: boolean) => {
+            if (succeed) {
+              let i = 1;
+            } else {
+              let i = 0;
+            }
+          })
         })
-      })
+      }
+      .justifyContent(FlexAlign.SpaceBetween)
+      .height("100%")
 
-      Button() {
-        Text('test taskTable')
-      }
-      .onClick(() => {
-        this.taskTable.insertData(this.taskDemo, (succeed: boolean) => {
-          if (succeed) {
-            let i = 1;
-          } else {
-            let i=0;
-          }
+      Column() {
+        Button() {
+          Text('select course')
+        }
+        .onClick(() => {
+          let course: Course[];
+          this.courseTable.selectDataAll((result: Course[]) => {
+            course = result;
+          })
         })
-      })
 
-      Button() {
-        Text('test userTable')
-      }
-      .onClick(() => {
-        this.userTable.insertData(this.userDemo,(succeed:boolean)=>{
-          if(succeed){
-            let i=1;
-          }else{
-            let i=0;
-          }
+        Button() {
+          Text('select exam')
+        }
+        .onClick(() => {
+          let exam: Exam[];
+          this.examTable.selectDataAll((result: Exam[]) => {
+            exam = result;
+          })
         })
-      })
+
+        Button() {
+          Text('select grade')
+        }
+        .onClick(() => {
+          let grade: Grade[];
+          this.gradeTable.selectDataAll((result: Grade[]) => {
+            grade = result;
+          })
+        })
+
+        Button() {
+          Text('select task')
+        }
+        .onClick(() => {
+          let task: Task[];
+          this.taskTable.selectDataAll((result: Task[]) => {
+            task = result;
+          })
+        })
+
+        Button() {
+          Text('select user')
+        }
+        .onClick(() => {
+          let user: User[];
+          this.userTable.selectDataAll((result: User[]) => {
+            user = result;
+          })
+        })
+      }
+      .justifyContent(FlexAlign.SpaceBetween)
+      .height("100%")
     }
-    .justifyContent(FlexAlign.SpaceBetween)
-    .height("100%")
   }
 }

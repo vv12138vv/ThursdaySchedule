@@ -67,6 +67,11 @@ export default class GradeTable {
     predicates.equalTo('time',time);
     this.queryData(predicates,callback);
   }
+
+  selectDataAll(callback: (result: Grade[]) => void){
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.GRADE_TABLE.tableName);
+    this.queryData(predicates,callback);
+  }
 }
 
 

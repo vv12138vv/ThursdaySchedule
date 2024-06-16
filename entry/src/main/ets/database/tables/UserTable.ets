@@ -71,12 +71,6 @@ export default class UserTable {
 
 
 function generateBucket(user: User): relationalStore.ValuesBucket {
-  // let obj: relationalStore.ValuesBucket = {
-  //   studentId: user.studentId,
-  //   name: user.name,
-  //   password: user.password,
-  //   lastUpdateTime: user.lastUpdateTime
-  // };
   let obj:relationalStore.ValuesBucket={};
   obj.studentId=user.studentId;
   obj.name=user.name;
