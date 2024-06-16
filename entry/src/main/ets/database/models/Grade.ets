@@ -6,7 +6,7 @@ export enum TestType { //考察方式
 
 
 export default class Grade{
-  id:number;
+  id?:number;
   courseId:string;
   courseName:string;
   credit:number;

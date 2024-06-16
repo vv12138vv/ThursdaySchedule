@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Grade from '../models/Grade';
 import Rdb from '../rdb';
 
-class GradeTable {
+export default class GradeTable {
   private gradeTable = new Rdb(DataBaseConfig.GRADE_TABLE.tableName, DataBaseConfig.GRADE_TABLE.sqlCreate, DataBaseConfig.GRADE_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -83,4 +83,3 @@ function generateBucket(grade: Grade): relationalStore.ValuesBucket {
   return obj;
 }
 
-export default new GradeTable() as GradeTable;

@@ -1,6 +1,6 @@
 @Observed
 export default class Task{
-  id:number;//主键
+  id?:number;//主键
   content:string;
   isFinished:number;//是否完成
   priority:number;//优先级

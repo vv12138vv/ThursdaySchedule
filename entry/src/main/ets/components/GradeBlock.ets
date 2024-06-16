@@ -49,9 +49,9 @@ export default struct GradeBlock {
   //required以及 elective 视爬虫而定。
 
   aboutToAppear() {
-    GradeTable.selectDataByTime('2021-2022-1', (result: Grade[]) => {
-      this.grades = result;
-    });
+    // GradeTable.selectDataByTime('2021-2022-1', (result: Grade[]) => {
+    //   this.grades = result;
+    // });
     this.initTotalInfo(this.grades);
     this.initSelectedInfo(this.grades);
 

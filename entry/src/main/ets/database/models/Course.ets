@@ -22,7 +22,7 @@ export let courseDemo:Course={
   courseId:'12345',
   name:'测试课程',
   teacher:'测试教师',
-  credit:'1.5',
+  credit:1.5,
   location:'测试位置',
   courseType:CourseType.Required,
   time:"测试时间"

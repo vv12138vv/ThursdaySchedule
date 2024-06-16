@@ -3,7 +3,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Exam from '../models/Exam';
 import Rdb from '../rdb';
 
-class ExamTable {
+export default class ExamTable {
   private examTable = new Rdb(DataBaseConfig.EXAM_TABLE.tableName, DataBaseConfig.EXAM_TABLE.sqlCreate, DataBaseConfig.EXAM_TABLE.columns);
 
   constructor(callback: () => void = () => {
@@ -68,14 +68,19 @@ class ExamTable {
 
 
 function generateBucket(exam: Exam): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    examId: exam.examId,
-    courseId: exam.courseId,
-    location: exam.location,
-    seatId: exam.seatId,
-    time: exam.time
-  };
+  // let obj: relationalStore.ValuesBucket = {
+  //   examId: exam.examId,
+  //   courseId: exam.courseId,
+  //   location: exam.location,
+  //   seatId: exam.seatId,
+  //   time: exam.time
+  // };
+  let obj:relationalStore.ValuesBucket={};
+  obj.examId=exam.examId;
+  obj.courseId=exam.courseId;
+  obj.location=exam.location;
+  obj.seatId=exam.seatId;
+  obj.time=exam.time;
   return obj;
 }
 
-export default new ExamTable() as ExamTable;

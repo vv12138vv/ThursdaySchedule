@@ -42,7 +42,7 @@ export default class CourseTable {
             courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
             name: resultSet.getString(resultSet.getColumnIndex('name')),
             teacher: resultSet.getString(resultSet.getColumnIndex('teacher')),
-            credit: resultSet.getString(resultSet.getColumnIndex('credit')),
+            credit: resultSet.getDouble(resultSet.getColumnIndex('credit')),
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             courseType: resultSet.getString(resultSet.getColumnIndex('courseType')),
             time: resultSet.getString(resultSet.getColumnIndex('time')),
