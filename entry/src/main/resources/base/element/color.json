@@ -115,6 +115,22 @@
     {
       "name": "theme_background",
       "value": "#EDA0E9FF"
+    },
+    {
+      "name": "nav_bar_background_color",
+      "value": "#71D2E1"
+    },
+    {
+      "name": "grade_block_row_font_color",
+      "value": "#000000"
+    },
+    {
+      "name": "grade_block_row_checkbox_selected_color",
+      "value": "#509EBA"
+    },
+    {
+      "name": "all_course_page_footer_background_color",
+      "value": "#71D2E1"
     }
   ]
 }

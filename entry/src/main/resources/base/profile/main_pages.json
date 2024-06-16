@@ -3,6 +3,9 @@
     "pages/LaunchPage",
     "pages/PersonalPage",
     "pages/LoginPage",
-    "pages/container/ContainerPage"
+    "pages/container/ContainerPage",
+    "pages/GradePage",
+    "pages/AllCoursePage",
+    "pages/TestPage"
   ]
 }

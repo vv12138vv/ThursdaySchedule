@@ -1,4 +1,5 @@
 import relationalStore from '@ohos.data.relationalStore';
+import call from '@ohos.telephony.call';
 import DataBaseConfig from '../../constants/DataBaseConfig';
 import Exam from '../models/Exam';
 import Rdb from '../rdb';
@@ -64,18 +65,23 @@ class ExamTable {
     predicates.equalTo('courseId', courseId);
     this.queryData(predicates, callback);
   }
+
+  selectDataAll(callback: (result: Exam[]) => void){
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.EXAM_TABLE.tableName);
+    this.queryData(predicates,callback);
+  }
 }
 
 
 function generateBucket(exam: Exam): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    examId: exam.examId,
-    courseId: exam.courseId,
-    location: exam.location,
-    seatId: exam.seatId,
-    time: exam.time
-  };
+  let obj:relationalStore.ValuesBucket={};
+  obj.examId=exam.examId;
+  obj.courseId=exam.courseId;
+  obj.location=exam.location;
+  obj.seatId=exam.seatId;
+  obj.time=exam.time;
   return obj;
 }
 
-export default new ExamTable() as ExamTable;
+export default new ExamTable(()=>{}) as ExamTable;
+

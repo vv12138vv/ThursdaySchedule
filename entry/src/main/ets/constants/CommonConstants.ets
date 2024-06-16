@@ -1,7 +1,7 @@
 /**
  * Common constants for all features.
  */
-export class CommonConstants {
+export default class CommonConstants {
 
 
   static readonly RDB_TAG = '[Debug.Rdb]';

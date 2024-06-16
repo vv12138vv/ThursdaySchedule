@@ -1,5 +1,5 @@
 import router from '@ohos.router';
-import { CommonConstants } from '../constants/CommonConstants';
+import CommonConstants from '../constants/CommonConstants';
 // import { DetailListComponent } from '../view/DetailListComponent';
 
 /**
@@ -22,15 +22,15 @@ struct LaunchPage {
 
       Column() {
         Image($r('app.media.logo'))
-          .width($r('app.float.Launch_logo_width'))
-          .height($r('app.float.Launch_logo_height'))
-          .borderRadius($r('app.float.Launch_logo_radius'))
-          .margin({top:$r('app.float.Launch_logo_margin')})
+          .width($r("app.float.launch_logo_width"))
+          .height($r("app.float.launch_logo_height"))
+          .borderRadius($r("app.float.launch_logo_radius"))
+          .margin({top:$r("app.float.launch_logo_margin")})
         Column(){
           Button('教务处账号登录')
-            .width($r('app.float.Launch_login_button_width'))
-            .height($r('app.float.Launch_login_button_height'))
-            .borderRadius($r('app.float.Launch_login_button_border_radius'))
+            .width($r("app.float.launch_login_button_width"))
+            .height($r("app.float.launch_login_button_height"))
+            .borderRadius($r("app.float.launch_login_button_border_radius"))
             .fontColor('#C20C0C')
             .backgroundColor('#fff')
             .onClick(()=>{
@@ -40,17 +40,17 @@ struct LaunchPage {
               console.log('ok')
             })
           Button('立即体验')
-            .width($r('app.float.Launch_login_button_width'))
-            .height($r('app.float.Launch_login_button_height'))
-            .borderRadius($r('app.float.Launch_login_button_border_radius'))
+            .width($r("app.float.launch_login_button_width"))
+            .height($r("app.float.launch_login_button_height"))
+            .borderRadius($r("app.float.launch_login_button_border_radius"))
             .fontColor('#000')
             .backgroundColor('transparent')
             .border({
-              width:$r('app.float.Launch_button_border_width'),
+              width:$r("app.float.launch_button_border_width"),
               color:"#fff"
             })
             .margin({
-              top:$r('app.float.Launch_button_border_margin')
+              top:$r("app.float.launch_button_border_margin")
             })
             .onClick(()=>{
               router.pushUrl({

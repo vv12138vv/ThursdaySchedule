@@ -1,6 +1,52 @@
-import Course from '../database/models/Course'
+import GradeTable from '../database/tables/GradeTable';
+import Grade, { gradeToGPA, transToGradeNum } from '../database/models/Grade';
+import GradeSummary from './GradeSummary';
+
 @Component
 export default struct GradeBlock {
+  termInString: string;
+  termInNumber: string;
+  grades: Grade[] = [];
+  @State selectedCredit: number = 0;
+  @State selectedGradeWithWeight: number = 0;
+  @State selectedGPAWithWeight: number = 0;
+  @State selectedAverageGrade: number = 0;
+  @State selectedAverageGPA: number = 0;
+  blockTotalCredit: number = 0;
+  blockTotalGradeWithWeight: number = 0;
+  blockTotalGPAWithWeight: number = 0;
+  @Consume('allSelectedGradeId') allSelectedGradeId: number[];
+
+  //被勾选的 grade 的 id。
+  blockSelectedId: number[] = [];
+
+  initGradeInfo(grades: Grade[]) {
+    grades.forEach((item: Grade, index: number) => {
+      this.blockTotalCredit += item.credit;
+      let gradeNum = transToGradeNum(item.grade);
+      this.blockTotalGradeWithWeight += gradeNum * item.credit;
+      this.blockTotalGPAWithWeight += gradeToGPA(item.grade) * item.credit;
+      if (!this.blockSelectedId.includes(item.id)) {
+        this.blockSelectedId.push(item.id);
+      }
+    });
+    //默认全选
+    this.selectedCredit = this.blockTotalCredit;
+    this.selectedGradeWithWeight = this.blockTotalGradeWithWeight;
+    this.selectedGPAWithWeight = this.blockTotalGPAWithWeight;
+    this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
+    this.selectedAverageGPA = this.selectedAverageGPA / this.selectedCredit;
+  }
+
+
+  aboutToAppear() {
+    GradeTable.selectDataByTime(this.termInString, (result: Grade[]) => {
+      this.grades = result;
+      this.initGradeInfo(this.grades);
+    });
+
+  }
+
   @Builder TermBar($$: {
     termInNumber: string,
     termInString: string
@@ -14,18 +60,23 @@ export default struct GradeBlock {
   @Builder GradeBlockHeader() {
     Row() {
       Checkbox()
+        .select(true)
       Text($r('app.string.grade_block_header_column1_label'))
         .fontColor($r('app.color.grade_block_header_font_color'))
         .fontSize($r('app.float.grade_block_header_font_size'))
+
       Text($r('app.string.grade_block_header_column2_label'))
         .fontColor($r('app.color.grade_block_header_font_color'))
         .fontSize($r('app.float.grade_block_header_font_size'))
+
       Text($r('app.string.grade_block_header_column3_label'))
         .fontColor($r('app.color.grade_block_header_font_color'))
         .fontSize($r('app.float.grade_block_header_font_size'))
+
       Text($r('app.string.grade_block_header_column4_label'))
         .fontColor($r('app.color.grade_block_header_font_color'))
         .fontSize($r('app.float.grade_block_header_font_size'))
+
       Text($r('app.string.grade_block_header_column5_label'))
         .fontColor($r('app.color.grade_block_header_font_color'))
         .fontSize($r('app.float.grade_block_header_font_size'))
@@ -34,32 +85,86 @@ export default struct GradeBlock {
     .height($r('app.float.grade_block_header_height'))
   }
 
-  @Builder GradeBlockRow(course:Course){
-    Row(){
+  @Builder GradeBlockRow(grade: Grade, onChange: (selected: boolean) => void) {
+    Row() {
       Checkbox()
-      Text(course.name)
+        .select(true)
+        .selectedColor($r('app.color.grade_block_row_checkbox_selected_color'))
+        .onChange(onChange)
+
+      Text(grade.courseName)
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
-      Text(course.grade)
+
+      Text(grade.grade)
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
-      Text(course.credit.toFixed(1))
+
+      Text(grade.credit.toFixed(1))
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
-      Text(course.courseType)
+
+      Text(grade.testType)
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
-      Text(course.gpa.toFixed(3))
+
+      Text(grade.gpa.toFixed(3))
         .fontSize($r('app.float.grade_block_row_font_size'))
         .fontColor($r('app.color.grade_block_row_font_color'))
     }
     .width($r('app.float.grade_block_row_width'))
     .height($r('app.float.grade_block_row_height'))
-
   }
 
   build() {
-    this.GradeBlockHeader()
+    Column() {
+      this.TermBar({ termInNumber: this.termInNumber, termInString: this.termInString })
+      this.GradeBlockHeader()
+      ForEach(this.grades, (item: Grade, index: number) => {
+        this.GradeBlockRow(item, (selected: boolean) => {
+          if (selected) {
+            if (!(this.blockSelectedId.includes(item.id))) {
+              this.blockSelectedId.push(item.id);
+              let gradeNum = transToGradeNum(item.grade);
+              this.selectedCredit += item.credit;
+              this.selectedGradeWithWeight += gradeNum * item.credit;
+              this.selectedGPAWithWeight += gradeToGPA(item.grade) * item.credit;
+              this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
+              this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
+            }
+            //更新全局的数据
+            if(!(this.allSelectedGradeId.includes(item.id))){
+              this.allSelectedGradeId.push(item.id);
+            }
+          } else {
+            if ((this.blockSelectedId.includes(item.id))) {
+              let idx=this.blockSelectedId.indexOf(item.id);
+              this.blockSelectedId.splice(idx,1);
+              let gradeNum = transToGradeNum(item.grade);
+              this.selectedCredit -= item.credit;
+              this.selectedGradeWithWeight -= gradeNum * item.credit;
+              this.selectedGPAWithWeight -= gradeNum * item.credit;
+              this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
+              this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
+            }
+            //更新全局的选中数据
+            if(this.allSelectedGradeId.includes(item.id)){
+              let idx=this.allSelectedGradeId.indexOf(item.id);
+              this.allSelectedGradeId.splice(idx,1);
+            }
+          }
+        })
+      })
+
+      GradeSummary({
+        totalCredit: this.blockTotalCredit,
+        totalAverageGrade: this.blockTotalGradeWithWeight / this.blockTotalCredit,
+        totalAverageGPA: this.blockTotalGPAWithWeight / this.blockTotalCredit,
+        selectedCredit: $selectedCredit,
+        selectedAverageGrade: $selectedAverageGrade,
+        selectedAverageGPA: $selectedAverageGPA
+      })
+    }
   }
 }
 

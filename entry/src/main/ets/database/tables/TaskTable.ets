@@ -83,22 +83,24 @@ class TaskTable {
     this.queryData(predicates,callback);
   }
   //如有需要，参考上文。
+  selectDataAll(callback: (result: Task[]) => void){
+    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
+    this.queryData(predicates,callback);
+  }
 
 }
 
 
 function generateBucket(task: Task): relationalStore.ValuesBucket {
-  let obj: relationalStore.ValuesBucket = {
-    content: task.content,
-    isFinished: task.isFinished,
-    priority: task.priority,
-    alertTime: task.alertTime,
-    startTime: task.startTime,
-    endTime: task.endTime,
-    createTime: task.createTime,
-    updateTime: task.updateTime
-  };
+  let obj:relationalStore.ValuesBucket={};
+  obj.content=task.content;
+  obj.isFinished=task.isFinished;
+  obj.priority=task.priority;
+  obj.alertTime=task.alertTime;
+  obj.startTime=task.startTime;
+  obj.endTime=task.endTime;
+  obj.createTime=task.createTime;
+  obj.updateTime=task.updateTime;
   return obj;
 }
-
-export default new TaskTable() as TaskTable;
+export default new TaskTable(()=>{}) as TaskTable;

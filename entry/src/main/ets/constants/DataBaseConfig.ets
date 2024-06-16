@@ -2,7 +2,7 @@ import relationalStore from '@ohos.data.relationalStore';
 
 export default class DataBaseConfig {
   static readonly STORE_CONFIG: relationalStore.StoreConfig = {
-    name: 'ThursdaySchedule.db',
+    name: 'database.db',
     securityLevel: relationalStore.SecurityLevel.S1
   };
   static readonly USER_TABLE = {
@@ -10,10 +10,9 @@ export default class DataBaseConfig {
     sqlCreate: `CREATE TABLE IF NOT EXISTS users (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   studentId TEXT NOT NULL UNIQUE,
-                  name TEXT NOT NULL,
-                  password TEXT NOT NULL,
+                  name TEXT NOT NULL,password TEXT NOT NULL,
                   lastUpdateTime INTEGER NOT NULL
-                )`,
+                 )`,
     columns: ["id", "studentId", "name", "password", "lastUpdateTime"]
   };
   static readonly TASK_TABLE = {
@@ -23,7 +22,7 @@ export default class DataBaseConfig {
                   content TEXT NOT NULL,
                   isFinished INTEGER NOT NULL,
                   priority INTEGER NOT NULL,
-                  alertTime INTEGER，
+                  alertTime INTEGER,
                   startTime INTEGER,
                   endTime INTEGER,
                   createTime INTEGER NOT NULL,
@@ -31,36 +30,45 @@ export default class DataBaseConfig {
                 )`,
     columns: ["id", "content", "isFinished", "priority", "alertTime", "startTime", "endTime", "createTime", "updateTime"]
   };
-
-  static readonly  COURSE_TABLE={
+  static readonly COURSE_TABLE = {
     tableName: "courses",
     sqlCreate: `CREATE TABLE IF NOT EXISTS courses (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   courseId TEXT NOT NULL UNIQUE,
-                  name TEXT NOT NULL,
+                  name TEXT NOT NULL UNIQUE,
                   teacher TEXT NOT NULL,
-                  credit REAL NOT NULL，
+                  credit REAL NOT NULL,
                   location TEXT NOT NULL,
                   courseType TEXT NOT NULL,
-                  time TEXT NOT NULL,
-                  testType TEXT NOT NULL,
-                  grade TEXT,
-                  gpa REAL,
+                  time TEXT NOT NULL
                 )`,
-    columns: ["id","courseId","name","teacher","credit","location","courseType","time","testType","grade","gpa"]
+    columns: ["id", "courseId", "name", "teacher", "credit", "location", "courseType", "time"]
   };
-
-  static readonly  EXAM_TABLE={
+  static readonly EXAM_TABLE = {
     tableName: "exams",
     sqlCreate: `CREATE TABLE IF NOT EXISTS exams (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   examId TEXT NOT NULL UNIQUE,
                   courseId TEXT NOT NULL UNIQUE,
                   location TEXT NOT NULL,
-                  seatId INTEGER,
-                  time INTEGER NOT NULL,
+                  seatId INTEGER NOT NULL,
+                  time INTEGER NOT NULL
                 )`,
-    columns:["id","examId","courseId","location","seatId","time"]
+    columns: ["id", "examId", "courseId", "location", "seatId", "time"]
+  };
+  static readonly GRADE_TABLE = {
+    tableName: "grades",
+    sqlCreate: `CREATE TABLE IF NOT EXISTS grades (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  courseId TEXT NOT NULL UNIQUE,
+                  courseName TEXT NOT NULL UNIQUE,
+                  credit REAL NOT NULL,
+                  grade TEXT NOT NULL,
+                  testType TEXT NOT NULL,
+                  gpa REAL NOT NULL,
+                  time TEXT NOT NULL
+                )`,
+    columns: ["id", "courseId", "courseName", "credit", "grade", "testType", "gpa", "time"]
   };
 }
 
