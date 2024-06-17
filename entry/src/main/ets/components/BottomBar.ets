@@ -4,7 +4,6 @@ export default struct BottomBar {
   onClickMiddleButton: (event?: ClickEvent) => void;
   onClickRightButton: (event?: ClickEvent) => void;
 
-  //Todo 有些效果得等实装才能调整，Preview 不支持
 
   build() {
     Row() {

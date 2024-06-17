@@ -4,6 +4,7 @@ import router from '@ohos.router';
 import NavBar, { NavBarConfig } from '../components/NavBar';
 import Grade, { gradeToGPA, transToGradeNum } from '../database/models/Grade';
 import GradeTable from '../database/tables/GradeTable';
+import { WindowMode } from '@ohos.UiTest';
 
 @Entry
 @Component
@@ -16,28 +17,38 @@ struct GradePage {
     }
   }
 
+  //所有成绩信息
+  @Provide('allGrades') @Watch('onAddToAllGrades')allGrades: Grade[] = [];
   //页面中被选中的所有 GradeId
   @Provide('allSelectedGradeId')@Watch('onAllSelectedGradeIdChange') allSelectedGradeId: number[] = [];
   //页面总成绩信息
-  totalCredit: number = 0;
-  totalGradeWithWeight: number = 0;
-  totalGPAWithWeight: number = 0;
+  @Provide totalCredit:number=0;
+  @Provide totalGradeWithWeight: number = 0;
+  @Provide totalGPAWithWeight: number = 0;
+  @Provide totalAverageGrade:number=0;
+  @Provide totalAverageGPA:number=0;
+
   @State selectedCredit: number = 0;
   @State selectedGradeWithWeight: number = 0;
   @State selectedGPAWithWeight: number = 0;
   @State selectedAverageGrade: number = 0;
   @State selectedAverageGPA: number = 0;
   //学期信息
-  terms:string[]=[];
-  //所有成绩信息
-  grades: Grade[] = [];
+  terms:string[]=['2021-2022-1'];
+
+  onAddToAllGrades(){
+    this.totalCredit=0;
+    this.totalGradeWithWeight=0;
+    this.totalGPAWithWeight=0;
+  }
 
   //当选择的课程变化后，全局的数据变化。
   onAllSelectedGradeIdChange(){
     this.selectedCredit=0;
     this.selectedGradeWithWeight=0;
     this.selectedGPAWithWeight=0;
-    this.grades.forEach((value:Grade,index:number)=>{
+    //todo 应该有更好的解决方案
+    this.allGrades.forEach((value:Grade,index:number)=>{
       if(!this.allSelectedGradeId.includes(value.id)){
         return;
       }
@@ -71,11 +82,11 @@ struct GradePage {
   }
 
   aboutToAppear() {
-    GradeTable.selectDataAll((result: Grade[]) => {
-      this.grades = result;
-      this.initGradeInfo(this.grades);
-    })
-
+    // GradeTable.selectDataAll((result: Grade[]) => {
+    //   this.grades = result;
+    //   this.initGradeInfo(this.grades);
+    // })
+  //Todo 数据还是全局请求会好一些。
   }
 
   build() {
@@ -84,21 +95,22 @@ struct GradePage {
       Scroll() {
         Column({space:32}) {
           GradeSummary({
-            totalCredit: this.totalCredit,
-            totalAverageGrade: this.totalGradeWithWeight,
-            totalAverageGPA: this.totalGPAWithWeight,
+            totalCredit: $totalCredit,
+            totalAverageGrade: $totalAverageGrade,
+            totalAverageGPA: $totalGPAWithWeight,
             selectedCredit: $selectedCredit,
             selectedAverageGrade: $selectedAverageGrade,
             selectedAverageGPA: $selectedAverageGPA
           })
+            .border({width:{left:0.5,right:0.5}})
           ForEach(this.terms,(value:string,index:number)=>{
             GradeBlock({
               termInString:value
             })
           })
-
         }
       }
+      .margin({top:10})
     }
   }
 }

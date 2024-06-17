@@ -1,9 +1,7 @@
-//Todo:更好的命名
 export enum TestType { //考察方式
   Exam = "Exam", //考试
   Evaluation = "Evaluation" //考察
 }
-
 
 export default class Grade{
   id?:number;
@@ -16,10 +14,20 @@ export default class Grade{
   time:string;
 }
 
+export let gradeDemo:Grade={
+  id:1,
+  courseId:'test',
+  courseName:'test',
+  credit:1.5,
+  grade:'98',
+  testType:TestType.Exam,
+  gpa:4.0,
+  time:'test_time'
+};
+
 function canBeNumber(gradeString: string) {
   return !isNaN(Number(gradeString));
 }
-
 
 export function transToGradeNum(gradeString:string):number{
   let gradeNum=0;

@@ -13,8 +13,8 @@ export default class Course {
   credit: number; //学分
   location: string;
   courseType: string; //课程类型
-  startWeek:number;
-  endWeek:number;
+  startWeek:number;//开课周
+  endWeek:number;//结课周
   time: string; //时间有多种，这里使用 string，后面做中间层适配
 }
 
