@@ -50,7 +50,6 @@ class CourseView {
       "星期六": 6,
       "星期日": 7
     };
-
     // 按分号拆分字符串以获取每个单独的时间段
     const parts = scheduleString.split(';');
 
@@ -72,21 +71,35 @@ class CourseView {
     return result;
   }
 
-  static courseSeqToTime: Map<number, string> = new Map([
-    [1, '08:00'],
-    [2, '08:50'],
-    [3, '09:40'],
-    [4, '10:40'],
-    [5, '11:30'],
-    [6, '14:00'],
-    [7, '14:50'],
-    [8, '15:50'],
-    [9, '16:40'],
-    [10, '17:30'],
-    [11, '19:00'],
-    [12, '19:50'],
-    [13, '20:40']
+  static readonly courseSeqToTime: Map<number, string[]> = new Map([
+    [1, ['08:00', '08:45']],
+    [2, ['08:50', '09:35']],
+    [3, ['09:40', '10:25']],
+    [4, ['10:40', '11:25']],
+    [5, ['11:30', '12:15']],
+    [6, ['14:00', '14:45']],
+    [7, ['14:50', '15:35']],
+    [8, ['15:50', '16:35']],
+    [9, ['16:40', '17:25']],
+    [10, ['17:30', '18:15']],
+    [11, ['19:00', '19:45']],
+    [12, ['19:50', '20:35']],
+    [13, ['20:40', '21:25']]
   ]);
+
+  static getCourseSeqStartTime(courseSeq: number): string {
+    return CourseView.courseSeqToTime.get(courseSeq)[0];
+  }
+
+  static getCourseSeqEndTime(courseSeq: number): string {
+    return CourseView.courseSeqToTime.get(courseSeq)[1];
+  }
+
+  static courseSeqToTimeString(courseSeq: number): string {
+    let res: string = "";
+    res = CourseView.getCourseSeqStartTime(courseSeq) + '-' + CourseView.getCourseSeqEndTime(courseSeq);
+    return res;
+  }
 }
 
 //Todo Dialog
@@ -98,13 +111,13 @@ struct CourseDetailDialog {
   build() {
     Column() {
       Row() {
-        Text(this.courseView.courseType==CourseType.Required?"必修":"选修")
+        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
           .fontSize(32)
-        Button(){
+        Button() {
           Image($r('app.media.icon_showless'))
             .width(16)
-            .onClick(()=>{
+            .onClick(() => {
               this.dialogController.close();
             })
         }
@@ -114,6 +127,7 @@ struct CourseDetailDialog {
       .width("100%")
 
       Column() {
+        Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
         Text(this.courseView.teacher + ' (任课教师)')
         Text(this.courseView.location + ' (上课地点) ')
         Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
@@ -127,6 +141,16 @@ struct CourseDetailDialog {
     .height("25%")
     .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
   }
+}
+
+
+function generateHash(input: string): number {
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    hash = ((hash << 5) - hash) + input.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
 }
 
 
@@ -166,13 +190,15 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-  readonly TOTAL_COURSE_CUBE: number = 112;
+  readonly TOTAL_COURSE_CUBE: number = 104;
 
   //课程相关
   coursesInWeek: (CourseView | null)[] = Array(this.TOTAL_COURSE_CUBE).fill(null);
   private courseViews: CourseView[] = [];
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
+  //Todo 这里需要几个 rgb 值
+  readonly courseCubeColors: string[] = [];
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -253,6 +279,7 @@ struct AllCoursePage {
     return weeksDates;
   }
 
+
   //表示时间的ui，课表顶部使用
   @Builder DateCube(date: Date) {
     Column() {
@@ -291,13 +318,12 @@ struct AllCoursePage {
   //单个课程的可点击块
   @Builder CourseCube(courseView: CourseView) {
     Column() {
-      Text(CourseView.courseSeqToTime.get(courseView.courseSeq))
+      Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
         .fontSize(10)
         .alignSelf(ItemAlign.Center)
       Text(courseView.location)
         .fontSize(10)
         .alignSelf(ItemAlign.Center)
-
       Text(courseView.name)
         .fontSize(10)
         .alignSelf(ItemAlign.Center)
@@ -305,7 +331,7 @@ struct AllCoursePage {
     .height(72)
     .width("100%")
     .justifyContent(FlexAlign.SpaceAround)
-    .backgroundColor(Color.Pink)
+    .backgroundColor(this.courseCubeColors[generateHash(courseView.name)%this.courseCubeColors.length])
     .onClick(() => {
       this.forDetailCourseView = courseView;
       this.courseDetailDialogController.open();
@@ -315,13 +341,18 @@ struct AllCoursePage {
   @Builder EmptyCourseCube(idx: number | null) {
     Column() {
       if (idx != null) {
+        Text(CourseView.getCourseSeqStartTime(idx))
+          .fontSize(12)
         Text(idx.toString())
           .fontSize(20)
+        Text(CourseView.getCourseSeqEndTime(idx))
+          .fontSize(12)
       }
     }
     .height(72)
     .width("100%")
     .justifyContent(FlexAlign.Center)
+    .justifyContent(FlexAlign.SpaceAround)
   }
 
   //课表核心主主体
@@ -404,13 +435,13 @@ struct AllCoursePage {
         Swiper(this.swiperController) {
           ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
             this.CourseTable(item)
-          })
+          },(item,index)=>index.toString())
         }
         .loop(false)
         .index(this.curWeek - 1)
         .layoutWeight(1)
         .indicator(false)
-        .cachedCount(4)
+        .cachedCount(2)
         .autoPlay(false)
         .onChange((index: number) => {
           this.showWeek = index + 1;
