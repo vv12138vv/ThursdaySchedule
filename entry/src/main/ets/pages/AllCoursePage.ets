@@ -14,8 +14,8 @@ class CourseView {
   courseType: string;
   startWeek: number;
   endWeek: number;
-  weekday: number;//周几
-  courseSeq: number;//当天课序号
+  weekday: number; //周几
+  courseSeq: number; //当天课序号
 
   static fromCourse(course: Course): CourseView[] {
     let res: CourseView[] = [];
@@ -73,19 +73,19 @@ class CourseView {
   }
 
   static courseSeqToTime: Map<number, string> = new Map([
-    [1,'08:00'],
-    [2,'08:50'],
-    [3,'09:40'],
-    [4,'10:40'],
-    [5,'11:30'],
-    [6,'14:00'],
-    [7,'14:50'],
-    [8,'15:50'],
-    [9,'16:40'],
-    [10,'17:30'],
-    [11,'19:00'],
-    [12,'19:50'],
-    [13,'20:40']
+    [1, '08:00'],
+    [2, '08:50'],
+    [3, '09:40'],
+    [4, '10:40'],
+    [5, '11:30'],
+    [6, '14:00'],
+    [7, '14:50'],
+    [8, '15:50'],
+    [9, '16:40'],
+    [10, '17:30'],
+    [11, '19:00'],
+    [12, '19:50'],
+    [13, '20:40']
   ]);
 }
 
@@ -93,22 +93,39 @@ class CourseView {
 @CustomDialog
 struct CourseDetailDialog {
   dialogController?: CustomDialogController;
-  courseView: CourseView;
+  @Link courseView: CourseView;
 
   build() {
     Column() {
-      Text()
-      Text()
       Row() {
-        Text()
-        Column() {
-          Text()
-          Text()
-          Text()
-          Text()
+        Text(this.courseView.courseType==CourseType.Required?"必修":"选修")
+        Text(this.courseView.name)
+          .fontSize(32)
+        Button(){
+          Image($r('app.media.icon_showless'))
+            .width(16)
+            .onClick(()=>{
+              this.dialogController.close();
+            })
         }
+        .backgroundColor(Color.Transparent)
       }
+      .justifyContent(FlexAlign.SpaceEvenly)
+      .width("100%")
+
+      Column() {
+        Text(this.courseView.teacher + ' (任课教师)')
+        Text(this.courseView.location + ' (上课地点) ')
+        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
+        Text(this.courseView.credit + ' (课程学分) ')
+      }
+      .layoutWeight(6)
+      .justifyContent(FlexAlign.SpaceAround)
+      .alignItems(HorizontalAlign.Start)
     }
+    .width("100%")
+    .height("25%")
+    .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
   }
 }
 
@@ -126,7 +143,9 @@ struct AllCoursePage {
   }
   //课程详细对话框控制器
   courseDetailDialogController: CustomDialogController = new CustomDialogController({
-    builder: CourseDetailDialog({}),
+    builder: CourseDetailDialog({
+      courseView: $forDetailCourseView
+    }),
     autoCancel: true,
     alignment: DialogAlignment.Bottom,
     customStyle: true
@@ -147,10 +166,13 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-  readonly TOTAL_COURSE_CUBE:number=112;
+  readonly TOTAL_COURSE_CUBE: number = 112;
+
+  //课程相关
   coursesInWeek: (CourseView | null)[] = Array(this.TOTAL_COURSE_CUBE).fill(null);
   private courseViews: CourseView[] = [];
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
+  @State forDetailCourseView: CourseView | null = null;
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -271,16 +293,21 @@ struct AllCoursePage {
     Column() {
       Text(CourseView.courseSeqToTime.get(courseView.courseSeq))
         .fontSize(10)
+        .alignSelf(ItemAlign.Center)
       Text(courseView.location)
         .fontSize(10)
+        .alignSelf(ItemAlign.Center)
+
       Text(courseView.name)
         .fontSize(10)
+        .alignSelf(ItemAlign.Center)
     }
     .height(72)
     .width("100%")
-    .justifyContent(FlexAlign.Center)
+    .justifyContent(FlexAlign.SpaceAround)
     .backgroundColor(Color.Pink)
     .onClick(() => {
+      this.forDetailCourseView = courseView;
       this.courseDetailDialogController.open();
     })
   }
