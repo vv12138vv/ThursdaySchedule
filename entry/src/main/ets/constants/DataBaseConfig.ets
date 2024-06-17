@@ -40,9 +40,11 @@ export default class DataBaseConfig {
                   credit REAL NOT NULL,
                   location TEXT NOT NULL,
                   courseType TEXT NOT NULL,
+                  startWeek INTEGER NOT NULL,
+                  endWeek INTEGER NOT NULL,
                   time TEXT NOT NULL
                 )`,
-    columns: ["id", "courseId", "name", "teacher", "credit", "location", "courseType", "time"]
+    columns: ["id", "courseId", "name", "teacher", "credit", "location", "courseType", "startWeek", "endWeek", "time"]
   };
   static readonly EXAM_TABLE = {
     tableName: "exams",

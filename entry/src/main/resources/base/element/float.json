@@ -178,7 +178,7 @@
     },
     {
       "name": "grade_summary_header_font_size",
-      "value": "12fp"
+      "value": "14fp"
     },
     {
       "name": "grade_summary_header_width",
@@ -403,6 +403,10 @@
     {
       "name": "nav_bar_height",
       "value": "48vp"
+    },
+    {
+      "name": "course_page_footer_height",
+      "value": "40vp"
     }
   ]
 }

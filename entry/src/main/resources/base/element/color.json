@@ -131,6 +131,10 @@
     {
       "name": "all_course_page_footer_background_color",
       "value": "#71D2E1"
+    },
+    {
+      "name": "course_cube_detail_dialog_background_color",
+      "value": "#71D2E1"
     }
   ]
 }

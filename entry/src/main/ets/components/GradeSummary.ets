@@ -1,83 +1,106 @@
 @Component
 export default struct GradeSummary {
-  totalCredit: number;
-  totalAverageGrade: number;
-  totalAverageGPA: number;
+  @Link totalCredit: number;
+  @Link totalAverageGrade: number;
+  @Link totalAverageGPA: number;
   @Link selectedCredit: number;
   @Link selectedAverageGrade: number;
   @Link selectedAverageGPA: number;
 
-  //Todo header 与 row 还有些对齐问题
   @Builder GradeSummaryHeader() {
-    Row() {
-      Text($r('app.string.grade_summary_header_column1_label'))
-        .fontColor($r('app.color.grade_summary_header_font_color'))
-        .fontSize($r('app.float.grade_summary_header_font_size'))
+    Grid() {
+      GridItem() {
+        Text($r('app.string.grade_summary_header_column1_label'))
+          .fontColor($r('app.color.grade_summary_header_font_color'))
+          .fontSize($r('app.float.grade_summary_header_font_size'))
+      }
+      .height("100%")
 
-      Text($r('app.string.grade_summary_header_column2_label'))
-        .fontColor($r('app.color.grade_summary_header_font_color'))
-        .fontSize($r('app.float.grade_summary_header_font_size'))
+      GridItem() {
+        Text($r('app.string.grade_summary_header_column2_label'))
+          .fontColor($r('app.color.grade_summary_header_font_color'))
+          .fontSize($r('app.float.grade_summary_header_font_size'))
+      }
+      .height("100%")
 
-      Text($r('app.string.grade_summary_header_column3_label'))
-        .fontColor($r('app.color.grade_summary_header_font_color'))
-        .fontSize($r('app.float.grade_summary_header_font_size'))
+      GridItem() {
+        Text($r('app.string.grade_summary_header_column3_label'))
+          .fontColor($r('app.color.grade_summary_header_font_color'))
+          .fontSize($r('app.float.grade_summary_header_font_size'))
+      }
+      .height("100%")
 
-      Text($r('app.string.grade_summary_header_column4_label'))
-        .fontColor($r('app.color.grade_summary_header_font_color'))
-        .fontSize($r('app.float.grade_summary_header_font_size'))
+      GridItem() {
+        Text($r('app.string.grade_summary_header_column4_label'))
+          .fontColor($r('app.color.grade_summary_header_font_color'))
+          .fontSize($r('app.float.grade_summary_header_font_size'))
+      }
+      .height("100%")
 
     }
-    .justifyContent(FlexAlign.SpaceAround)
-    .alignItems(VerticalAlign.Center)
+    .columnsTemplate('1fr 1fr 1fr 1fr')
     .width($r('app.float.grade_summary_header_width'))
     .height($r('app.float.grade_summary_header_height'))
+    .backgroundColor($r('app.color.nav_bar_background_color'))
   }
 
-  @Builder GradeSummaryRow(rowLabel: string, $$: {
+  @Builder GradeSummaryRow($$: {
+    rowLabel: string,
     selectedCredit: number,
     selectedAverageGrade: number,
     selectedGPA: number
   }) {
-    Row() {
-      Text(rowLabel)
-        .fontColor($r('app.color.grade_summary_row_font_color'))
-        .fontSize($r('app.float.grade_summary_row_font_size'))
-      Text($$.selectedCredit.toFixed(1))
-        .fontColor($r('app.color.grade_summary_row_font_color'))
-        .fontSize($r('app.float.grade_summary_row_font_size'))
-      Text($$.selectedAverageGrade.toFixed(3))
-        .fontColor($r('app.color.grade_summary_row_font_color'))
-        .fontSize($r('app.float.grade_summary_row_font_size'))
+    Grid() {
+      GridItem() {
+        Text($$.rowLabel)
+          .fontColor($r('app.color.grade_summary_row_font_color'))
+          .fontSize($r('app.float.grade_summary_row_font_size'))
+      }
+      .height("100%")
 
-      Text($$.selectedGPA.toFixed(3))
-        .fontColor($r('app.color.grade_summary_row_font_color'))
-        .fontSize($r('app.float.grade_summary_row_font_size'))
+      GridItem() {
+        Text($$.selectedCredit.toFixed(1))
+          .fontColor($r('app.color.grade_summary_row_font_color'))
+          .fontSize($r('app.float.grade_summary_row_font_size'))
+      }
+      .height("100%")
 
+      GridItem() {
+        Text($$.selectedAverageGrade.toFixed(3))
+          .fontColor($r('app.color.grade_summary_row_font_color'))
+          .fontSize($r('app.float.grade_summary_row_font_size'))
+      }
+      .height("100%")
+
+      GridItem() {
+        Text($$.selectedGPA.toFixed(3))
+          .fontColor($r('app.color.grade_summary_row_font_color'))
+          .fontSize($r('app.float.grade_summary_row_font_size'))
+      }
+      .height("100%")
     }
-    .justifyContent(FlexAlign.SpaceAround)
-    .alignItems(VerticalAlign.Center)
+    .columnsTemplate('1fr 1fr 1fr 1fr')
     .width($r('app.float.grade_summary_row_width'))
     .height($r('app.float.grade_summary_row_height'))
-    .backgroundColor(Color.Pink)
   }
 
   build() {
     Column() {
       this.GradeSummaryHeader()
-      this.GradeSummaryRow("全部课程", {
+      this.GradeSummaryRow({
+        rowLabel: "全部课程",
         selectedCredit: this.totalCredit,
         selectedAverageGrade: this.totalAverageGrade,
         selectedGPA: this.totalAverageGPA
       })
-      this.GradeSummaryRow("已选课程", {
+      this.GradeSummaryRow({
+        rowLabel: "已选课程",
         selectedCredit: this.selectedCredit,
         selectedAverageGrade: this.selectedAverageGrade,
         selectedGPA: this.selectedAverageGPA
       })
     }
-    .alignItems(HorizontalAlign.Center)
-    .justifyContent(FlexAlign.SpaceAround)
-    .height(200)
+    .border({width:{top:0.5,bottom:0.5}})
   }
 }
 
