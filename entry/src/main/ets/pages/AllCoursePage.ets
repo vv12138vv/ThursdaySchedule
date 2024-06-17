@@ -3,104 +3,8 @@ import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
-
-class CourseView {
-  id: number;
-  courseId: string;
-  name: string;
-  teacher: string;
-  credit: number;
-  location: string;
-  courseType: string;
-  startWeek: number;
-  endWeek: number;
-  weekday: number; //周几
-  courseSeq: number; //当天课序号
-
-  static fromCourse(course: Course): CourseView[] {
-    let res: CourseView[] = [];
-    const parseRes = CourseView.parseScheduleString(course.time);
-    parseRes.forEach((time: [number, number], index: number) => {
-      res.push({
-        id: course.id,
-        courseId: course.courseId,
-        name: course.name,
-        teacher: course.teacher,
-        credit: course.credit,
-        location: course.location,
-        courseType: course.courseType,
-        startWeek: course.startWeek,
-        endWeek: course.endWeek,
-        weekday: time[0],
-        courseSeq: time[1]
-      })
-    })
-    return res;
-  }
-
-  static parseScheduleString(scheduleString: string): [number, number][] {
-    const result: [number, number][] = [];
-    // 映射星期到数字
-    const dayMap: { [key: string]: number } = {
-      "星期一": 1,
-      "星期二": 2,
-      "星期三": 3,
-      "星期四": 4,
-      "星期五": 5,
-      "星期六": 6,
-      "星期日": 7
-    };
-    // 按分号拆分字符串以获取每个单独的时间段
-    const parts = scheduleString.split(';');
-
-    for (const part of parts) {
-      // 使用正则表达式匹配星期和小节部分
-      const match = part.match(/(星期[一二三四五六日])\((\d{2})-(\d{2})小节\)/);
-      if (match) {
-        const dayString = match[1];
-        const startPeriod = parseInt(match[2], 10);
-        const endPeriod = parseInt(match[3], 10);
-        // 将星期转换为对应的数字
-        const day = dayMap[dayString];
-        // 生成小节范围数组
-        for (let period = startPeriod; period <= endPeriod; period++) {
-          result.push([day, period]);
-        }
-      }
-    }
-    return result;
-  }
-
-  static readonly courseSeqToTime: Map<number, string[]> = new Map([
-    [1, ['08:00', '08:45']],
-    [2, ['08:50', '09:35']],
-    [3, ['09:40', '10:25']],
-    [4, ['10:40', '11:25']],
-    [5, ['11:30', '12:15']],
-    [6, ['14:00', '14:45']],
-    [7, ['14:50', '15:35']],
-    [8, ['15:50', '16:35']],
-    [9, ['16:40', '17:25']],
-    [10, ['17:30', '18:15']],
-    [11, ['19:00', '19:45']],
-    [12, ['19:50', '20:35']],
-    [13, ['20:40', '21:25']]
-  ]);
-
-  static getCourseSeqStartTime(courseSeq: number): string {
-    return CourseView.courseSeqToTime.get(courseSeq)[0];
-  }
-
-  static getCourseSeqEndTime(courseSeq: number): string {
-    return CourseView.courseSeqToTime.get(courseSeq)[1];
-  }
-
-  static courseSeqToTimeString(courseSeq: number): string {
-    let res: string = "";
-    res = CourseView.getCourseSeqStartTime(courseSeq) + '-' + CourseView.getCourseSeqEndTime(courseSeq);
-    return res;
-  }
-}
+import {CourseView} from '../database/models/Course';
+import DateUtils from '../utils/DateUtils';
 
 //Todo Dialog
 @CustomDialog
@@ -202,11 +106,11 @@ struct AllCoursePage {
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
-    this.allWeekStartDates = this.getAllWeekStartDates(this.termStartDate, 24);
+    this.allWeekStartDates = DateUtils.getAllWeekDates(this.termStartDate, 24);
     //今日日期
-    this.todayDateInfo = this.getStartOfDay(new Date());
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date());
     //今日所属周的偏移
-    let weekDiff = this.getWeekDiff(this.termStartDate, this.todayDateInfo);
+    let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
     this.showWeek = this.curWeek;
     //当前显示的周数据
@@ -225,59 +129,7 @@ struct AllCoursePage {
     })
   }
 
-  //获得某日的起始点
-  getStartOfDay(date: Date): Date {
-    // 创建一个新的 Date 对象，设置为指定日期的年、月、日的 00:00:00
-    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    return startOfDay;
-  }
-  //获得所在日一周的日期
-  getWeekDates(date: Date): Date[] {
-    const startOfWeek: Date = new Date(date);
-    const dayOfWeek: number = startOfWeek.getDay(); // 获取给定日期是星期几
-    const diff: number = (dayOfWeek === 0 ? 6 : dayOfWeek - 1); // 计算需要向前调整的天数
-    startOfWeek.setDate(date.getDate() - diff); // 将日期调整到本周的第一天 (周一为一周的起始)
-    const weekDates: Date[] = [];
-    // 循环生成本周的日期
-    for (let i = 0; i < 7; i++) {
-      const currentDate: Date = new Date(startOfWeek);
-      currentDate.setDate(startOfWeek.getDate() + i);
-      weekDates.push(currentDate);
-    }
-    return weekDates;
-  }
 
-  getWeekDiff(startDate: Date, endDate: Date): number {
-    // 计算日期之间的毫秒数差
-    const timeDifference = endDate.getTime() - startDate.getTime();
-    // 将毫秒数差转换为天数差，再转换为周数差
-    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-    const weeksDifference = Math.floor(daysDifference / 7);
-    return weeksDifference;
-  }
-
-  getAllWeekStartDates(start: Date, weekNum: number): Date[][] {
-    let startDate = new Date(start);
-    let weeksDates: Date [][] = [];
-
-    // 循环获取 20 个周的日期数据
-    for (let i = 0; i < weekNum; i++) {
-      // 计算当前周的起始日期和结束日期
-      const dayOfWeek = startDate.getDay(); // 获取当前日期是星期几
-      const diffDays = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // 计算当前日期距离上一个星期一的天数差
-
-      // 获取当前周的起始日期（星期一）
-      const currentStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - diffDays);
-
-      let weekDate = this.getWeekDates(currentStartDate);
-      // 添加到结果数组
-      weeksDates.push(weekDate);
-
-      // 将 startDate 设置为下一周的起始日期
-      startDate.setDate(startDate.getDate() + 7);
-    }
-    return weeksDates;
-  }
 
 
   //表示时间的ui，课表顶部使用
