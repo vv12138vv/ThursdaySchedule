@@ -82,11 +82,7 @@ struct GradePage {
   }
 
   aboutToAppear() {
-    // GradeTable.selectDataAll((result: Grade[]) => {
-    //   this.grades = result;
-    //   this.initGradeInfo(this.grades);
-    // })
-  //Todo 数据还是全局请求会好一些。
+
   }
 
   build() {

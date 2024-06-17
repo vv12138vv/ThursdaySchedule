@@ -87,9 +87,9 @@ export default struct GradeBlock {
   @Builder GradeBlockHeader() {
     Grid() {
       GridItem() {
-        Checkbox()
-          .select(true)
-          .width(12)
+        // Checkbox()
+        //   .select(true)
+        //   .width(12)
       }
 
       GridItem() {
