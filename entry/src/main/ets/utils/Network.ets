@@ -24,20 +24,18 @@ export class Network{
   }
 
   // 登录，正确登录则返回用户姓名和学号，例如王一涵(123456),登录错误则返回"error"
-  userLogin(uid:string, upwd:string,verifyCode:string):string{
+  async userLogin(uid:string, upwd:string,verifyCode:string):Promise<string>{
     let result: string =''
-    axios.post(`${this.baseURL}/login`,{
+    const response = await axios.post(`${this.baseURL}/login`,{
       'USERNAME':uid,
       'PASSWORD':upwd,
       'RANDOMCODE':verifyCode
     })
-      .then(response=>{
-        if(response.status === 200) {
-          result = response.data.data;
-        } else {
-          result = "error"
-        }
-      })
+      if(response.status === 200) {
+        result = response.data.data;
+      } else {
+        result = "error"
+      }
     return result
   }
 
