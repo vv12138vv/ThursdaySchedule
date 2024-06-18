@@ -40,7 +40,7 @@ export default struct TodayCourseView {
       .height(52)
       .justifyContent(FlexAlign.SpaceBetween)
     }
-    .width(256)
+    .width(280)
     .height(128)
     .borderWidth(0.5)
     .borderRadius(16)

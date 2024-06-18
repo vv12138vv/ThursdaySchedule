@@ -26,4 +26,11 @@ struct MainPage {
     .height('100%')
     .width('100%')
   }
+
+  pageTransition(){
+    PageTransitionExit({type:RouteType.Push,duration:300})
+      .slide(SlideEffect.Top)
+    PageTransitionEnter({type:RouteType.Pop,duration:300})
+      .slide(SlideEffect.Top)
+  }
 }

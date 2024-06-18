@@ -309,4 +309,12 @@ struct AllCoursePage {
     .width("100%")
     .height("100%")
   }
+
+
+  pageTransition(){
+    PageTransitionEnter({type:RouteType.Push,duration:300})
+      .slide(SlideEffect.Bottom)
+    PageTransitionExit({type:RouteType.Pop,duration:300})
+      .slide(SlideEffect.Bottom)
+  }
 }
