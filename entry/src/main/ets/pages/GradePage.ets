@@ -109,5 +109,13 @@ struct GradePage {
       .margin({top:10})
     }
   }
+
+  //配置页面切换动画
+  pageTransition(){
+    PageTransitionEnter({type:RouteType.Push,duration:400})
+      .slide(SlideEffect.Bottom)
+    PageTransitionExit({type:RouteType.Pop,duration:300})
+      .slide(SlideEffect.Bottom)
+  }
 }
 
