@@ -43,6 +43,10 @@ export default class Rdb {
     });
   }
 
+  updateColumns(newColumn: string, newColumnData: string) {
+    this.rdbStore.executeSql(`ALTER TABLE ${this.tableName} ADD COLUMN ${newColumn} ${newColumnData}`)
+  }
+
   insertData(data: relationalStore.ValuesBucket, callback: (succeed:boolean)=>void = () => {
   }) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
