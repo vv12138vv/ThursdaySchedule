@@ -67,10 +67,11 @@ export default class DataBaseConfig {
                   credit REAL NOT NULL,
                   grade TEXT NOT NULL,
                   testType TEXT NOT NULL,
+                  courseType TEXT NOT NULL,
                   gpa REAL NOT NULL,
                   time TEXT NOT NULL
                 )`,
-    columns: ["id", "courseId", "courseName", "credit", "grade", "testType", "gpa", "time"]
+    columns: ["id", "courseId", "courseName", "credit", "grade", "testType","courseType", "gpa", "time"]
   };
 }
 
