@@ -1,5 +1,46 @@
 import Course, { CourseView, courseDemo } from '../database/models/Course'
 import DateUtils from '../utils/DateUtils';
+import {CourseType} from '../database/models/Course';
+
+@CustomDialog
+struct TodayCourseDetailDialog {
+  dialogController?: CustomDialogController;
+  @Link courseView: CourseView;
+
+  build() {
+    Column() {
+      Row() {
+        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
+        Text(this.courseView.name)
+          .fontSize(32)
+        Button() {
+          Image($r('app.media.icon_showless'))
+            .width(16)
+            .onClick(() => {
+              this.dialogController.close();
+            })
+        }
+        .backgroundColor(Color.Transparent)
+      }
+      .justifyContent(FlexAlign.SpaceEvenly)
+      .width("100%")
+
+      Column() {
+        Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
+        Text(this.courseView.teacher + ' (任课教师)')
+        Text(this.courseView.location + ' (上课地点) ')
+        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
+        Text(this.courseView.credit + ' (课程学分) ')
+      }
+      .layoutWeight(6)
+      .justifyContent(FlexAlign.SpaceAround)
+      .alignItems(HorizontalAlign.Start)
+    }
+    .width("70%")
+    .height("25%")
+    .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+  }
+}
 
 @Component
 export default struct TodayCourseView {
@@ -8,6 +49,16 @@ export default struct TodayCourseView {
   private todayDateInfo: Date;
   curWeek: number;
   termStartDate = new Date('2024-02-26');
+  @State forDetailCourseView: CourseView | null = null;
+  //课程详细对话框控制器
+  courseDetailDialogController: CustomDialogController = new CustomDialogController({
+    builder: TodayCourseDetailDialog({
+      courseView: $forDetailCourseView
+    }),
+    autoCancel: true,
+    alignment: DialogAlignment.Center,
+    customStyle: true
+  })
 
   aboutToAppear() {
     //日期相关初始化
@@ -46,6 +97,10 @@ export default struct TodayCourseView {
     .borderRadius(16)
     .alignItems(HorizontalAlign.Start)
     .backgroundColor(Color.White)
+    .onClick(() => {
+      this.forDetailCourseView = courseView;
+      this.courseDetailDialogController.open();
+    })
   }
 
   build() {
@@ -54,8 +109,9 @@ export default struct TodayCourseView {
         Text('Lesson')
           .fontSize(48)
       }
-      .margin({ top: 80,bottom:48 })
+      .margin({ top: 80, bottom: 48 })
       .width(300)
+
       List({ space: 24 }) {
         ForEach(this.courseViews, (item: CourseView, index: number) => {
           ListItem() {
@@ -77,5 +133,6 @@ export default struct TodayCourseView {
 struct TodayCourseViewPreview {
   build() {
     TodayCourseView()
+      .backgroundColor(Color.Pink)
   }
 }

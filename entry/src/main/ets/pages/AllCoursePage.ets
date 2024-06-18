@@ -6,9 +6,8 @@ import { courseDemo } from '../database/models/Course';
 import {CourseView} from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
 
-//Todo Dialog
 @CustomDialog
-struct CourseDetailDialog {
+export struct CourseDetailDialog {
   dialogController?: CustomDialogController;
   @Link courseView: CourseView;
 
@@ -312,7 +311,7 @@ struct AllCoursePage {
 
 
   pageTransition(){
-    PageTransitionEnter({type:RouteType.Push,duration:300})
+    PageTransitionEnter({type:RouteType.Push,duration:400})
       .slide(SlideEffect.Bottom)
     PageTransitionExit({type:RouteType.Pop,duration:300})
       .slide(SlideEffect.Bottom)

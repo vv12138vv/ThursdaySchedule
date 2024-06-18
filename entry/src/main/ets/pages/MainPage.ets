@@ -30,7 +30,7 @@ struct MainPage {
   pageTransition(){
     PageTransitionExit({type:RouteType.Push,duration:300})
       .slide(SlideEffect.Top)
-    PageTransitionEnter({type:RouteType.Pop,duration:300})
+    PageTransitionEnter({type:RouteType.Pop,duration:400})
       .slide(SlideEffect.Top)
   }
 }
