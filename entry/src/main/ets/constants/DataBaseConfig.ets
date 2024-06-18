@@ -54,7 +54,7 @@ export default class DataBaseConfig {
                   courseId TEXT NOT NULL UNIQUE,
                   location TEXT NOT NULL,
                   seatId INTEGER NOT NULL,
-                  time INTEGER NOT NULL
+                  time TEXT NOT NULL
                 )`,
     columns: ["id", "examId", "courseId", "location", "seatId", "time"]
   };

@@ -44,7 +44,7 @@ class ExamTable {
             courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             seatId: resultSet.getLong(resultSet.getColumnIndex('seatId')),
-            time: resultSet.getLong(resultSet.getColumnIndex('time'))
+            time: resultSet.getString(resultSet.getColumnIndex('time'))
           };
           result.push(temp);
           resultSet.goToNextRow();
