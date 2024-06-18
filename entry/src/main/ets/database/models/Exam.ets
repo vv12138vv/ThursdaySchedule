@@ -5,5 +5,5 @@ export default class Exam{
   courseId:string;//
   location:string;
   seatId:number;//座位号
-  time:number;
+  time:string;
 }
