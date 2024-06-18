@@ -1,3 +1,4 @@
+import { CourseType } from './Course';
 export enum TestType { //考察方式
   Exam = "Exam", //考试
   Evaluation = "Evaluation" //考察
@@ -10,6 +11,7 @@ export default class Grade{
   credit:number;
   grade:string;
   testType: string; //考察方式
+  courseType:string;
   gpa: number;
   time:string;
 }
@@ -21,6 +23,7 @@ export let gradeDemo:Grade={
   credit:1.5,
   grade:'98',
   testType:TestType.Exam,
+  courseType:CourseType.Required,
   gpa:4.0,
   time:'test_time'
 };
