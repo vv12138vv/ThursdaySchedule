@@ -61,7 +61,7 @@ export default struct GradeBlock {
     this.selectedGradeWithWeight = this.blockTotalGradeWithWeight;
     this.selectedGPAWithWeight = this.blockTotalGPAWithWeight;
     this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
-    this.selectedAverageGPA = this.selectedAverageGPA / this.selectedCredit;
+    this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
   }
 
   aboutToAppear() {

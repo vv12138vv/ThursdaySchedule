@@ -14,13 +14,20 @@ export class NavBarConfig {
 export default struct NavBar {
   navBarConfig: NavBarConfig;
 
+
   build() {
     Row() {
       Stack() {
         if (this.navBarConfig.leftIcon) {
+          Button(){
           Image(this.navBarConfig.leftIcon)
             .width(16)
             .onClick(this.navBarConfig.onClickLeftButton)
+          }
+          .backgroundColor(Color.Transparent)
+          .type(ButtonType.Circle)
+          .width(30)
+
         } else if (this.navBarConfig.leftLabel) {
           Text(this.navBarConfig.leftLabel)
             .width(16)
@@ -28,6 +35,7 @@ export default struct NavBar {
         }
       }
       .layoutWeight(1)
+      .backgroundColor(Color.Transparent)
 
       Stack() {
         if (this.navBarConfig.title) {

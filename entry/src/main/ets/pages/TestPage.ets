@@ -3,7 +3,7 @@ import ExamTable from '../database/tables/ExamTable';
 import GradeTable from '../database/tables/GradeTable';
 import TaskTable from '../database/tables/TaskTable';
 import UserTable from '../database/tables/UserTable';
-import Course from '../database/models/Course';
+import Course, { CourseType } from '../database/models/Course';
 import Exam from '../database/models/Exam';
 import Grade from '../database/models/Grade';
 import Task from '../database/models/Task';
@@ -48,7 +48,7 @@ struct TestPage {
     courseId: '222222',
     location: 'test_place',
     seatId: 12,
-    time: 1111
+    time: '1111'
   };
   gradeDemo: Grade = {
     courseId: '11211',
@@ -56,6 +56,7 @@ struct TestPage {
     credit: 1.5,
     grade: '92',
     testType: "Exam",
+    courseType:CourseType.Required,
     gpa: 4,
     time: '2222'
   };

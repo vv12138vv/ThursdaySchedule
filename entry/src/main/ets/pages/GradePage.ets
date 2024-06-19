@@ -10,7 +10,7 @@ import { WindowMode } from '@ohos.UiTest';
 @Component
 struct GradePage {
   navBarConfig: NavBarConfig = {
-    leftIcon: $r('app.media.icon_back'),
+    leftIcon: $r("app.media.icon_show_less"),
     title: "成绩查询",
     onClickLeftButton: () => {
       router.back();
