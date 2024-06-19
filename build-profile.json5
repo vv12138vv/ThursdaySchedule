@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
+          "storePassword": "0000001A522B2052893A1F035C515CD60533A1FA95024E1F67DC49E7362F71D28759D0209EF8A2B595DA",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001AB671B1B3B8B007EBFB4359A75603AD3A8884D8041DB98DE039E06B03145E1DBCB02AE4AD2510",
+          "profile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
+        }
+      }
+    ],
     "compileSdkVersion": 9,
     "compatibleSdkVersion": 9,
     "products": [
