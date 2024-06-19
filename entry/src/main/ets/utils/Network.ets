@@ -2,9 +2,10 @@ import axios from '@ohos/axios'
 import Course from '../database/models/Course'
 import Grade from '../database/models/Grade'
 import Exam from '../database/models/Exam'
+import {URL} from  '../constants/URL'
 
 export class Network{
-  baseURL = 'http://49.234.15.205:6006'
+  baseURL = URL.baseURL
 
   // 获取验证码图片，返回值为string类型的base64编码
   /*
@@ -61,6 +62,17 @@ export class Network{
       })
     }
     return lessons
+  }
+
+  // 获取当前学期，如‘2023-2024-1’
+  async getCurrentSemester():Promise<string>{
+    const response = await axios.get(`${this.baseURL}/semester`)
+    if (response.status === 200) {
+      const semester = JSON.stringify(response.data.semester)
+      return semester
+    } else {
+      return 'get semester error'
+    }
   }
 
   async getScore():Promise<Grade[]>{
