@@ -1,6 +1,6 @@
 import Course, { CourseView, courseDemo } from '../database/models/Course'
 import DateUtils from '../utils/DateUtils';
-import {CourseType} from '../database/models/Course';
+import { CourseType } from '../database/models/Course';
 
 @CustomDialog
 struct TodayCourseDetailDialog {
@@ -12,10 +12,10 @@ struct TodayCourseDetailDialog {
       Row() {
         Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
-          .fontSize(32)
+          .fontSize(28)
         Button() {
-          Image($r('app.media.icon_showless'))
-            .width(16)
+          Image($r("app.media.icon_close"))
+            .width(18)
             .onClick(() => {
               this.dialogController.close();
             })
@@ -24,7 +24,7 @@ struct TodayCourseDetailDialog {
       }
       .justifyContent(FlexAlign.SpaceEvenly)
       .width("100%")
-
+      .margin({top:8})
       Column() {
         Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
         Text(this.courseView.teacher + ' (任课教师)')
@@ -36,9 +36,10 @@ struct TodayCourseDetailDialog {
       .justifyContent(FlexAlign.SpaceAround)
       .alignItems(HorizontalAlign.Start)
     }
-    .width("70%")
+    .width("80%")
     .height("25%")
     .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+    .borderRadius(16)
   }
 }
 
@@ -63,16 +64,18 @@ export default struct TodayCourseView {
   aboutToAppear() {
     //日期相关初始化
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date());
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-06-18'));
     //
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
     //数据请求
     this.courseViews = CourseView.fromCourse(courseDemo);
     this.courseViews = this.courseViews.filter((value: CourseView, index: number) => {
-      let day = this.todayDateInfo.getDay() + 1;
-      return value.weekday === (this.todayDateInfo.getDay() + 1);
+      let day = this.todayDateInfo.getDay();
+      day = (day === 0 ? 7 : day);
+      return value.weekday === (this.todayDateInfo.getDay());
     })
+    let i = 1;
   }
 
   @Builder CourseCard(courseView: CourseView) {
@@ -112,15 +115,25 @@ export default struct TodayCourseView {
       .margin({ top: 80, bottom: 48 })
       .width(300)
 
-      List({ space: 24 }) {
-        ForEach(this.courseViews, (item: CourseView, index: number) => {
-          ListItem() {
-            this.CourseCard(item)
+      Column() {
+        if (this.courseViews.length != 0) {
+          List({ space: 24 }) {
+            ForEach(this.courseViews, (item: CourseView, index: number) => {
+              ListItem() {
+                this.CourseCard(item)
+              }
+            })
           }
-        })
+          .alignListItem(ListItemAlign.Center)
+          .height(512)
+        } else {
+          Text('今天没有课哦')
+            .fontSize(32)
+            .margin({top:48})
+        }
       }
-      .alignListItem(ListItemAlign.Center)
       .height(512)
+
     }
     .height("100%")
     .width("100%")

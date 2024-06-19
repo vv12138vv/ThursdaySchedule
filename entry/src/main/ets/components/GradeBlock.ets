@@ -8,9 +8,10 @@ export default struct GradeBlock {
   termInString: string;
   termInNumber: string;
   grades: Grade[] = [];
+
   @State selectedCredit: number = 0;
-  @State selectedGradeWithWeight: number = 0;
-  @State selectedGPAWithWeight: number = 0;
+  selectedGradeWithWeight: number = 0;
+  selectedGPAWithWeight: number = 0;
   @State selectedAverageGrade: number = 0;
   @State selectedAverageGPA: number = 0;
   @State blockTotalCredit: number = 0;
@@ -20,25 +21,13 @@ export default struct GradeBlock {
   @State blockAverageGrade:number=0;
   @State blockAverageGPA:number=0;
   @Consume('allSelectedGradeId') allSelectedGradeId: number[];
-  @Consume('allGrades') allGrades: Grade[];
   //被勾选的 grade 的 id。
   blockSelectedId: number[] = [];
 
-  @Consume totalCredit:number;
-  @Consume totalGradeWithWeight:number;
-  @Consume totalGPAWithWeight:number;
-  @Consume totalAverageGrade:number;
-  @Consume totalAverageGPA:number;
 
   initGradeInfo(grades: Grade[]) {
     grades.forEach((item: Grade, index: number) => {
-      this.allGrades.push(item);
       let gradeNum = transToGradeNum(item.grade);
-
-      this.totalCredit+=item.credit
-      this.totalGradeWithWeight+=gradeNum*item.credit;
-      this.totalGPAWithWeight+=gradeToGPA(item.grade)*item.credit;
-
       this.blockTotalCredit += item.credit;
       this.blockTotalGradeWithWeight += gradeNum * item.credit;
       this.blockTotalGPAWithWeight += gradeToGPA(item.grade) * item.credit;
@@ -50,8 +39,6 @@ export default struct GradeBlock {
         this.allSelectedGradeId.push(item.id);
       }
     });
-    this.totalAverageGrade=this.totalGradeWithWeight/this.totalCredit;
-    this.totalGPAWithWeight=this.totalGPAWithWeight/this.totalCredit;
 
     this.blockAverageGrade=this.blockTotalGradeWithWeight/this.blockTotalCredit;
     this.blockAverageGPA=this.blockTotalGPAWithWeight/this.blockTotalCredit;
@@ -61,15 +48,10 @@ export default struct GradeBlock {
     this.selectedGradeWithWeight = this.blockTotalGradeWithWeight;
     this.selectedGPAWithWeight = this.blockTotalGPAWithWeight;
     this.selectedAverageGrade = this.selectedGradeWithWeight / this.selectedCredit;
-    this.selectedAverageGPA = this.selectedAverageGPA / this.selectedCredit;
+    this.selectedAverageGPA = this.selectedGPAWithWeight / this.selectedCredit;
   }
 
   aboutToAppear() {
-    // GradeTable.selectDataByTime(this.termInString, (result: Grade[]) => {
-    //   this.grades = result;
-    //   this.initGradeInfo(this.grades);
-    // });
-    this.grades.push(gradeDemo);
     this.initGradeInfo(this.grades);
   }
 
@@ -200,7 +182,7 @@ export default struct GradeBlock {
       .height("100%")
 
       GridItem() {
-        Text(grade.testType)
+        Text(grade.courseType)
           .fontSize($r('app.float.grade_block_row_font_size'))
           .fontColor($r('app.color.grade_block_row_font_color'))
       }
@@ -230,9 +212,9 @@ export default struct GradeBlock {
       .border({ width: { top: 0.5, bottom: 0.5 } })
 
       GradeSummary({
-        totalCredit: $blockTotalCredit,
-        totalAverageGrade:$blockAverageGrade,
-        totalAverageGPA: $blockAverageGPA,
+        totalCredit: this.blockTotalCredit,
+        totalAverageGrade:this.blockAverageGrade,
+        totalAverageGPA: this.blockAverageGPA,
         selectedCredit: $selectedCredit,
         selectedAverageGrade: $selectedAverageGrade,
         selectedAverageGPA: $selectedAverageGPA

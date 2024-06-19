@@ -18,7 +18,7 @@ export struct CourseDetailDialog {
         Text(this.courseView.name)
           .fontSize(32)
         Button() {
-          Image($r('app.media.icon_showless'))
+          Image($r("app.media.icon_show_less"))
             .width(16)
             .onClick(() => {
               this.dialogController.close();
@@ -62,7 +62,7 @@ function generateHash(input: string): number {
 struct AllCoursePage {
   //导航栏控制条
   navBarConfig: NavBarConfig = {
-    leftIcon: $r('app.media.icon_back'),
+    leftIcon: $r("app.media.icon_show_less"),
     title: "课表查询",
     onClickLeftButton: () => {
       router.back();
@@ -311,7 +311,7 @@ struct AllCoursePage {
 
 
   pageTransition(){
-    PageTransitionEnter({type:RouteType.Push,duration:400})
+    PageTransitionEnter({type:RouteType.Push,duration:300})
       .slide(SlideEffect.Bottom)
     PageTransitionExit({type:RouteType.Pop,duration:300})
       .slide(SlideEffect.Bottom)
