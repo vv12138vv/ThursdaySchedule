@@ -1,6 +1,7 @@
 import BottomBar from '../components/BottomBar'
 import TodayCourseView from '../components/TodayCourseView'
 import router from '@ohos.router';
+import RecentExamView from '../components/RecentExamView';
 @Entry
 @Component
 struct MainPage {
@@ -8,6 +9,7 @@ struct MainPage {
     Stack({ alignContent: Alignment.Bottom }) {
       Swiper() {
         TodayCourseView()
+        RecentExamView()
       }
       .backgroundColor(Color.Pink)
       BottomBar({
