@@ -6,7 +6,28 @@ export default class CommonConstants {
 
   static readonly RDB_TAG = '[Debug.Rdb]';
 
+  static readonly DDL_COLOR = {
+    easy: '#A5D61D',
+    medium: '#F7CE00',
+    hard: '#F9A01E',
+    critical: '#E84026'
+  }
 
+  static readonly COLUMN_TYPE = {
+    id: 'double',
+    due_date_stamp: 'double',
+    start_date_stamp: 'double',
+    category: 'double',
+    subject: 'string',
+    detail: 'string',
+    task_name: 'string',
+    is_completed: 'boolean',
+    ddl_detail: 'string',
+    topped: 'boolean',
+  }
+  static readonly DEFAULT_PADDING = {
+    left: 12, top: 24, right: 12, bottom: 24
+  }
   /**
    * The placeholder of search component. Currently, component interfaces do not support the Resource type.
    * Therefore, you need to define constants. The default prompt in the search box does not support
