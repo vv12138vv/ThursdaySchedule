@@ -12,10 +12,10 @@ struct TodayCourseDetailDialog {
       Row() {
         Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
-          .fontSize(32)
+          .fontSize(28)
         Button() {
-          Image($r("app.media.icon_show_less"))
-            .width(16)
+          Image($r("app.media.icon_close"))
+            .width(18)
             .onClick(() => {
               this.dialogController.close();
             })
@@ -24,7 +24,7 @@ struct TodayCourseDetailDialog {
       }
       .justifyContent(FlexAlign.SpaceEvenly)
       .width("100%")
-
+      .margin({top:8})
       Column() {
         Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
         Text(this.courseView.teacher + ' (任课教师)')
@@ -36,9 +36,10 @@ struct TodayCourseDetailDialog {
       .justifyContent(FlexAlign.SpaceAround)
       .alignItems(HorizontalAlign.Start)
     }
-    .width("70%")
+    .width("80%")
     .height("25%")
     .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+    .borderRadius(16)
   }
 }
 

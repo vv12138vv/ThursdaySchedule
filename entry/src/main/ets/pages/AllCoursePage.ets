@@ -311,7 +311,7 @@ struct AllCoursePage {
 
 
   pageTransition(){
-    PageTransitionEnter({type:RouteType.Push,duration:400})
+    PageTransitionEnter({type:RouteType.Push,duration:300})
       .slide(SlideEffect.Bottom)
     PageTransitionExit({type:RouteType.Pop,duration:300})
       .slide(SlideEffect.Bottom)
