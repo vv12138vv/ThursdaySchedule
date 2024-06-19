@@ -4,6 +4,7 @@ import DataBaseConfig from '../../constants/DataBaseConfig';
 import Exam from '../models/Exam';
 import Rdb from '../rdb';
 
+
 class ExamTable {
   private examTable = new Rdb(DataBaseConfig.EXAM_TABLE.tableName, DataBaseConfig.EXAM_TABLE.sqlCreate, DataBaseConfig.EXAM_TABLE.columns);
 
@@ -42,6 +43,7 @@ class ExamTable {
             id: resultSet.getLong(resultSet.getColumnIndex('id')),
             examId: resultSet.getString(resultSet.getColumnIndex('examId')),
             courseId: resultSet.getString(resultSet.getColumnIndex('courseId')),
+            examName: resultSet.getString(resultSet.getColumnIndex('examName')),
             location: resultSet.getString(resultSet.getColumnIndex('location')),
             seatId: resultSet.getLong(resultSet.getColumnIndex('seatId')),
             time: resultSet.getString(resultSet.getColumnIndex('time'))
@@ -77,6 +79,7 @@ function generateBucket(exam: Exam): relationalStore.ValuesBucket {
   let obj:relationalStore.ValuesBucket={};
   obj.examId=exam.examId;
   obj.courseId=exam.courseId;
+  obj.examName=exam.examName;
   obj.location=exam.location;
   obj.seatId=exam.seatId;
   obj.time=exam.time;

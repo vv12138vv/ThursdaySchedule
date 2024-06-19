@@ -135,6 +135,51 @@
     {
       "name": "course_cube_detail_dialog_background_color",
       "value": "#71D2E1"
+    },
+    {
+      "name": "basic_background",
+      "value": "#f1f2f3"
+    },
+    {
+      "name": "blue_background",
+      "value": "#73cdf5"
+    },
+    {
+      "name": "basic_word",
+      "value": "#000000"
+    },
+    {
+      "name": "current_index",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "add_button",
+      "value": "#0A59F7"
+    },
+    {
+      "name": "delete_button",
+      "value": "#E84026"
+    },
+
+    {
+      "name": "target_index",
+      "value": "#6B6B6B"
+    },
+    {
+      "name": "exam_divider",
+      "value": "#6B6B6B"
+    },
+    {
+      "name": "exam_infor",
+      "value": "#6B6B6B"
+    },
+    {
+      "name": "exam_detail_bbackground",
+      "value": "#71D2E1"
+    },
+    {
+      "name": "exam_card_background",
+      "value": "#f1f2f3"
     }
   ]
 }
