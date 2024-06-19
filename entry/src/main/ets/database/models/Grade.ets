@@ -25,7 +25,7 @@ export let gradeDemo:Grade={
   testType:TestType.Exam,
   courseType:CourseType.Required,
   gpa:4.0,
-  time:'test_time'
+  time:'2021-2022-1'
 };
 
 function canBeNumber(gradeString: string) {
