@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
-          "storePassword": "0000001A522B2052893A1F035C515CD60533A1FA95024E1F67DC49E7362F71D28759D0209EF8A2B595DA",
+          "certpath": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
+          "storePassword": "0000001A7CE2C8474B67ED9F8164B6157C640FB1DE2A570A7EA4A2A4A3BE16A72B15B9EF299F2B121FD8",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001AB671B1B3B8B007EBFB4359A75603AD3A8884D8041DB98DE039E06B03145E1DBCB02AE4AD2510",
-          "profile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
+          "keyPassword": "0000001AC8A5F0B36367DF08891DBD09E96CD39CD8C23A158C8E9F6E95D0865C302DEDB04A6740F85D17",
+          "profile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
+          "storeFile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
         }
       }
     ],
