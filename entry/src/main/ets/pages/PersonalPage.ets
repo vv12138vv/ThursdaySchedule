@@ -1,20 +1,28 @@
 import { CommonDialog } from '../components/CommonDialog'
+import { CommonDialog2 } from '../components/CommonDialog2'
 import { RoutePath } from '../constants/RoutePath'
 import { Router } from '../utils/Router'
+import { theme } from '../components/theme'
 
 
 @Entry
 @Component
 struct PersonalPage {
-  @State dialogTitle: Resource = $r('app.string.dialog_about_title')
-  @State dialogContent: Resource = $r('app.string.project_desc')
-  dialogController: CustomDialogController = new CustomDialogController({
-    builder: CommonDialog({ title: $dialogTitle, description: $dialogContent, showPositive: false })
+  @State dialogTitle1: Resource = $r('app.string.dialog_about_title1')
+  @State dialogTitle2: Resource = $r('app.string.dialog_about_title2')
+  @State dialogContent1: Resource = $r('app.string.project_desc')
+  @StorageLink('bgpage') bgpage: number = 1;
+  dialogController1: CustomDialogController = new CustomDialogController({
+    builder: CommonDialog({ title: $dialogTitle1, description: $dialogContent1, showPositive: false })
   })
+  dialogController2: CustomDialogController = new CustomDialogController({
+    builder: CommonDialog2({ title: $dialogTitle2, showPositive: false })
+  })
+
 
   build() {
     Stack(){
-      Image($r('app.media.back_mine1'))
+      Image(theme.getBackground(this.bgpage))
 
       Column() {
         Column() {
@@ -35,10 +43,10 @@ struct PersonalPage {
 
         Column(){
           this.itemBuilder("背景设置", $r('app.media.icon_focus'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "focus" })
+            Router.push(RoutePath.ContainerPage, { "containerType": "bg_setting" })
           })
           this.itemBuilder("主题颜色搭配", $r('app.media.icon_type'), () => {
-            Router.push(RoutePath.ContainerPage, { "containerType": "category" })
+            this.dialogController2.open()
           })
           this.itemBuilder("桌面小组件选项", $r('app.media.icon_topic'), () => {
             Router.push(RoutePath.ContainerPage, { "containerType": "topic" })
@@ -47,12 +55,14 @@ struct PersonalPage {
             Router.push(RoutePath.ContainerPage, { "containerType": "help" })
           })
           this.itemBuilder("关于", $r('app.media.icon_about'), () => {
-            this.dialogController.open()
+            this.dialogController1.open()
           })
         }
         .width("90%")
         .height($r('app.float.personal_options_height'))
-        .borderColor('#000000')
+        // .backgroundColor('#ffffff')
+        // .opacity(0.9)
+        .borderColor('#ffffff')
         .borderWidth(1)
         .borderRadius(10)
 

@@ -3,6 +3,7 @@
  */
 import router from '@ohos.router'
 import window from '@ohos.window';
+import {theme} from './theme'
 import { LogUtils } from '../utils/LogUtils';
 
 @Component
@@ -13,6 +14,8 @@ export struct CommonTopBar {
   private titleAlignment: TextAlign = TextAlign.Center
   private backButton: boolean = true
   private onBackClick?: () => void
+
+  @StorageLink('SystemColor') Sys_color: number = 1
 
   aboutToAppear() {
     this.setSystemStatusBar()
@@ -57,7 +60,7 @@ export struct CommonTopBar {
           .height($r('app.float.topbar_topbar_height'))
           .width("100%")
           .opacity(this.alpha)
-          .backgroundColor($r("app.color.color_red"))
+          .backgroundColor(theme.getTheme(this.Sys_color))
         Flex({ direction: FlexDirection.Row, alignItems: ItemAlign.Center }) {
           Text(this.title)
             .flexGrow(1)
@@ -72,7 +75,7 @@ export struct CommonTopBar {
         .margin({ left: $r('app.float.topbar_marginl'), right: $r('app.float.topbar_marginr') })
         .alignSelf(ItemAlign.Center)
 
-        if (this.backButton) {
+        if (true) {
           Stack() {
             Image($r('app.media.ic_action_back'))
               .height($r('app.float.backbutton_height'))
