@@ -20,14 +20,13 @@ export default struct NavBar {
       Stack() {
         if (this.navBarConfig.leftIcon) {
           Button(){
-          Image(this.navBarConfig.leftIcon)
-            .width(16)
-            .onClick(this.navBarConfig.onClickLeftButton)
+          Image(this.navBarConfig.leftIcon).width('100%')
           }
+          .margin({left:'20vp'})
+          .width('30vp')
+          .onClick(this.navBarConfig.onClickLeftButton)
           .backgroundColor(Color.Transparent)
           .type(ButtonType.Circle)
-          .width(30)
-
         } else if (this.navBarConfig.leftLabel) {
           Text(this.navBarConfig.leftLabel)
             .width(16)
@@ -41,6 +40,7 @@ export default struct NavBar {
         if (this.navBarConfig.title) {
           Text(this.navBarConfig.title)
             .fontColor("#FFFFFF")
+            .fontSize("18vp")
         }
       }
       .layoutWeight(6)

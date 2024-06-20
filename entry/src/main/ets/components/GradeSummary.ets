@@ -7,6 +7,7 @@ export default struct GradeSummary {
   @Link selectedAverageGrade: number;
   @Link selectedAverageGPA: number;
 
+
   @Builder GradeSummaryHeader() {
     Grid() {
       GridItem() {
@@ -87,20 +88,30 @@ export default struct GradeSummary {
   build() {
     Column() {
       this.GradeSummaryHeader()
-      this.GradeSummaryRow({
-        rowLabel: "全部课程",
-        selectedCredit: this.totalCredit,
-        selectedAverageGrade: this.totalAverageGrade,
-        selectedGPA: this.totalAverageGPA
+      Column(){
+        this.GradeSummaryRow({
+          rowLabel: "全部课程",
+          selectedCredit: this.totalCredit,
+          selectedAverageGrade: this.totalAverageGrade,
+          selectedGPA: this.totalAverageGPA
+        })
+        this.GradeSummaryRow({
+          rowLabel: "已选课程",
+          selectedCredit: this.selectedCredit,
+          selectedAverageGrade: this.selectedAverageGrade,
+          selectedGPA: this.selectedAverageGPA
+        })
+      }
+      .backgroundColor(Color.White)
+      .borderRadius({
+        bottomLeft:'10vp',
+        bottomRight:'10vp'
       })
-      this.GradeSummaryRow({
-        rowLabel: "已选课程",
-        selectedCredit: this.selectedCredit,
-        selectedAverageGrade: this.selectedAverageGrade,
-        selectedGPA: this.selectedAverageGPA
-      })
+
     }
-    .border({width:{top:0.5,bottom:0.5}})
+
+    .width($r('app.float.grade_summary_row_width'))
+
   }
 }
 

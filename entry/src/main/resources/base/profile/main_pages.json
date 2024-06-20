@@ -6,7 +6,6 @@
     "pages/container/ContainerPage",
     "pages/GradePage",
     "pages/AllCoursePage",
-    "pages/TestPage",
     "pages/MainPage"
   ]
 }

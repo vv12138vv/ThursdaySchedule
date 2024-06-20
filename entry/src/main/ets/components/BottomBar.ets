@@ -7,7 +7,7 @@ export default struct BottomBar {
   build() {
     Row() {
       Button({ type: ButtonType.Normal,stateEffect:true }) {
-        Image($r('app.media.icon_schedule'))
+        Image($r('app.media.icon_nav_course'))
           .width($r('app.float.bottom_bar_icon_width'))
           .height($r('app.float.bottom_bar_icon_height'))
       }
@@ -18,7 +18,7 @@ export default struct BottomBar {
       .height(48)
 
       Button({ type: ButtonType.Normal,stateEffect:true }) {
-        Image($r("app.media.icon_grade"))
+        Image($r("app.media.icon_nav_score"))
           .width($r('app.float.bottom_bar_icon_width'))
           .height($r('app.float.bottom_bar_icon_height'))
       }

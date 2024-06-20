@@ -65,7 +65,6 @@ struct AllCoursePage {
     leftIcon: $r("app.media.icon_show_less"),
     title: "课表查询",
     onClickLeftButton: () => {
-      router.back();
     }
   }
   //课程详细对话框控制器
@@ -77,6 +76,7 @@ struct AllCoursePage {
     alignment: DialogAlignment.Bottom,
     customStyle: true
   })
+
 
   //滚动控制器
   private swiperController = new SwiperController();
@@ -101,13 +101,13 @@ struct AllCoursePage {
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
-  readonly courseCubeColors: string[] = [];
+  readonly courseCubeColors: string[] = ['#569EBD','#D3A384','#BA8B6D','#3B86A5','55AD9B','E88D67','FFDA78','7469B6'];
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
     this.allWeekStartDates = DateUtils.getAllWeekDates(this.termStartDate, 24);
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date());
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-06-13'));
     //今日所属周的偏移
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
@@ -129,18 +129,17 @@ struct AllCoursePage {
   }
 
 
-
-
   //表示时间的ui，课表顶部使用
   @Builder DateCube(date: Date) {
     Column() {
       Text(this.weekDaysString[date.getDay()])
-        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
+        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder: FontWeight.Regular)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
-        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
-    }
-    .alignItems(HorizontalAlign.Center)
-    .justifyContent(FlexAlign.Center)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
+        .fontSize('14vp')
+    }.margin({top:'5vp'})
+
   }
 
   //课表顶部的DateBar
@@ -149,9 +148,9 @@ struct AllCoursePage {
       Grid() {
         GridItem() {
           Column() {
-            Text('星期')
-            Text('日期')
-          }
+            Text('星期').fontSize('12vp')
+            Text('日期').fontSize('12vp')
+          }.justifyContent(FlexAlign.SpaceAround)
         }
 
         ForEach(this.showWeekDates, (item: Date, index: number) => {
@@ -169,18 +168,22 @@ struct AllCoursePage {
   //单个课程的可点击块
   @Builder CourseCube(courseView: CourseView) {
     Column() {
-      Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
-      Text(courseView.location)
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
-      Text(courseView.name)
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
+      Text(`${courseView.name}@${courseView.location}`)
+        .fontSize('12vp')
+      // Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
+      //   .fontSize(10)
+      //   .alignSelf(ItemAlign.Center)
+      // Text(courseView.name+"@"+courseView.location)
+      //   .fontSize('13vp')
+        //.alignSelf(ItemAlign.Center)
+      // Text(courseView.location)
+      //   .fontSize('12vp')
+      //   //.alignSelf(ItemAlign.Center)
+      //
+      //   .height(72)
     }
-    .height(72)
     .width("100%")
+    .height('72vp')
     .justifyContent(FlexAlign.SpaceAround)
     .backgroundColor(this.courseCubeColors[generateHash(courseView.name)%this.courseCubeColors.length])
     .onClick(() => {
@@ -220,7 +223,8 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 } })
+          .border({ width: { bottom: 0.5 } ,color:'#ff969696'})
+
         })
       }
       .columnsTemplate('1fr '.repeat(8).trim())
@@ -244,7 +248,7 @@ struct AllCoursePage {
         Row() {
           Button() {
             Image($r('app.media.icon_back'))
-              .width(16)
+              .width(20)
           }
           .backgroundColor(Color.Transparent)
           .onClick((event?: ClickEvent) => {
@@ -252,9 +256,10 @@ struct AllCoursePage {
           })
 
           Text(this.showWeekString)
+          .fontColor(Color.White)
           Button() {
             Image($r('app.media.icon_forward'))
-              .width(16)
+              .width(20)
           }
           .backgroundColor(Color.Transparent)
           .onClick((event?: ClickEvent) => {
