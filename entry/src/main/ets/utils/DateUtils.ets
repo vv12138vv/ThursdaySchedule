@@ -55,5 +55,50 @@ export default class DateUtils{
     }
     return weeksDates;
   }
+  //计算给定字符串中起始时间距离现在的天数。不满 24 小时将按 0 天计算。
+  public static getDaysFromNow(dateTimeRange: string): number {
+    // 将字符串按空格和 ~ 分隔
+    const [date, timeRange] = dateTimeRange.split(' ');
+    const [startTime, _] = timeRange.split('~');
+    // 将日期和起始时间拼接成完整的时间字符串
+    const startDateTimeString = `${date} ${startTime}`;
+    // 将时间字符串转换为 Date 对象
+    const startDateTime = new Date(startDateTimeString);
+    const now = new Date();
+    // 计算起始时间与当前时间的差值，单位为毫秒
+    const diffInMs = startDateTime.getTime() - now.getTime();
+    // 将差值转换为天数
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    // 不满24小时按0天处理
+    return diffInDays > 0 ? diffInDays : 0;
+  }
+  //比较这个时间的起始时间和当前时间，如果还没有到，返回1，否则返回0
+  public static CompareDaysFromNow(dateTimeRange: string): number {
+    const [date, timeRange] = dateTimeRange.split(' ');
+    const [startTime, _] = timeRange.split('~');
+
+    const startDateTimeString = `${date} ${startTime}`;
+
+    const startDateTime = new Date(startDateTimeString);
+    const now = new Date();
+    const diffInMs = startDateTime.getTime() - now.getTime();
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays > 0 ? diffInDays : 0;
+  }
+  //获取当前日期是周几
+  public static getDayOfWeek(dateTimeRange: string): string {
+
+    const [date, timeRange] = dateTimeRange.split(' ');
+    const [startTime, endTime] = timeRange.split('~');
+    const startDateString = `${date} ${startTime}`;
+
+    const startDate = new Date(startDateString);
+
+    const daysOfWeek = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const dayOfWeek = daysOfWeek[startDate.getDay()];
+
+    return dayOfWeek;
+  }
 }
 

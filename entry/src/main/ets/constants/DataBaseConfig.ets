@@ -16,19 +16,12 @@ export default class DataBaseConfig {
     columns: ["id", "studentId", "name", "password", "lastUpdateTime"]
   };
   static readonly TASK_TABLE = {
-    tableName: "tasks",
-    sqlCreate: `CREATE TABLE IF NOT EXISTS tasks (
-                  id INTEGER PRIMARY KEY AUTOINCREMENT,
-                  content TEXT NOT NULL,
-                  isFinished INTEGER NOT NULL,
-                  priority INTEGER NOT NULL,
-                  alertTime INTEGER,
-                  startTime INTEGER,
-                  endTime INTEGER,
-                  createTime INTEGER NOT NULL,
-                  updateTime INTEGER NOT NULL
-                )`,
-    columns: ["id", "content", "isFinished", "priority", "alertTime", "startTime", "endTime", "createTime", "updateTime"]
+    tableName: 'taskTable',
+    sqlCreate: 'CREATE TABLE IF NOT EXISTS taskTable' +
+    '(id INTEGER PRIMARY KEY AUTOINCREMENT, task_name TEXT, ' +
+    'subject INTEGER, start_date_stamp INTEGER, due_date_stamp INTEGER, ' +
+    'is_completed BOOLEAN, detail TEXT, ddl_detail TEXT, category INTEGER, topped BOOLEAN)',
+    columns: ['id', 'due_date_stamp', 'start_date_stamp', 'subject', 'detail', 'task_name', 'is_completed', 'ddl_detail', 'category', 'topped']
   };
   static readonly COURSE_TABLE = {
     tableName: "courses",
@@ -51,12 +44,13 @@ export default class DataBaseConfig {
     sqlCreate: `CREATE TABLE IF NOT EXISTS exams (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   examId TEXT NOT NULL UNIQUE,
+                  examName TEXT NOT NULL,
                   courseId TEXT NOT NULL UNIQUE,
                   location TEXT NOT NULL,
                   seatId INTEGER NOT NULL,
                   time TEXT NOT NULL
                 )`,
-    columns: ["id", "examId", "courseId", "location", "seatId", "time"]
+    columns: ["id", "examId", "examName","courseId", "location", "seatId", "time"]
   };
   static readonly GRADE_TABLE = {
     tableName: "grades",

@@ -108,6 +108,7 @@ export class Network{
         let e:Exam = {
           id:jsonObj.id,
           examId:jsonObj.examId,
+          examName:jsonObj.examNage,
           courseId:jsonObj.courseId,
           location:jsonObj.location,
           seatId:Number(jsonObj.seatId),

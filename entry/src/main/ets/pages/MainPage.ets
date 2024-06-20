@@ -1,21 +1,20 @@
 import BottomBar from '../components/BottomBar'
 import TodayCourseView from '../components/TodayCourseView'
 import router from '@ohos.router';
+import RecentExamView from '../components/RecentExamView';
+import TaskList from '../components/TaskList';
+import TaskTable from '../database/tables/TaskTable';
+import { TaskListItemData } from '../database/models/Task';
 @Entry
 @Component
 struct MainPage {
+
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Swiper() {
         TodayCourseView()
-        Button(){
-          Text('用户头像')
-        }
-        .onClick(()=>{
-          router.pushUrl({url:'pages/LoginPage'})
-        })
-        .height(80)
-        .width(80)
+        TaskList()
+        RecentExamView()
       }
       .backgroundColor(Color.Pink)
       BottomBar({
