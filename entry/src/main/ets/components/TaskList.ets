@@ -10,9 +10,8 @@ import { TaskItemDialog_ViewOnly } from './TaskItemDialog_ViewOnly'
 @Component
 
 export default struct TaskList {
-
-  @Link taskList: Array<TaskListItemData>
-  @Link taskTable: TaskTable
+  @State taskList: Array<TaskListItemData> = []
+  @State taskTable: TaskTable = new TaskTable(() => {});
 
   @State isEditing: boolean = false
   @State dialogIsAddNew: boolean = true
@@ -244,7 +243,7 @@ export default struct TaskList {
               })
             }
           }])
-        .height('100%')
+        .height('90%')
         .mode(NavigationMode.Stack)
 
         // -------------------------右下角的按钮
