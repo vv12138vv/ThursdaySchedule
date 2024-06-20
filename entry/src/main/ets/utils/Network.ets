@@ -5,16 +5,16 @@ import Exam from '../database/models/Exam'
 import {URL} from  '../constants/URL'
 
 export class Network{
-  baseURL = URL.baseURL
+  static readonly baseURL = URL.baseURL
 
   // 获取验证码图片，返回值为string类型的base64编码
   /*
    * 需要异步调用
    * 例如：async showVerifyCode():Promise<void>{ const imgSrc = await getVerifyCode(); }
    * */
-  async getVerifyCode():Promise<string>{
+  static async getVerifyCode():Promise<string>{
     let imgSrc = ''
-    const response = await axios.get(`${this.baseURL}/verifycode`);
+    const response = await axios.get(`${Network.baseURL}/verifycode`);
     if(response.status === 200){
       let imageBase64 = response.data['imageBase64']
       imgSrc = `data:image/jpeg;base64,${imageBase64}`
@@ -25,7 +25,7 @@ export class Network{
   }
 
   // 登录，正确登录则返回用户姓名和学号，例如王一涵(123456),登录错误则返回"error"
-  async userLogin(uid:string, upwd:string,verifyCode:string):Promise<string>{
+  static async userLogin(uid:string, upwd:string,verifyCode:string):Promise<string>{
     let result: string =''
     const response = await axios.post(`${this.baseURL}/login`,{
       'USERNAME':uid,
@@ -40,9 +40,9 @@ export class Network{
     return result
   }
 
-  async getLesson():Promise<Course[]>{
+  static async getLesson():Promise<Course[]>{
     let lessons:Course[] = []
-    const response = await axios.get(`${this.baseURL}/lessons`)
+    const response = await axios.get(`${Network.baseURL}/lessons`)
     if (response.status === 200) {
       const jsonArray = JSON.parse(response.data.lessons); // JSON array对象
       // console.log("---jsonArray type",typeof(jsonArray))
@@ -65,8 +65,8 @@ export class Network{
   }
 
   // 获取当前学期，如‘2023-2024-1’
-  async getCurrentSemester():Promise<string>{
-    const response = await axios.get(`${this.baseURL}/semester`)
+  static async getCurrentSemester():Promise<string>{
+    const response = await axios.get(`${Network.baseURL}/semester`)
     if (response.status === 200) {
       const semester = JSON.stringify(response.data.semester)
       return semester
@@ -75,9 +75,9 @@ export class Network{
     }
   }
 
-  async getScore():Promise<Grade[]>{
+  static async getScore():Promise<Grade[]>{
     let grades:Grade[] = [];
-    const response = await axios.get(`${this.baseURL}/score`)
+    const response = await axios.get(`${Network.baseURL}/score`)
     if(response.status === 200){
       const jsonArray = JSON.parse(response.data.score);
       jsonArray.forEach((jsonObj:any)=>{
@@ -101,7 +101,7 @@ export class Network{
   //time:查询学期，如”2023-2024-2“
   async getExam(time:string):Promise<Exam[]>{
     let exams:Exam[] = []
-    const response = await axios.post(`${this.baseURL}/exam`,{'time':time})
+    const response = await axios.post(`${Network.baseURL}/exam`,{'time':time})
     if (response.status === 200){
       const jsonArray = JSON.parse(response.data.exams)
       jsonArray.forEach((jsonObj:any)=>{

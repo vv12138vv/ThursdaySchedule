@@ -2,6 +2,9 @@ import router from '@ohos.router'
 import prompt from '@ohos.prompt'
 import promptAction from '@ohos.promptAction'
 import { Network } from '../utils/Network'
+import Course from '../database/models/Course'
+import CourseTable from '../database/tables/CourseTable'
+import Logger from '../utils/Logger'
 
 @Entry
 @Component
@@ -22,13 +25,13 @@ struct LoginPage {
 
 
   async showVerifyCode():Promise<void>{
-    const network = new Network();
-     this.imgCode = await network.getVerifyCode();
+    // const network = new Network();
+     this.imgCode = await Network.getVerifyCode();
   }
 
   async  login(uid:string, pwd:string, verify:string):Promise<void>{
     const network = new Network();
-    const userInfo = await network.userLogin(uid, pwd, verify);
+    const userInfo = await Network.userLogin(uid, pwd, verify);
     if(userInfo === "error"){
       promptAction.showToast({
         message:"密码或用户名错误，请重新输入"
@@ -39,10 +42,28 @@ struct LoginPage {
       this.showVerifyCode();
     } else {
       this.isLogin = true;
+      this.fetchAllData();
       router.pushUrl({
         url: "pages/PersonalPage"
       })
     }
+  }
+
+  fetchAllData(){
+    //加载课程数据
+    let courses:Course[];
+    Network.getLesson().then((value:Course[])=>{
+      courses=value;
+    });
+    courses.forEach((value:Course,index:number)=>{
+      CourseTable.insertData(value,(succeed:boolean)=>{
+        if(succeed){
+          Logger.info("insert course ${value.courseName} successfully");
+        }else{
+          Logger.info("insert course ${value.courseName} failed");
+        }
+      })
+    })
   }
 
   build() {
