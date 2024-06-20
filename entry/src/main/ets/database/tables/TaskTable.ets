@@ -1,106 +1,117 @@
+
 import relationalStore from '@ohos.data.relationalStore';
+import CommonConstants from '../../constants/CommonConstants';
 import DataBaseConfig from '../../constants/DataBaseConfig';
+import Logger from '../../utils/Logger';
+import { TaskListItemData } from '../models/Task';
 import Rdb from '../rdb';
-import Task from '../models/Task'
-import call from '@ohos.telephony.call';
 
-class TaskTable {
-  private taskTable = new Rdb(DataBaseConfig.TASK_TABLE.tableName, DataBaseConfig.TASK_TABLE.sqlCreate, DataBaseConfig.TASK_TABLE.columns);
 
-  constructor(callback: ()=>void = () => {
-  }) {
+
+
+export default class TaskTable {
+  private taskTable = new Rdb(DataBaseConfig.TASK_TABLE.tableName, DataBaseConfig.TASK_TABLE.sqlCreate,
+    DataBaseConfig.TASK_TABLE.columns)
+
+  constructor(callback: ()=>void = () => {}) {
     this.taskTable.getRdbStore(callback);
   }
 
-  getRdbStore(callback: ()=>void = () => {
-  }) {
-    this.taskTable.getRdbStore(callback);
+  getRdbStore(callback: ()=>void = () => {}) {
+    this.taskTable.getRdbStore(callback)
   }
 
-  //插入任务
-  insertData(task: Task, callback: (succeed:boolean)=>void) {
-    const value = generateBucket(task);
-    this.taskTable.insertData(value, callback);
+  updateColumns(newColumn: string, newColumnType: string) {
+    let newColumnData: string = ''
+    switch (newColumnType) {
+      case 'double':
+        newColumnData = 'INTEGER'
+        break;
+      case 'string':
+        newColumnData = 'TEXT'
+        break;
+      case 'boolean':
+        newColumnData = 'BOOLEAN'
+      default:
+        newColumnData = 'INTEGER'
+    }
+    Logger.debug(`UpdateColumns: ${newColumn} ${newColumnData}`)
+    this.taskTable.updateColumns(newColumn, newColumnData)
   }
 
-
-  updateData(task: Task, callback: (succeed:boolean)=>void) {
-    const value = generateBucket(task);
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('id', task.id);
-    this.taskTable.updateData(predicates, value, callback);
+  insertData(taskData: TaskListItemData, callback: (succeed:boolean)=>void) {
+    const valueBucket: relationalStore.ValuesBucket = generateBucket(taskData)
+    this.taskTable.insertData(valueBucket, callback)
   }
 
-  private queryData(predicates: relationalStore.RdbPredicates, callback: (result: Task[]) => void) {
+  deleteData(taskData: TaskListItemData, callback: (succeed:boolean)=>void) {
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName)
+    predicates.equalTo('id', taskData.id)
+    this.taskTable.deleteData(predicates, callback)
+  }
+
+  updateData(taskData: TaskListItemData, callback: (succeed:boolean)=>void) {
+    const valueBucket: relationalStore.ValuesBucket = generateBucket(taskData)
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName)
+    predicates.equalTo('id', taskData.id)
+    this.taskTable.updateData(predicates, valueBucket, callback)
+  }
+
+  queryTaskName(task_name: string, callback: Function, isAll: boolean = true) {
+    let submit: TaskListItemData = new TaskListItemData(); submit.task_name = task_name
+    this.basic_query("task_name", submit, callback, isAll)
+
+  }
+
+  basic_query(query_type: string, queryData: TaskListItemData, callback: Function, isAll: boolean = true) {
+    Logger.debug(`TaskTable query_type: ${query_type}, query_data: ${JSON.stringify(queryData)}, visit: ${queryData[query_type]}`)
+    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName)
+    if (!isAll) {
+      if (CommonConstants.COLUMN_TYPE[query_type] == 'string') predicates.like(query_type, queryData[query_type])
+      else predicates.equalTo(query_type, queryData[query_type])
+    }
     this.taskTable.query(predicates, (resultSet: relationalStore.ResultSet) => {
-      let count = resultSet.rowCount;
+      let count: number = resultSet.rowCount
+      Logger.debug(`TaskTable number: ${count}`)
       if (count === 0 || typeof count === 'string') {
-        callback([]);
+        callback([])
       } else {
-        resultSet.goToFirstRow();
-        const result: Task[] = [];
-        for (let i = 0; i < count; i += 1) {
-          let temp: Task = {
-            id: resultSet.getLong(resultSet.getColumnIndex('id')),
-            content: resultSet.getString(resultSet.getColumnIndex('content')),
-            isFinished: resultSet.getLong(resultSet.getColumnIndex('isFinished')),
-            priority: resultSet.getLong(resultSet.getColumnIndex('priority')),
-            alertTime: resultSet.getLong(resultSet.getColumnIndex('alertTime')),
-            startTime: resultSet.getLong(resultSet.getColumnIndex('startTime')),
-            endTime: resultSet.getLong(resultSet.getColumnIndex('endTime')),
-            createTime: resultSet.getLong(resultSet.getColumnIndex('createTime')),
-            updateTime: resultSet.getLong(resultSet.getColumnIndex('updateTime'))
-          };
-          result.push(temp);
-          resultSet.goToNextRow();
+        resultSet.goToFirstRow()
+        const result: TaskListItemData[] = []
+        for (let i = 0; i < count; ++i) {
+          let tmp: TaskListItemData = new TaskListItemData()
+          for (let t = 0; t < DataBaseConfig.TASK_TABLE.columns.length; ++t) {
+            let nowColumn = DataBaseConfig.TASK_TABLE.columns[t]
+            let nowIndex = resultSet.getColumnIndex(nowColumn)
+
+            switch (CommonConstants.COLUMN_TYPE[nowColumn]) {
+              case 'double':
+                tmp[nowColumn] = resultSet.getDouble(nowIndex)
+                break
+              case 'string':
+                tmp[nowColumn] = resultSet.getString(nowIndex)
+                break
+              case 'boolean':
+                tmp[nowColumn] = Boolean(resultSet.getDouble(nowIndex))
+            }
+
+            Logger.debug(`TaskTable READING: nowC = ${nowColumn}, data = ${tmp[nowColumn]}`)
+          }
+          result[i] = tmp
+          Logger.debug(`TaskTable Reading DATA: ${JSON.stringify(tmp)}`)
+          resultSet.goToNextRow()
         }
-        callback(result);
+        callback(result)
       }
-    });
+    })
   }
-
-  deleteDataById(id: number, callback: (succeed:boolean)=>void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('id', id);
-    this.taskTable.deleteData(predicates, callback);
-  }
-
-  selectDataById(id: number, callback: (result: Task[]) => void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('id', id);
-    this.queryData(predicates, callback);
-  }
-
-  selectDataByIsFinished(isFinished: number, callback: (result: Task[]) => void) {
-    let predicates = new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('isFinished', isFinished === 0 ? 0 : 1);
-    this.queryData(predicates, callback);
-  }
-
-  selectDataByPriority(priority: number, callback: (result: Task[]) => void){
-    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    predicates.equalTo('priority',priority);
-    this.queryData(predicates,callback);
-  }
-  //如有需要，参考上文。
-  selectDataAll(callback: (result: Task[]) => void){
-    let predicates=new relationalStore.RdbPredicates(DataBaseConfig.TASK_TABLE.tableName);
-    this.queryData(predicates,callback);
-  }
-
 }
 
-
-function generateBucket(task: Task): relationalStore.ValuesBucket {
-  let obj:relationalStore.ValuesBucket={};
-  obj.content=task.content;
-  obj.isFinished=task.isFinished;
-  obj.priority=task.priority;
-  obj.alertTime=task.alertTime;
-  obj.startTime=task.startTime;
-  obj.endTime=task.endTime;
-  obj.createTime=task.createTime;
-  obj.updateTime=task.updateTime;
-  return obj;
+function generateBucket(taskData: TaskListItemData): relationalStore.ValuesBucket {
+  let obj: relationalStore.ValuesBucket = {}
+  for (let i = 1; i < DataBaseConfig.TASK_TABLE.columns.length; ++i) {
+    let nowCol = DataBaseConfig.TASK_TABLE.columns[i]
+    obj[nowCol] = taskData[nowCol]
+  }
+  return obj
 }
-export default new TaskTable(()=>{}) as TaskTable;
