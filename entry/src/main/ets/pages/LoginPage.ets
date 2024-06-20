@@ -64,7 +64,7 @@ struct LoginPage {
     //加载课程数据
     let courses:Course[];
     courses=await Network.getLesson();
-    DataPool.courses.concat(courses);
+    DataPool.courses=DataPool.courses.concat(courses);
     courses.forEach((course:Course,index:number)=>{
       CourseTable.insertData(course,(succeed:boolean)=>{
         if(succeed){

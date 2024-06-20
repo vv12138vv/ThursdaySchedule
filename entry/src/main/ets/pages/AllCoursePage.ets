@@ -5,7 +5,8 @@ import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
 import {CourseView} from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
-
+import CourseTable from '../database/tables/CourseTable';
+import DataPool from '../utils/DataPool';
 @CustomDialog
 export struct CourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -93,7 +94,7 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-  readonly TOTAL_COURSE_CUBE: number = 104;
+  readonly TOTAL_COURSE_CUBE: number = 112;
 
   //课程相关
   coursesInWeek: (CourseView | null)[] = Array(this.TOTAL_COURSE_CUBE).fill(null);
@@ -102,6 +103,7 @@ struct AllCoursePage {
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
   readonly courseCubeColors: string[] = [];
+  private courses:Course[]=[];
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -117,19 +119,32 @@ struct AllCoursePage {
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
-
-
-    //预载课程
-    this.courseViews = CourseView.fromCourse(courseDemo);
+    // CourseTable.selectDataAll((result:Course[])=>{
+    //   this.courses=result;
+    //   this.courses.forEach((course:Course,index:number)=>{
+    //     let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
+    //     this.courseViews=this.courseViews.concat(courseViewTemp);
+    //   })
+    //   this.courseViews.forEach((item: CourseView, index: number) => {
+    //     for (let i = item.startWeek;i <= item.endWeek; i += 1) {
+    //       let idx = item.weekday + (item.courseSeq - 1) * 8;
+    //       this.courseSchedule[i-1][idx] = item;
+    //     }
+    //   })
+    // })
+    this.courses=DataPool.courses;
+    this.courses.forEach((course:Course,index:number)=>{
+      let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
+      this.courseViews=this.courseViews.concat(courseViewTemp);
+    })
     this.courseViews.forEach((item: CourseView, index: number) => {
       for (let i = item.startWeek;i <= item.endWeek; i += 1) {
         let idx = item.weekday + (item.courseSeq - 1) * 8;
         this.courseSchedule[i-1][idx] = item;
       }
     })
+    let i=1;
   }
-
-
 
 
   //表示时间的ui，课表顶部使用

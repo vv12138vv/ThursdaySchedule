@@ -13,23 +13,22 @@ export default class Course {
   credit: number; //学分
   location: string;
   courseType: string; //课程类型
-  startWeek:number;//开课周
-  endWeek:number;//结课周
+  startWeek: number; //开课周
+  endWeek: number; //结课周
   time: string; //时间有多种，这里使用 string，后面做中间层适配
 }
 
 
-
-export let courseDemo:Course={
-  courseId:'06036101',
-  name:'高性能计算引论',
-  teacher:'李翔宇',
-  credit:2,
-  location:'I-206',
-  courseType:CourseType.Required,
-  time:"星期二(02-03小节);星期四(02-03小节)",
-  startWeek:9,
-  endWeek:16
+export let courseDemo: Course = {
+  courseId: '06036101',
+  name: '高性能计算引论',
+  teacher: '李翔宇',
+  credit: 2,
+  location: 'I-206',
+  courseType: CourseType.Required,
+  time: "星期二(02-03小节);星期四(02-03小节)",
+  startWeek: 9,
+  endWeek: 16
 }
 
 //展示层 CourseView
@@ -113,7 +112,8 @@ export class CourseView {
     [10, ['17:30', '18:15']],
     [11, ['19:00', '19:45']],
     [12, ['19:50', '20:35']],
-    [13, ['20:40', '21:25']]
+    [13, ['20:40', '21:25']],
+    [14, ['21:30', "21:30"]]
   ]);
 
   static getCourseSeqStartTime(courseSeq: number): string {
