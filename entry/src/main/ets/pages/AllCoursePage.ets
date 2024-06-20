@@ -119,19 +119,6 @@ struct AllCoursePage {
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
-    // CourseTable.selectDataAll((result:Course[])=>{
-    //   this.courses=result;
-    //   this.courses.forEach((course:Course,index:number)=>{
-    //     let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
-    //     this.courseViews=this.courseViews.concat(courseViewTemp);
-    //   })
-    //   this.courseViews.forEach((item: CourseView, index: number) => {
-    //     for (let i = item.startWeek;i <= item.endWeek; i += 1) {
-    //       let idx = item.weekday + (item.courseSeq - 1) * 8;
-    //       this.courseSchedule[i-1][idx] = item;
-    //     }
-    //   })
-    // })
     this.courses=DataPool.courses;
     this.courses.forEach((course:Course,index:number)=>{
       let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
@@ -143,7 +130,6 @@ struct AllCoursePage {
         this.courseSchedule[i-1][idx] = item;
       }
     })
-    let i=1;
   }
 
 
