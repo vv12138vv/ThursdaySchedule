@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
+          "storePassword": "0000001A7CE2C8474B67ED9F8164B6157C640FB1DE2A570A7EA4A2A4A3BE16A72B15B9EF299F2B121FD8",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001AC8A5F0B36367DF08891DBD09E96CD39CD8C23A158C8E9F6E95D0865C302DEDB04A6740F85D17",
+          "profile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
+        }
+      }
+    ],
     "compileSdkVersion": 9,
     "compatibleSdkVersion": 9,
     "products": [

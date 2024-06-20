@@ -1,6 +1,6 @@
 export class DataProcess{
   // 解析学号第2-3位，返回所有允许的学期
-  generateSemesterArray(studentId: string): string[] {
+  static generateSemesterArray(studentId: string): string[] {
     const entryYearSuffix = studentId.substring(1, 3);
     const entryYear = parseInt(`20${entryYearSuffix}`);
     const semesters: string[] = [];
@@ -13,7 +13,7 @@ export class DataProcess{
   }
 
   // 根据学号和当前学期确定所属阶段,例如‘921107’、‘2023-2024-2’ => ‘大三下’
-  getSemesterDescription(studentId: string, semester: string): string {
+  static getSemesterDescription(studentId: string, semester: string): string {
     const entryYearSuffix = studentId.substring(1, 3);
     const entryYear = parseInt(`20${entryYearSuffix}`);
 
