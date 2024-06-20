@@ -8,6 +8,14 @@ struct MainPage {
     Stack({ alignContent: Alignment.Bottom }) {
       Swiper() {
         TodayCourseView()
+        Button(){
+          Text('用户头像')
+        }
+        .onClick(()=>{
+          router.pushUrl({url:'pages/LoginPage'})
+        })
+        .height(80)
+        .width(80)
       }
       .backgroundColor(Color.Pink)
       BottomBar({

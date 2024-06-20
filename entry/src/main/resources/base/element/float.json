@@ -386,7 +386,7 @@
     },
     {
       "name": "login_input_token_width",
-      "value": "200vp"
+      "value": "250vp"
     },
     {
       "name": "login_bottom_margin",
