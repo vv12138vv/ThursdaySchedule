@@ -22,13 +22,11 @@ struct LoginPage {
 
 
   async showVerifyCode():Promise<void>{
-    const network = new Network();
-     this.imgCode = await network.getVerifyCode();
+     this.imgCode = await Network.getVerifyCode();
   }
 
   async  login(uid:string, pwd:string, verify:string):Promise<void>{
-    const network = new Network();
-    const userInfo = await network.userLogin(uid, pwd, verify);
+    const userInfo = await Network.userLogin(uid, pwd, verify);
     if(userInfo === "error"){
       promptAction.showToast({
         message:"密码或用户名错误，请重新输入"
