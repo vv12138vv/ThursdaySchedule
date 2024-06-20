@@ -10,36 +10,56 @@ struct TodayCourseDetailDialog {
   build() {
     Column() {
       Row() {
-        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
-          .fontSize(28)
+          .fontSize(26)
+          .fontWeight(FontWeight.Bold)
+          .margin({top:10})
+
         Button() {
           Image($r("app.media.icon_close"))
-            .width(18)
+            .width(20)
             .onClick(() => {
               this.dialogController.close();
             })
         }
         .backgroundColor(Color.Transparent)
       }
-      .justifyContent(FlexAlign.SpaceEvenly)
+      .justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
-      .margin({top:8})
-      Column() {
-        Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
-        Text(this.courseView.teacher + ' (任课教师)')
-        Text(this.courseView.location + ' (上课地点) ')
-        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
-        Text(this.courseView.credit + ' (课程学分) ')
+
+
+
+      Row() {
+        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修").fontSize(18)
+        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + '周').fontSize(18)
+        Text(this.courseView.teacher).fontSize(18)
       }
-      .layoutWeight(6)
-      .justifyContent(FlexAlign.SpaceAround)
-      .alignItems(HorizontalAlign.Start)
+      .margin({top:15,bottom:25})
+      .width('80%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq)).fontSize(26) .fontWeight(FontWeight.Medium)
+
+      Row(){
+        Text(this.courseView.location).fontSize(20).fontWeight(FontWeight.Bold)
+        Text(`${this.courseView.credit}`).fontSize(55).fontWeight(FontWeight.Bold)
+      }
+      .width('85%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
     }
     .width("80%")
-    .height("25%")
-    .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+    .height("30%")
+    .padding({
+      bottom:40,
+      left:30,
+      right:20,
+      top:20
+    })
+    .justifyContent(FlexAlign.SpaceAround)
+    .backgroundColor(Color.White)
     .borderRadius(16)
+    .alignItems(HorizontalAlign.Start)
   }
 }
 
@@ -81,22 +101,23 @@ export default struct TodayCourseView {
   @Builder CourseCard(courseView: CourseView) {
     Column() {
       Text(courseView.name)
-        .fontSize(22)
-        .margin({ left: 10, top: 16 })
-      Column() {
+        .fontSize(24)
+        .fontWeight(FontWeight.Bold)
+        .margin({ left: 20, top: 20 })
+      Row() {
         Text(CourseView.courseSeqToTimeString(courseView.courseSeq))
           .fontSize(18)
         Text(courseView.location)
           .fontSize(18)
       }
-      .alignItems(HorizontalAlign.Start)
-      .margin({ left: 10, top: 16 })
-      .height(52)
       .justifyContent(FlexAlign.SpaceBetween)
+      .width(200)
+      .margin({ left: 20, right: 20 })
+      .height(52)
     }
-    .width(280)
-    .height(128)
-    .borderWidth(0.5)
+    .width(300)
+    .height(105)
+    //.borderWidth(0.5)
     .borderRadius(16)
     .alignItems(HorizontalAlign.Start)
     .backgroundColor(Color.White)
@@ -108,16 +129,10 @@ export default struct TodayCourseView {
 
   build() {
     Column() {
-      Row() {
-        Text('Lesson')
-          .fontSize(48)
-      }
-      .margin({ top: 80, bottom: 48 })
-      .width(300)
 
       Column() {
         if (this.courseViews.length != 0) {
-          List({ space: 24 }) {
+          List({ space: 12 }) {
             ForEach(this.courseViews, (item: CourseView, index: number) => {
               ListItem() {
                 this.CourseCard(item)
@@ -130,6 +145,7 @@ export default struct TodayCourseView {
           Text('今天没有课哦')
             .fontSize(32)
             .margin({top:48})
+            .fontColor(Color.White)
         }
       }
       .height(512)
@@ -147,5 +163,6 @@ struct TodayCourseViewPreview {
   build() {
     TodayCourseView()
       .backgroundColor(Color.Pink)
+
   }
 }

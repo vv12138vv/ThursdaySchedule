@@ -1,0 +1,29 @@
+{
+  "color": [
+    {
+      "name": "course_block_color_1",
+      "value": "#007DFF"
+    },
+    {
+      "name": "dialog_background",
+      "value": "#B94E4E4E"
+    },
+    {
+      "name": "card_transparent",
+      "value": "#c1ffffff"
+    },
+    {
+      "name": "divide_line",
+      "value": "#B7666666"
+    },
+    {
+      "name": "font_gray_white",
+      "value": "#FF757575"
+    },
+    {
+      "name": "placeHolder_white",
+      "value": "#C1FFFFFF"
+    }
+
+  ]
+}

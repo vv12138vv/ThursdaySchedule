@@ -90,7 +90,7 @@ struct GradePage {
 
   build() {
     Column() {
-      NavBar({ navBarConfig: this.navBarConfig })
+      NavBar({ navBarConfig: this.navBarConfig }).margin({bottom:'10vp'})
       Scroll() {
         Column({ space: 32 }) {
           GradeSummary({
@@ -101,7 +101,7 @@ struct GradePage {
             selectedAverageGrade: $selectedAverageGrade,
             selectedAverageGPA: $selectedAverageGPA
           })
-            .border({ width: { left: 0.5, right: 0.5 } })
+
           ForEach(this.terms, (value: string, index: number) => {
             GradeBlock({
               termInString: value,
@@ -112,6 +112,8 @@ struct GradePage {
       }
       .margin({ top: 10 })
     }
+    .backgroundColor('#fff3f3f3')
+    .height('100%')
   }
 
   //配置页面切换动画

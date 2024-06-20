@@ -39,6 +39,8 @@ struct LoginPage {
       this.showVerifyCode();
     } else {
       this.isLogin = true;
+
+
       router.pushUrl({
         url: "pages/PersonalPage"
       })
@@ -55,7 +57,7 @@ struct LoginPage {
     .loop(true)
 
     Column() {
-      Text("登录")
+      Text("登  录")
         .fontSize($r("app.float.login_login_text_font"))
         .fontWeight(FontWeight.Bold)
         .fontColor($r('app.color.color_fff'))
@@ -65,7 +67,7 @@ struct LoginPage {
       Stack(){
         Column(){
           Row({space:this.icon_input_space}) {
-            Image($r("app.media.icon")).width($r("app.float.login_icon_width"))
+            Image($r("app.media.icon_login_user")).width($r("app.float.login_icon_width"))
 
             TextInput({
               placeholder: "请输入学号"
@@ -73,19 +75,21 @@ struct LoginPage {
               .width($r("app.float.login_input_token_width")).onChange((val: string) => {
               this.username = val
             })
-              .fontColor($r('app.color.color_fff'))
+              .backgroundColor($r('app.color.placeHolder_white'))
+              .placeholderColor($r('app.color.font_gray_white'))
           }.width("100%")
           .input_line_style()
 
 
 
           Row({space:this.icon_input_space}) {
-            Image($r("app.media.icon")).width($r("app.float.login_icon_width"))
+            Image($r("app.media.icon_login_pwd")).width($r("app.float.login_icon_width"))
 
             TextInput({
               placeholder: "请输入密码"
             }).width($r("app.float.login_input_token_width"))
-              .fontColor($r('app.color.color_fff'))
+              .backgroundColor($r('app.color.placeHolder_white'))
+              .placeholderColor($r('app.color.font_gray_white'))
               .onChange((val: string) => {
                 this.password = val
 
@@ -97,7 +101,7 @@ struct LoginPage {
 
 
           Row({space:this.icon_input_space}) {
-            Image($r("app.media.icon")).width($r("app.float.login_icon_width"))
+            Image($r("app.media.icon_login_verify")).width($r("app.float.login_icon_width"))
 
             TextInput({
               placeholder: "验证码"
@@ -105,8 +109,8 @@ struct LoginPage {
               .width('130vp').onChange((val: string) => {
               this.verifyCode = val
             })
-              .fontColor($r('app.color.color_fff'))
-              .placeholderColor($r('app.color.color_fff'))
+              .backgroundColor($r('app.color.placeHolder_white'))
+              .placeholderColor($r('app.color.font_gray_white'))
 
             Image(this.imgCode)
               .width('98vp')
@@ -117,26 +121,28 @@ struct LoginPage {
           }.width("100%")
           .input_line_style()
 
-          Button("登陆")
-            .width("60%")
+          Button("Login")
+            .width("55%")
             .height($r("app.float.login_button_height"))
-            .backgroundColor('#866b6b6b')
+            .backgroundColor('#a899c494')
             .onClick(() => {
               this.login(this.username, this.password, this.verifyCode)
             })
-            .fontSize('20vp')
+            .fontSize('25vp')
             .input_line_style()
             .margin({
               top:'50vp'
             })
         }.margin({
           top:'30vp',
-          bottom:'30vp'
+          bottom:'30vp',
+          right:5
         })
+        .padding({left:20})
       }
       .backgroundColor('#2fffffff')
 
-      .borderRadius('10vp')
+      .borderRadius('16vp')
     }
     .width('100%')
     .height('100%')
