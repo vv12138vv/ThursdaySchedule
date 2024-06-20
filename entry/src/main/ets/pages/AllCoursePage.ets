@@ -302,13 +302,13 @@ struct AllCoursePage {
         Swiper(this.swiperController) {
           ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
             this.CourseTable(item)
-          },(item,index)=>index.toString())
+          })
         }
         .loop(false)
         .index(this.curWeek - 1)
         .layoutWeight(1)
         .indicator(false)
-        .cachedCount(2)
+        .cachedCount(3)
         .autoPlay(false)
         .onChange((index: number) => {
           this.showWeek = index + 1;
