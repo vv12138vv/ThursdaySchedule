@@ -118,6 +118,7 @@ struct AllCoursePage {
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
 
+
     //预载课程
     this.courseViews = CourseView.fromCourse(courseDemo);
     this.courseViews.forEach((item: CourseView, index: number) => {

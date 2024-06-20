@@ -5,11 +5,11 @@ import { Network } from '../utils/Network'
 import Course from '../database/models/Course'
 import CourseTable from '../database/tables/CourseTable'
 import Logger from '../utils/Logger'
-import Grade from '../database/models/Grade'
+import Grade, { gradeToGPA } from '../database/models/Grade'
 import GradeTable from '../database/tables/GradeTable'
 import DateUtils from '../utils/DateUtils'
 import { DataProcess } from '../utils/DataProcess'
-
+import DataPool from '../utils/DataPool';
 @Entry
 @Component
 struct LoginPage {
@@ -64,6 +64,7 @@ struct LoginPage {
     //加载课程数据
     let courses:Course[];
     courses=await Network.getLesson();
+    DataPool.courses.concat(courses);
     courses.forEach((course:Course,index:number)=>{
       CourseTable.insertData(course,(succeed:boolean)=>{
         if(succeed){
@@ -76,8 +77,11 @@ struct LoginPage {
   }
 
   async fetchAllGrades(){
-    let grades:Grade[];
+    let grades:Grade[]=[];
     grades=await Network.getScore();
+    grades.forEach((grade:Grade,index:number)=>{
+      grade.gpa=gradeToGPA(grade.grade);
+    })
     grades.forEach((grade:Grade,index:number)=>{
       GradeTable.insertData(grade,(succeed:boolean)=>{
         if(succeed){
@@ -91,12 +95,12 @@ struct LoginPage {
 
   build() {
     Stack() {
-      Video({
-        src: $rawfile('login_video.mp4')
-      })
-        .autoPlay(true)
-        .controls(false)
-        .loop(true)
+      // Video({
+      //   src: $rawfile('login_video.mp4')
+      // })
+      //   .autoPlay(true)
+      //   .controls(false)
+      //   .loop(true)
 
       Column() {
         Text("登录")

@@ -64,13 +64,12 @@ export default struct TodayCourseView {
   aboutToAppear() {
     //日期相关初始化
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-05-01'));
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-04-30'));
     //
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
     //数据请求
     let courses:Course[];
-
     let coursesViewTemp:CourseView[]=[];
     CourseTable.selectDataByWeek(this.curWeek,(result:Course[])=>{
       courses=result;
@@ -85,7 +84,6 @@ export default struct TodayCourseView {
       })
       this.courseViews=coursesViewTemp;
     })
-
   }
 
 

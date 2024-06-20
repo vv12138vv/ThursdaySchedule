@@ -6,7 +6,8 @@ import Grade, { gradeToGPA, transToGradeNum } from '../database/models/Grade';
 import GradeTable from '../database/tables/GradeTable';
 import { WindowMode } from '@ohos.UiTest';
 import { gradeDemo } from '../database/models/Grade';
-
+import { DataProcess } from '../utils/DataProcess';
+import DataPool from '../utils/DataPool';
 @Entry
 @Component
 struct GradePage {
@@ -23,7 +24,7 @@ struct GradePage {
   //页面中被选中的所有 GradeId
   @Provide('allSelectedGradeId') @Watch('onAllSelectedGradeIdChange') allSelectedGradeId: number[] = [];
   //学期信息
-  terms: string[] = ['2021-2022-1'];
+  @State terms: string[] = [];
   //每个学期对应的成绩
   termGrades: Map<string, Grade[]> = new Map();
 
@@ -61,7 +62,7 @@ struct GradePage {
   }
 
   initGradeInfo(grades: Grade[]) {
-    let initSelectedGradeId:number[]=[];
+    let initSelectedGradeId: number[] = [];
     grades.forEach((item: Grade, index: number) => {
       this.totalCredit += item.credit;
       let gradeNum = transToGradeNum(item.grade);
@@ -70,21 +71,25 @@ struct GradePage {
       initSelectedGradeId.push(item.id);
     });
 
-    this.totalAverageGrade=this.totalGradeWithWeight/this.totalCredit;
-    this.totalAverageGPA=this.totalGPAWithWeight/this.totalCredit;
-    this.allSelectedGradeId=initSelectedGradeId;
+    this.totalAverageGrade = this.totalGradeWithWeight / this.totalCredit;
+    this.totalAverageGPA = this.totalGPAWithWeight / this.totalCredit;
+    this.allSelectedGradeId = initSelectedGradeId;
   }
 
   aboutToAppear() {
-    //Todo 这里拉取全部数据，然后进行分发
-    this.allGrades = [gradeDemo];
-    this.initGradeInfo(this.allGrades)
-    this.terms.forEach((term: string, index: number) => {
-      let termGrade: Grade[] = [];
-      termGrade = this.allGrades.filter((grade: Grade, index: number) => {
-        return grade.time === term;
+    let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232')
+    this.allGrades=DataPool.grades;
+    GradeTable.selectDataAll((result: Grade[]) => {
+      this.allGrades = result;
+      this.initGradeInfo(this.allGrades)
+      termsTemp.forEach((term: string, index: number) => {
+        let termGrade: Grade[] = [];
+        termGrade = this.allGrades.filter((grade: Grade, index: number) => {
+          return grade.time === term;
+        })
+        this.termGrades.set(term, termGrade);
       })
-      this.termGrades.set(term, termGrade);
+      this.terms=termsTemp;
     })
   }
 
@@ -102,12 +107,14 @@ struct GradePage {
             selectedAverageGPA: $selectedAverageGPA
           })
             .border({ width: { left: 0.5, right: 0.5 } })
-          ForEach(this.terms, (value: string, index: number) => {
-            GradeBlock({
-              termInString: value,
-              grades: this.termGrades.get(value)
+          if (this.terms.length != 0) {
+            ForEach(this.terms, (value: string, index: number) => {
+              GradeBlock({
+                termInString: value,
+                grades: this.termGrades.get(value)
+              })
             })
-          })
+          }
         }
       }
       .margin({ top: 10 })
