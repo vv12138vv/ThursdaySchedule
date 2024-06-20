@@ -30,11 +30,11 @@ struct GradePage {
 
 
   //页面总成绩信息
-  totalCredit: number = 0;
+  @State totalCredit: number = 0;
   totalGradeWithWeight: number = 0;
   totalGPAWithWeight: number = 0;
-  totalAverageGrade: number = 0;
-  totalAverageGPA: number = 0;
+  @State totalAverageGrade: number = 0;
+  @State totalAverageGPA: number = 0;
   //页面总选择成绩信息
   @State selectedCredit: number = 0;
   selectedGradeWithWeight: number = 0;
@@ -78,7 +78,6 @@ struct GradePage {
 
   aboutToAppear() {
     let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232')
-    this.allGrades=DataPool.grades;
     GradeTable.selectDataAll((result: Grade[]) => {
       this.allGrades = result;
       this.initGradeInfo(this.allGrades)

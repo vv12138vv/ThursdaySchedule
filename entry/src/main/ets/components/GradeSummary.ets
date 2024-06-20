@@ -1,8 +1,8 @@
 @Component
 export default struct GradeSummary {
-  totalCredit: number;
-  totalAverageGrade: number;
-  totalAverageGPA: number;
+  @Prop totalCredit: number;
+  @Prop totalAverageGrade: number;
+  @Prop totalAverageGPA: number;
   @Link selectedCredit: number;
   @Link selectedAverageGrade: number;
   @Link selectedAverageGPA: number;

@@ -10,6 +10,8 @@ import GradeTable from '../database/tables/GradeTable'
 import DateUtils from '../utils/DateUtils'
 import { DataProcess } from '../utils/DataProcess'
 import DataPool from '../utils/DataPool';
+import Exam from '../database/models/Exam';
+import ExamTable from '../database/tables/ExamTable';
 @Entry
 @Component
 struct LoginPage {
@@ -53,7 +55,7 @@ struct LoginPage {
 
   async fetchAllData() {
     try {
-      await Promise.all([this.fetchAllCourses(), this.fetchAllGrades()]);
+      await Promise.all([this.fetchAllCourses(), this.fetchAllGrades(),this.fetchAllExam()]);
     } catch (error) {
       // 处理错误
       console.error('Error in fetchAllData:', error);
@@ -88,6 +90,20 @@ struct LoginPage {
           Logger.info("insert grade ${value.courseName} successfully");
         }else{
           Logger.info("insert grade ${value.courseName} failed");
+        }
+      })
+    })
+  }
+
+  async fetchAllExam(){
+    let exams:Exam[]=[];
+    exams=await Network.getExam('2023-2024-2');
+    exams.forEach((exam:Exam,index:number)=>{
+      ExamTable.insertData(exam,(succeed:boolean)=>{
+        if(succeed){
+          Logger.info("insert exam ${exam.examName} successfully");
+        }else{
+          Logger.info("insert exam ${exam.examName} failed");
         }
       })
     })

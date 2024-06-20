@@ -99,7 +99,7 @@ export class Network{
   }
 
   //time:查询学期，如”2023-2024-2“
-  async getExam(time:string):Promise<Exam[]>{
+  static async getExam(time:string):Promise<Exam[]>{
     let exams:Exam[] = []
     const response = await axios.post(`${Network.baseURL}/exam`,{'time':time})
     if (response.status === 200){
