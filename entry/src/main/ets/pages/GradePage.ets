@@ -77,7 +77,7 @@ struct GradePage {
   }
 
   aboutToAppear() {
-    let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232')
+    let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232').slice(0,6)
     GradeTable.selectDataAll((result: Grade[]) => {
       this.allGrades = result;
       this.initGradeInfo(this.allGrades)
@@ -88,13 +88,13 @@ struct GradePage {
         })
         this.termGrades.set(term, termGrade);
       })
-      this.terms=termsTemp;
+      this.terms=termsTemp.reverse();
     })
   }
 
   build() {
     Column() {
-      NavBar({ navBarConfig: this.navBarConfig })
+      NavBar({ navBarConfig: this.navBarConfig }).margin({bottom:'10vp'})
       Scroll() {
         Column({ space: 32 }) {
           GradeSummary({
@@ -105,19 +105,21 @@ struct GradePage {
             selectedAverageGrade: $selectedAverageGrade,
             selectedAverageGPA: $selectedAverageGPA
           })
-            .border({ width: { left: 0.5, right: 0.5 } })
-          if (this.terms.length != 0) {
-            ForEach(this.terms, (value: string, index: number) => {
-              GradeBlock({
-                termInString: value,
-                grades: this.termGrades.get(value)
-              })
+
+          ForEach(this.terms, (value: string, index: number) => {
+            GradeBlock({
+              termInString: value,
+              grades: this.termGrades.get(value)
             })
-          }
+          })
         }
       }
-      .margin({ top: 10 })
+      .margin({ top: 10 ,bottom:10})
+      .padding({bottom:128})
+      .width("100%")
     }
+    .backgroundColor('#fff3f3f3')
+    .height('100%')
   }
 
   //配置页面切换动画

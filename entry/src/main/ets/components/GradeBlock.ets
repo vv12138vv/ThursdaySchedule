@@ -65,6 +65,8 @@ export default struct GradeBlock {
       Text($$.termInString)
     }
     .width($r('app.float.grade_block_header_width'))
+    .alignItems(VerticalAlign.Center)
+    .justifyContent(FlexAlign.Center)
   }
 
   @Builder GradeBlockHeader() {
@@ -124,7 +126,7 @@ export default struct GradeBlock {
         Checkbox()
           .select(true)
           .selectedColor($r('app.color.grade_block_row_checkbox_selected_color'))
-          .width(12)
+          .width(18)
           .onChange((selected: boolean) => {
             if (selected) {
               if (!(this.blockSelectedId.includes(grade.id))) {
@@ -183,7 +185,7 @@ export default struct GradeBlock {
       .height("100%")
 
       GridItem() {
-        Text(grade.courseType)
+        Text(grade.courseType == 'Required'?'必修':'选修')
           .fontSize($r('app.float.grade_block_row_font_size'))
           .fontColor($r('app.color.grade_block_row_font_color'))
       }
@@ -199,6 +201,7 @@ export default struct GradeBlock {
     .columnsTemplate('1fr 3fr 1fr 1fr 1fr 1fr')
     .width($r('app.float.grade_block_row_width'))
     .height($r('app.float.grade_block_row_height'))
+    .backgroundColor(Color.White)
   }
 
   build() {
@@ -210,7 +213,7 @@ export default struct GradeBlock {
           this.GradeBlockRow(item)
         })
       }
-      .border({ width: { top: 0.5, bottom: 0.5 } })
+      //.border({ width: { top: 0.5, bottom: 0.5 } })
 
       GradeSummary({
         totalCredit: this.blockTotalCredit,
@@ -221,7 +224,8 @@ export default struct GradeBlock {
         selectedAverageGPA: $selectedAverageGPA
       })
     }
-    .borderWidth(0.5)
+    //.backgroundColor(Color.White)
+    //.borderWidth(0.5)
   }
 }
 

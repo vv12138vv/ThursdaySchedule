@@ -102,7 +102,7 @@ struct AllCoursePage {
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
-  readonly courseCubeColors: string[] = [];
+  readonly courseCubeColors: string[] = ['#569EBD','#D3A384','#BA8B6D','#3B86A5','55AD9B','E88D67','FFDA78','7469B6'];
   private courses:Course[]=[];
 
   aboutToAppear() {
@@ -119,19 +119,6 @@ struct AllCoursePage {
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
-    // CourseTable.selectDataAll((result:Course[])=>{
-    //   this.courses=result;
-    //   this.courses.forEach((course:Course,index:number)=>{
-    //     let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
-    //     this.courseViews=this.courseViews.concat(courseViewTemp);
-    //   })
-    //   this.courseViews.forEach((item: CourseView, index: number) => {
-    //     for (let i = item.startWeek;i <= item.endWeek; i += 1) {
-    //       let idx = item.weekday + (item.courseSeq - 1) * 8;
-    //       this.courseSchedule[i-1][idx] = item;
-    //     }
-    //   })
-    // })
     this.courses=DataPool.courses;
     this.courses.forEach((course:Course,index:number)=>{
       let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
@@ -143,7 +130,6 @@ struct AllCoursePage {
         this.courseSchedule[i-1][idx] = item;
       }
     })
-    let i=1;
   }
 
 
@@ -151,12 +137,13 @@ struct AllCoursePage {
   @Builder DateCube(date: Date) {
     Column() {
       Text(this.weekDaysString[date.getDay()])
-        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
+        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder: FontWeight.Regular)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
-        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? Color.Blue : Color.Black)
-    }
-    .alignItems(HorizontalAlign.Center)
-    .justifyContent(FlexAlign.Center)
+        .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
+        .fontSize('14vp')
+    }.margin({top:'5vp'})
+
   }
 
   //课表顶部的DateBar
@@ -165,9 +152,9 @@ struct AllCoursePage {
       Grid() {
         GridItem() {
           Column() {
-            Text('星期')
-            Text('日期')
-          }
+            Text('星期').fontSize('12vp')
+            Text('日期').fontSize('12vp')
+          }.justifyContent(FlexAlign.SpaceAround)
         }
 
         ForEach(this.showWeekDates, (item: Date, index: number) => {
@@ -185,18 +172,22 @@ struct AllCoursePage {
   //单个课程的可点击块
   @Builder CourseCube(courseView: CourseView) {
     Column() {
-      Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
-      Text(courseView.location)
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
-      Text(courseView.name)
-        .fontSize(10)
-        .alignSelf(ItemAlign.Center)
+      Text(`${courseView.name}@${courseView.location}`)
+        .fontSize('12vp')
+      // Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
+      //   .fontSize(10)
+      //   .alignSelf(ItemAlign.Center)
+      // Text(courseView.name+"@"+courseView.location)
+      //   .fontSize('13vp')
+        //.alignSelf(ItemAlign.Center)
+      // Text(courseView.location)
+      //   .fontSize('12vp')
+      //   //.alignSelf(ItemAlign.Center)
+      //
+      //   .height(72)
     }
-    .height(72)
     .width("100%")
+    .height('72vp')
     .justifyContent(FlexAlign.SpaceAround)
     .backgroundColor(this.courseCubeColors[generateHash(courseView.name)%this.courseCubeColors.length])
     .onClick(() => {
@@ -236,7 +227,8 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 } })
+          .border({ width: { bottom: 0.5 } ,color:'#ff969696'})
+
         })
       }
       .columnsTemplate('1fr '.repeat(8).trim())
@@ -260,7 +252,7 @@ struct AllCoursePage {
         Row() {
           Button() {
             Image($r('app.media.icon_back'))
-              .width(16)
+              .width(20)
           }
           .backgroundColor(Color.Transparent)
           .onClick((event?: ClickEvent) => {
@@ -268,9 +260,10 @@ struct AllCoursePage {
           })
 
           Text(this.showWeekString)
+          .fontColor(Color.White)
           Button() {
             Image($r('app.media.icon_forward'))
-              .width(16)
+              .width(20)
           }
           .backgroundColor(Color.Transparent)
           .onClick((event?: ClickEvent) => {

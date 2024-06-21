@@ -8,36 +8,93 @@ import { TaskListItemData } from '../database/models/Task';
 @Entry
 @Component
 struct MainPage {
+  @State currentView: number = 0
+
+  updateView(index:number){
+    this.currentView = index;
+  }
+
+  switchColor(index: number):string{
+    if (index == 0){ // lesson
+      return '#ffae9292'
+    } else if (index == 1){ //to do
+      return '#ff4766a4'
+    } else {
+      return '#ffd6c262'
+    }
+  }
+
 
   build() {
-    Stack({ alignContent: Alignment.Bottom }) {
-      Swiper() {
-        TodayCourseView()
-        TaskList()
-        RecentExamView()
-      }
-      .backgroundColor(Color.Pink)
-      BottomBar({
-        onClickLeftButton:()=>{
-          router.pushUrl({
-            url:'pages/AllCoursePage'
-          })
-        },
-        onClickRightButton:()=>{
-          router.pushUrl({
-            url:'pages/GradePage'
-          })
+    Stack(){
+      Column(){
+
+        // 用户头像以及title
+        Row(){
+          Text( this.currentView === 0 ? '今日课程' :
+                this.currentView === 1 ? 'Todo List' :
+                '近期考试'
+              )
+            .fontSize(36)
+            .fontColor(Color.White)
+            .fontWeight(FontWeight.Bold)
+            .animation({duration:300,curve:Curve.Friction})
+            .margin({top:40,left:40})
+          Button(){
+            Image($r('app.media.icon_user'))
+          }
+          .onClick(()=>{
+            router.pushUrl({
+              url:'pages/LoginPage'
+            })
+          }).height('40vp')
+          .width('40vp')
+          .margin({right:30})
+          .backgroundColor('#00ffffff')
         }
-      })
+        .justifyContent(FlexAlign.SpaceBetween)
+        .width('100%')
+        .height('15%')
+
+        Stack({ alignContent: Alignment.Bottom }) {
+          Swiper(){
+            TodayCourseView()
+            TaskList()
+            RecentExamView()
+          }
+          .onChange((index:number)=> this.updateView(index))
+          .loop(false)
+
+          BottomBar({
+            onClickLeftButton:()=>{
+              router.pushUrl({
+                url:'pages/AllCoursePage'
+              })
+            },
+            onClickRightButton:()=>{
+              router.pushUrl({
+                url:'pages/GradePage'
+              })
+            }
+          })
+
+        }
+        .height('85%')
+        .width('100%')
+
+      }
+      .height('100%')
     }
     .height('100%')
-    .width('100%')
+    .backgroundColor(this.switchColor(this.currentView))
+    .animation({duration:500,curve:Curve.Ease})
+
   }
 
   pageTransition(){
-    PageTransitionExit({type:RouteType.Push,duration:300})
+    PageTransitionExit({type:RouteType.Push,duration:200,curve:Curve.Friction})
       .slide(SlideEffect.Top)
-    PageTransitionEnter({type:RouteType.Pop,duration:300})
+    PageTransitionEnter({type:RouteType.Pop,duration:200,curve:Curve.Friction})
       .slide(SlideEffect.Top)
   }
 }

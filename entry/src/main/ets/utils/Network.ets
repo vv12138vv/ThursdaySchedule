@@ -112,7 +112,7 @@ export class Network{
           courseId:jsonObj.courseId,
           location:jsonObj.location,
           seatId:Number(jsonObj.seatId),
-          time:jsonObj.time
+          time:jsonObj.time,
         }
         exams.push(e)
       })

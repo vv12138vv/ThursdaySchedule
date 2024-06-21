@@ -170,7 +170,9 @@ export default struct TaskList {
               Scroll() {
                 Column() {
                   Text('我的未办')
-                    .textTitle()
+                  .textTitle()
+                  .fontColor(Color.White)
+                  .fontWeight(FontWeight.Medium)
 
                     List() {
                       ForEach(this.taskList, (item: TaskListItemData, index) => {
@@ -198,6 +200,8 @@ export default struct TaskList {
 
                   Text('我的已办')
                     .textTitle()
+                    .fontColor(Color.White)
+                    .fontWeight(FontWeight.Medium)
 
                   List() {
                     ForEach(this.taskList, (item: TaskListItemData, index) => {
@@ -228,10 +232,11 @@ export default struct TaskList {
               }
               .edgeEffect(EdgeEffect.Spring)
               .scrollBar(BarState.Off)
-            }
+            }.height('100%')
           }.height('100%')
-        }.titleMode(NavigationTitleMode.Full)
-        .title('ToDo')
+        }
+        .height('100%')
+        .titleMode(NavigationTitleMode.Full)
         .menus([
           {
             value: "",
@@ -243,7 +248,6 @@ export default struct TaskList {
               })
             }
           }])
-        .height('90%')
         .mode(NavigationMode.Stack)
 
         // -------------------------右下角的按钮
@@ -273,9 +277,11 @@ export default struct TaskList {
             }
           })
         })
-      }.padding(CommonConstants.DEFAULT_PADDING)
-      .backgroundColor('#9DDCEE')
+      }.height('100%')
+
     }
+    .height('90%')
+
   }
 }
 
@@ -294,3 +300,4 @@ function getTimeString(date_stamp: number): string {
   let res: string = `${ds[2]}/${ds[0]}/${ds[1]}`
   return res
 }
+

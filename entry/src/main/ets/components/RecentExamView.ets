@@ -93,68 +93,59 @@ export default struct RecentExamView {
   }
 
   @Builder CourseCard(examView: ExamView) {
-    Column() {
-      // 标题内容
-      Text('['+DateUtils.getDayOfWeek(examView.time)+']'+examView.examName)
-        .fontSize(22)
-        .fontWeight(FontWeight.Bold)
-        .margin({ left: 16, top: 16 })
-        .fontColor($r('app.color.basic_word'))
-        .textAlign(TextAlign.Start)
-
-      // 分隔线
-      Divider()
-        .color($r('app.color.basic_word'))
-        .height(1)
-        .margin({ left: 16, right: 16, top: 8 })
-
+    Row(){
       Column() {
-        // 剩余天数
-        Text('还剩 ' + DateUtils.getDaysFromNow(examView.time) + ' 天')
-          .fontSize(16)
+        // 标题内容
+        Text('['+DateUtils.getDayOfWeek(examView.time)+'] '+examView.examName)
+          .fontSize(20)
+          .fontWeight(FontWeight.Bold)
           .fontColor($r('app.color.basic_word'))
-          .margin({ top: 8, bottom: 8 })
-
-        // 时间
-        Text(examView.time)
-          .fontSize(18)
-          .fontColor($r('app.color.basic_word'))
-          .margin({ top: 8, bottom: 8 })
+          .textAlign(TextAlign.Start)
 
 
-        // 地点
-        Text(examView.location)
-          .fontSize(18)
-          .fontColor($r('app.color.basic_word'))
-          .margin({ top: 8, bottom: 8 })
+        Column() {
+          // // 剩余天数
+          // Text('还剩 ' + DateUtils.getDaysFromNow(examView.time) + ' 天')
+          //   .fontSize(16)
+          //   .fontColor($r('app.color.basic_word'))
+
+          // 时间
+          Text(examView.time)
+            .fontSize(18)
+            .fontColor($r('app.color.basic_word'))
+
+
+          // 地点
+          Text(examView.location)
+            .fontSize(18)
+            .fontColor($r('app.color.basic_word'))
+        }
+        .alignItems(HorizontalAlign.Start)
+        .justifyContent(FlexAlign.Start)
       }
-      .alignItems(HorizontalAlign.Start)
-      .margin({ left: 16, right: 16, top: 8 })
-      .justifyContent(FlexAlign.Start)
+      .justifyContent(FlexAlign.SpaceAround)
+      .height('100%')
+      .margin({left:10})
+      // Image($r('app.media.icon_right_arrow_black'))
     }
     .width(280)
-    .height(180)
-    .borderWidth(1)
+    .height(120)
     .borderRadius(16)
-    .borderColor($r('app.color.basic_word'))
-    .backgroundColor($r('app.color.exam_card_background'))
-    .padding({ left: 16, right: 16, top: 16, bottom: 16 })
+    .justifyContent(FlexAlign.SpaceBetween)
+    .backgroundColor($r('app.color.card_transparent'))
+    .padding({ left: 12, right: 12, top: 12, bottom: 12 })
     .onClick(() => {
       this.forDetailExamView = examView;
       this.courseDetailDialogController.open();
     })
+
+
+
   }
 
 
   build() {
     Column() {
-      Row() {
-        Text('近期考试')
-          .fontSize(40)
-      }
-      .margin({ top: 80, bottom: 48 })
-      .width(300)
-
       List({ space: 24 }) {
         ForEach(this.examViews, (item: ExamView, index: number) => {
           ListItem() {
@@ -178,5 +169,6 @@ export default struct RecentExamView {
 struct RecentExamViewPreview {
   build() {
     RecentExamView()
+      .backgroundColor('#ffd6c262')
   }
 }
