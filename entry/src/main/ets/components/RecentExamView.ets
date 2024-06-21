@@ -200,7 +200,7 @@ export default struct RecentExamView {
             })
           }
           .alignListItem(ListItemAlign.Center)
-          .height(512)
+          .height(600)
         } else {
           Text('最近没有考试哦')
             .fontSize(32)
@@ -208,7 +208,7 @@ export default struct RecentExamView {
             .fontColor(Color.White)
         }
       }
-      .height(512)
+      .height(600)
     }
     .height("100%")
     .width("100%")

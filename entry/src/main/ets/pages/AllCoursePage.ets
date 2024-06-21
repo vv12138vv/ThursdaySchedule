@@ -7,6 +7,7 @@ import { CourseView } from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
 import CourseTable from '../database/tables/CourseTable';
 import DataPool from '../utils/DataPool';
+import {theme} from '../components/theme';
 
 @CustomDialog
 export struct CourseDetailDialog {
@@ -116,6 +117,9 @@ function generateHash(input: string): number {
 @Entry
 @Component
 struct AllCoursePage {
+
+  @StorageLink('bgpage') bgpage: number = 1;
+  @StorageLink('SystemColor') Sys_color: number = 1
   //导航栏控制条
   navBarConfig: NavBarConfig = {
     leftIcon: $r("app.media.icon_show_less"),
@@ -347,35 +351,41 @@ struct AllCoursePage {
     .width("100%")
     .height($r("app.float.course_page_footer_height"))
     .justifyContent(FlexAlign.Center)
-    .backgroundColor($r('app.color.nav_bar_background_color'))
+    // .backgroundColor($r('app.color.nav_bar_background_color'))
+    .backgroundColor(theme.getTheme(this.Sys_color))
   }
 
   build() {
-    Column() {
-      NavBar({ navBarConfig: this.navBarConfig })
+    Stack(){
+      Image(theme.getBackground(this.bgpage))
       Column() {
-        this.DateBar()
-        Swiper(this.swiperController) {
-          ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
-            this.CourseTable(item)
+        NavBar({ navBarConfig: this.navBarConfig })
+        Column() {
+          this.DateBar()
+          Swiper(this.swiperController) {
+            ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
+              this.CourseTable(item)
+            })
+          }
+          .loop(false)
+          .index(this.curWeek - 1)
+          .layoutWeight(1)
+          .indicator(false)
+          .cachedCount(3)
+          .autoPlay(false)
+          .onChange((index: number) => {
+            this.showWeek = index + 1;
+            this.showWeekDates = this.allWeekStartDates[index];
+            this.showWeekString = '第' + this.showWeek.toString() + '周';
           })
-        }
-        .loop(false)
-        .index(this.curWeek - 1)
-        .layoutWeight(1)
-        .indicator(false)
-        .cachedCount(3)
-        .autoPlay(false)
-        .onChange((index: number) => {
-          this.showWeek = index + 1;
-          this.showWeekDates = this.allWeekStartDates[index];
-          this.showWeekString = '第' + this.showWeek.toString() + '周';
-        })
 
-        this.CourseTableFooter()
+          this.CourseTableFooter()
+        }
+        .justifyContent(FlexAlign.SpaceBetween)
+        .layoutWeight(1)
       }
-      .justifyContent(FlexAlign.SpaceBetween)
-      .layoutWeight(1)
+      .width("100%")
+      .height("100%")
     }
     .width("100%")
     .height("100%")

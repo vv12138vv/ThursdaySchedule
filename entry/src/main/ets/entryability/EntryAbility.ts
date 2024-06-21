@@ -15,18 +15,18 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    // windowStage.getMainWindow((err, data) => {
-    //   if (err.code) {
-    //     console.error('获取失败' + JSON.stringify(err));
-    //     return;
-    //   }
-    //   console.info('获取主窗口的实例：' + JSON.stringify(data));
-    //   globalThis.windowClass = data // 赋值给全局变量windowClass
-    //   // 设置全屏显示
-    //   globalThis.windowClass.setWindowLayoutFullScreen(true)
-    //   // 隐藏状态栏显示
-    //   globalThis.windowClass.setWindowSystemBarEnable(['navigation'])
-    // });
+    windowStage.getMainWindow((err, data) => {
+      if (err.code) {
+        console.error('获取失败' + JSON.stringify(err));
+        return;
+      }
+      console.info('获取主窗口的实例：' + JSON.stringify(data));
+      globalThis.windowClass = data // 赋值给全局变量windowClass
+      // 设置全屏显示
+      globalThis.windowClass.setWindowLayoutFullScreen(true)
+      // 隐藏状态栏显示
+      globalThis.windowClass.setWindowSystemBarEnable(['navigation'])
+    });
 
       windowStage.loadContent('pages/MainPage', (err, data) => {
         if (err.code) {
