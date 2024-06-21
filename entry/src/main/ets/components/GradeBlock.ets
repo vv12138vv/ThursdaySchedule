@@ -14,6 +14,7 @@ export default struct GradeBlock {
   selectedGPAWithWeight: number = 0;
   @State selectedAverageGrade: number = 0;
   @State selectedAverageGPA: number = 0;
+
   @State blockTotalCredit: number = 0;
 
   blockTotalGradeWithWeight: number = 0;

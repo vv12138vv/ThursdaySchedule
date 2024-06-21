@@ -2,17 +2,25 @@ import router from '@ohos.router'
 import prompt from '@ohos.prompt'
 import promptAction from '@ohos.promptAction'
 import { Network } from '../utils/Network'
-
+import Course from '../database/models/Course'
+import CourseTable from '../database/tables/CourseTable'
+import Logger from '../utils/Logger'
+import Grade, { gradeToGPA } from '../database/models/Grade'
+import GradeTable from '../database/tables/GradeTable'
+import DateUtils from '../utils/DateUtils'
+import { DataProcess } from '../utils/DataProcess'
+import DataPool from '../utils/DataPool';
+import Exam from '../database/models/Exam';
+import ExamTable from '../database/tables/ExamTable';
 @Entry
 @Component
 struct LoginPage {
   @State password: string = ''
   @State username: string = ''
   @State verifyCode: string = ''
-
-  @State imgCode:string = ''
-
-  icon_input_space:number = 20
+  @State imgCode: string = ''
+  terms: string[] = [];
+  icon_input_space: number = 20
 
   //todo 这里要加上全局的状态，是否登录
   @State isLogin:Boolean = false
@@ -20,16 +28,15 @@ struct LoginPage {
     this.showVerifyCode()
   }
 
-
-  async showVerifyCode():Promise<void>{
+  async showVerifyCode(): Promise<void> {
      this.imgCode = await Network.getVerifyCode();
   }
 
-  async  login(uid:string, pwd:string, verify:string):Promise<void>{
+  async login(uid: string, pwd: string, verify: string): Promise<void> {
     const userInfo = await Network.userLogin(uid, pwd, verify);
-    if(userInfo === "error"){
+    if (userInfo === "error") {
       promptAction.showToast({
-        message:"密码或用户名错误，请重新输入"
+        message: "密码或用户名错误，请重新输入"
       })
       this.username = '';
       this.password = '';
@@ -37,12 +44,67 @@ struct LoginPage {
       this.showVerifyCode();
     } else {
       this.isLogin = true;
-
-
+      await this.fetchAllData();
       router.pushUrl({
-        url: "pages/PersonalPage"
+        url: "pages/MainPage"
       })
     }
+  }
+
+  async fetchAllData() {
+    try {
+      await Promise.all([this.fetchAllCourses(), this.fetchAllGrades(),this.fetchAllExam()]);
+    } catch (error) {
+      // 处理错误
+      console.error('Error in fetchAllData:', error);
+    }
+  }
+
+  async fetchAllCourses(){
+    //加载课程数据
+    let courses:Course[];
+    courses=await Network.getLesson();
+    DataPool.courses=DataPool.courses.concat(courses);
+    courses.forEach((course:Course,index:number)=>{
+      CourseTable.insertData(course,(succeed:boolean)=>{
+        if(succeed){
+          Logger.info("insert course ${value.courseName} successfully");
+        }else{
+          Logger.info("insert course ${value.courseName} failed");
+        }
+      })
+    })
+  }
+
+  async fetchAllGrades(){
+    let grades:Grade[]=[];
+    grades=await Network.getScore();
+    grades.forEach((grade:Grade,index:number)=>{
+      grade.gpa=gradeToGPA(grade.grade);
+    })
+    grades.forEach((grade:Grade,index:number)=>{
+      GradeTable.insertData(grade,(succeed:boolean)=>{
+        if(succeed){
+          Logger.info("insert grade ${value.courseName} successfully");
+        }else{
+          Logger.info("insert grade ${value.courseName} failed");
+        }
+      })
+    })
+  }
+
+  async fetchAllExam(){
+    let exams:Exam[]=[];
+    exams=await Network.getExam('2023-2024-2');
+    exams.forEach((exam:Exam,index:number)=>{
+      ExamTable.insertData(exam,(succeed:boolean)=>{
+        if(succeed){
+          Logger.info("insert exam ${exam.examName} successfully");
+        }else{
+          Logger.info("insert exam ${exam.examName} failed");
+        }
+      })
+    })
   }
 
   build() {

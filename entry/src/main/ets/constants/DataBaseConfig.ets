@@ -44,12 +44,13 @@ export default class DataBaseConfig {
     sqlCreate: `CREATE TABLE IF NOT EXISTS exams (
                   id INTEGER PRIMARY KEY AUTOINCREMENT,
                   examId TEXT NOT NULL UNIQUE,
+                  examName TEXT NOT NULL,
                   courseId TEXT NOT NULL UNIQUE,
                   location TEXT NOT NULL,
                   seatId INTEGER NOT NULL,
                   time TEXT NOT NULL
                 )`,
-    columns: ["id", "examId", "courseId", "location", "seatId", "time"]
+    columns: ["id", "examId", "examName","courseId", "location", "seatId", "time"]
   };
   static readonly GRADE_TABLE = {
     tableName: "grades",

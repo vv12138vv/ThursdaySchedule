@@ -5,7 +5,8 @@ import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
 import {CourseView} from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
-
+import CourseTable from '../database/tables/CourseTable';
+import DataPool from '../utils/DataPool';
 @CustomDialog
 export struct CourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -65,6 +66,7 @@ struct AllCoursePage {
     leftIcon: $r("app.media.icon_show_less"),
     title: "课表查询",
     onClickLeftButton: () => {
+      router.back();
     }
   }
   //课程详细对话框控制器
@@ -76,7 +78,6 @@ struct AllCoursePage {
     alignment: DialogAlignment.Bottom,
     customStyle: true
   })
-
 
   //滚动控制器
   private swiperController = new SwiperController();
@@ -93,7 +94,7 @@ struct AllCoursePage {
   allWeekStartDates: Date[][] = [];
   @State showWeekDates: Date [] = [];
   @State showWeekString: string = "第1周";
-  readonly TOTAL_COURSE_CUBE: number = 104;
+  readonly TOTAL_COURSE_CUBE: number = 112;
 
   //课程相关
   coursesInWeek: (CourseView | null)[] = Array(this.TOTAL_COURSE_CUBE).fill(null);
@@ -102,12 +103,13 @@ struct AllCoursePage {
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
   readonly courseCubeColors: string[] = ['#569EBD','#D3A384','#BA8B6D','#3B86A5','55AD9B','E88D67','FFDA78','7469B6'];
+  private courses:Course[]=[];
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
     this.allWeekStartDates = DateUtils.getAllWeekDates(this.termStartDate, 24);
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-06-13'));
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date());
     //今日所属周的偏移
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
@@ -117,9 +119,11 @@ struct AllCoursePage {
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
-
-    //预载课程
-    this.courseViews = CourseView.fromCourse(courseDemo);
+    this.courses=DataPool.courses;
+    this.courses.forEach((course:Course,index:number)=>{
+      let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
+      this.courseViews=this.courseViews.concat(courseViewTemp);
+    })
     this.courseViews.forEach((item: CourseView, index: number) => {
       for (let i = item.startWeek;i <= item.endWeek; i += 1) {
         let idx = item.weekday + (item.courseSeq - 1) * 8;
@@ -291,13 +295,13 @@ struct AllCoursePage {
         Swiper(this.swiperController) {
           ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
             this.CourseTable(item)
-          },(item,index)=>index.toString())
+          })
         }
         .loop(false)
         .index(this.curWeek - 1)
         .layoutWeight(1)
         .indicator(false)
-        .cachedCount(2)
+        .cachedCount(3)
         .autoPlay(false)
         .onChange((index: number) => {
           this.showWeek = index + 1;
