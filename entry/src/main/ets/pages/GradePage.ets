@@ -24,7 +24,7 @@ struct GradePage {
   //页面中被选中的所有 GradeId
   @Provide('allSelectedGradeId') @Watch('onAllSelectedGradeIdChange') allSelectedGradeId: number[] = [];
   //学期信息
-  terms: string[] = ['2021-2022-1'];
+  @State terms: string[] = [];
   //每个学期对应的成绩
   termGrades: Map<string, Grade[]> = new Map();
 
@@ -77,7 +77,7 @@ struct GradePage {
   }
 
   aboutToAppear() {
-    let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232')
+    let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232').slice(0,6)
     GradeTable.selectDataAll((result: Grade[]) => {
       this.allGrades = result;
       this.initGradeInfo(this.allGrades)
@@ -88,7 +88,7 @@ struct GradePage {
         })
         this.termGrades.set(term, termGrade);
       })
-      this.terms=termsTemp;
+      this.terms=termsTemp.reverse();
     })
   }
 
@@ -114,7 +114,9 @@ struct GradePage {
           })
         }
       }
-      .margin({ top: 10 })
+      .margin({ top: 10 ,bottom:10})
+      .padding({bottom:128})
+      .width("100%")
     }
     .backgroundColor('#fff3f3f3')
     .height('100%')
