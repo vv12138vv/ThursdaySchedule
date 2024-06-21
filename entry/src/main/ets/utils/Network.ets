@@ -44,7 +44,7 @@ export class Network{
     let result:string = ''
     const response = await axios.get(`${this.baseURL}/home`)
     if (response.status === 200){
-      result = response.data.data;
+      result = 'true';
     } else if (response.status === 400){
       result = 'null';
     } else {

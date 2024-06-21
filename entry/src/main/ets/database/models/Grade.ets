@@ -40,11 +40,21 @@ export function transToGradeNum(gradeString:string):number{
     if(gradeString==="优"){
       gradeNum=90;
     }else if(gradeString==="良"){
-      gradeNum =80;
+      gradeNum=80;
     }else if(gradeString==="中"){
       gradeNum=70;
     }else if(gradeString==="及格"){
       gradeNum=60;
+    }else if(gradeString==="良+"){
+      gradeNum=83;
+    }else if(gradeString==="良-"){
+      gradeNum=76;
+    }else if(gradeString==="优-"){
+      gradeNum=87;
+    }else if(gradeString==="中+"){
+      gradeNum=73;
+    }else if(gradeString==="中-"){
+      gradeNum=66;
     }
   }
   return gradeNum;

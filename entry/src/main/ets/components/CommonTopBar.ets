@@ -27,7 +27,7 @@ export struct CommonTopBar {
       //1、设置系统状态栏
       let avoidArea = data.getWindowAvoidArea(window.AvoidAreaType.TYPE_SYSTEM)
       //这里为什么要自己设置一个高度？因为系统返回的高度太高了，并不能正确的返回系统状态栏的高度，自己二次设置一个接近的值
-      avoidArea.topRect.height = 90
+      avoidArea.topRect.height = 50
       this.statusBarHeight = avoidArea.topRect.height
       LogUtils.debug("顶部状态栏的高度", `${this.statusBarHeight}`)
       let bottomHeight = avoidArea.bottomRect.height

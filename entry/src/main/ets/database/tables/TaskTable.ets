@@ -60,7 +60,6 @@ export default class TaskTable {
   queryTaskName(task_name: string, callback: Function, isAll: boolean = true) {
     let submit: TaskListItemData = new TaskListItemData(); submit.task_name = task_name
     this.basic_query("task_name", submit, callback, isAll)
-
   }
 
   basic_query(query_type: string, queryData: TaskListItemData, callback: Function, isAll: boolean = true) {

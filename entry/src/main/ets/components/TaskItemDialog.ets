@@ -173,7 +173,7 @@ export struct TaskItemDialog {
             this.controller.close()
           })
       }.margin({ bottom: 20 })
-    }.backgroundColor($r('app.color.blue_background'))
+    }.backgroundColor($r('app.color.card_transparent'))
     .width('100%')
     // .height('60%')
     .borderRadius(24)

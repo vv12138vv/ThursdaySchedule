@@ -59,11 +59,16 @@ export default struct TaskList {
             })
           })
           .margin({ right: 10 })
+          .width(20)
+          .height(20)
       }
       Text(item.task_name)
         .textOverflow({overflow: TextOverflow.Ellipsis })
         .maxLines(1)
         .width('40%')
+        .fontColor('#ff2d2d2d')
+        .fontSize(18)
+        .fontWeight(FontWeight.Bold)
       Blank()
         .layoutWeight(1)
       Row() {
@@ -232,6 +237,7 @@ export default struct TaskList {
               }
               .edgeEffect(EdgeEffect.Spring)
               .scrollBar(BarState.Off)
+              .width('80%')
             }.height('100%')
           }.height('100%')
         }
@@ -277,11 +283,11 @@ export default struct TaskList {
             }
           })
         })
-      }.height('100%')
+      }
+      .height('100%')
 
     }
     .height('90%')
-
   }
 }
 

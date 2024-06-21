@@ -12,6 +12,8 @@ import { DataProcess } from '../utils/DataProcess'
 import DataPool from '../utils/DataPool';
 import Exam from '../database/models/Exam';
 import ExamTable from '../database/tables/ExamTable';
+import UserTable from '../database/tables/UserTable';
+import User from '../database/models/User';
 @Entry
 @Component
 struct LoginPage {
@@ -21,6 +23,7 @@ struct LoginPage {
   @State imgCode: string = ''
   terms: string[] = [];
   icon_input_space: number = 20
+
 
   //todo 这里要加上全局的状态，是否登录
   @State isLogin:Boolean = false
@@ -44,12 +47,31 @@ struct LoginPage {
       this.showVerifyCode();
     } else {
       this.isLogin = true;
+      let user:User={
+        studentId:this.username,
+        name:this.username,
+        password:this.password,
+        lastUpdateTime:new Date().valueOf()
+      };
+      this.addLoginInfo(user)
       await this.fetchAllData();
+      DataPool.isLogin=true;
       router.pushUrl({
         url: "pages/MainPage"
       })
     }
   }
+
+  addLoginInfo(user:User){
+    UserTable.insertData(user,(succeed:boolean)=>{
+      if(succeed){
+        Logger.info("insert user ${user.studentId} successfully");
+      }else{
+        Logger.info("insert user ${user.studentId} failed");
+      }
+    })
+  }
+
 
   async fetchAllData() {
     try {
@@ -96,6 +118,7 @@ struct LoginPage {
   async fetchAllExam(){
     let exams:Exam[]=[];
     exams=await Network.getExam('2023-2024-2');
+    DataPool.exams=DataPool.exams.concat(exams);
     exams.forEach((exam:Exam,index:number)=>{
       ExamTable.insertData(exam,(succeed:boolean)=>{
         if(succeed){

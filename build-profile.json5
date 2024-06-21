@@ -1,19 +1,32 @@
 {
   "app": {
     "signingConfigs": [
-      {
-        "name": "default",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
-          "storePassword": "0000001A7CE2C8474B67ED9F8164B6157C640FB1DE2A570A7EA4A2A4A3BE16A72B15B9EF299F2B121FD8",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001AC8A5F0B36367DF08891DBD09E96CD39CD8C23A158C8E9F6E95D0865C302DEDB04A6740F85D17",
-          "profile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
-        }
-      }
+            {
+              "name": "default",
+              "type": "HarmonyOS",
+              "material": {
+                "certpath": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
+                "storePassword": "0000001B4CFC970A4A8491744F2BC9424B7DFD220BE60D67B18E98A1D6F55A88D95E8E8CB0B40852EFE863",
+                "keyAlias": "debugKey",
+                "keyPassword": "0000001BE57061C62DD19E96BD0EAF6941C1930B559A15FB32477FB5B58E7D60B4A9D996906B406DDE2FC1",
+                "profile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
+                "signAlg": "SHA256withECDSA",
+                "storeFile": "/Users/vv12138vv/.ohos/config/auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
+              }
+            },
+//      {
+//        "name": "default",
+//        "type": "HarmonyOS",
+//        "material": {
+//          "certpath": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.cer",
+//          "storePassword": "0000001B0626DDA5CB676BB08D07FF5E9EAC8F2209563E03A7DD2078FA7B6296FB20C78C7BC7017C0467FE",
+//          "keyAlias": "debugKey",
+//          "keyPassword": "0000001B6282C89D45EA92C72C05036B0AF35D708950F030ED78966261FABF91B8815FE8CCFB28C01B74F9",
+//          "profile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p7b",
+//          "signAlg": "SHA256withECDSA",
+//          "storeFile": "C:\\Users\\wang\\.ohos\\config\\auto_debug_ThursdaySchedule_com.example.thursdayschedule_2850086000491248963.p12"
+//        }
+//      }
     ],
     "compileSdkVersion": 9,
     "compatibleSdkVersion": 9,

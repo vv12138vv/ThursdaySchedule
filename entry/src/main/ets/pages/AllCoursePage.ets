@@ -3,47 +3,103 @@ import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
-import {CourseView} from '../database/models/Course';
+import { CourseView } from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
 import CourseTable from '../database/tables/CourseTable';
 import DataPool from '../utils/DataPool';
+import {theme} from '../components/theme';
+
 @CustomDialog
 export struct CourseDetailDialog {
   dialogController?: CustomDialogController;
   @Link courseView: CourseView;
 
   build() {
+    // Column() {
+    //   Row() {
+    //     Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
+    //     Text(this.courseView.name)
+    //       .fontSize(32)
+    //     Button() {
+    //       Image($r("app.media.icon_show_less"))
+    //         .width(16)
+    //         .onClick(() => {
+    //           this.dialogController.close();
+    //         })
+    //     }
+    //     .backgroundColor(Color.Transparent)
+    //   }
+    //   .justifyContent(FlexAlign.SpaceEvenly)
+    //   .width("100%")
+    //
+    //   Column() {
+    //     Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
+    //     Text(this.courseView.teacher + ' (任课教师)')
+    //     Text(this.courseView.location + ' (上课地点) ')
+    //     Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
+    //     Text(this.courseView.credit + ' (课程学分) ')
+    //   }
+    //   .layoutWeight(6)
+    //   .justifyContent(FlexAlign.SpaceAround)
+    //   .alignItems(HorizontalAlign.Start)
+    // }
+    // .width("100%")
+    // .height("30%")
+    // .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+
     Column() {
       Row() {
-        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
-          .fontSize(32)
+          .fontSize(26)
+          .fontWeight(FontWeight.Bold)
+          .margin({top:10})
+
         Button() {
-          Image($r("app.media.icon_show_less"))
-            .width(16)
+          Image($r("app.media.icon_close"))
+            .width(20)
             .onClick(() => {
               this.dialogController.close();
             })
         }
         .backgroundColor(Color.Transparent)
+        .type(ButtonType.Circle)
       }
-      .justifyContent(FlexAlign.SpaceEvenly)
+      .justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
 
-      Column() {
-        Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
-        Text(this.courseView.teacher + ' (任课教师)')
-        Text(this.courseView.location + ' (上课地点) ')
-        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
-        Text(this.courseView.credit + ' (课程学分) ')
+
+
+      Row() {
+        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修").fontSize(18)
+        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + '周').fontSize(18)
+        Text(this.courseView.teacher).fontSize(18)
       }
-      .layoutWeight(6)
-      .justifyContent(FlexAlign.SpaceAround)
-      .alignItems(HorizontalAlign.Start)
+      .margin({top:15,bottom:25})
+      .width('80%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq)).fontSize(26) .fontWeight(FontWeight.Medium)
+
+      Row(){
+        Text(this.courseView.location).fontSize(20).fontWeight(FontWeight.Bold)
+        Text(`${this.courseView.credit}`).fontSize(55).fontWeight(FontWeight.Bold)
+      }
+      .width('85%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
     }
-    .width("100%")
-    .height("25%")
-    .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+    .width("80%")
+    .height("30%")
+    .padding({
+      bottom:40,
+      left:30,
+      right:20,
+      top:20
+    })
+    .justifyContent(FlexAlign.SpaceAround)
+    .backgroundColor(Color.White)
+    .borderRadius(16)
+    .alignItems(HorizontalAlign.Start)
   }
 }
 
@@ -61,6 +117,9 @@ function generateHash(input: string): number {
 @Entry
 @Component
 struct AllCoursePage {
+
+  @StorageLink('bgpage') bgpage: number = 1;
+  @StorageLink('SystemColor') Sys_color: number = 1
   //导航栏控制条
   navBarConfig: NavBarConfig = {
     leftIcon: $r("app.media.icon_show_less"),
@@ -75,7 +134,7 @@ struct AllCoursePage {
       courseView: $forDetailCourseView
     }),
     autoCancel: true,
-    alignment: DialogAlignment.Bottom,
+    alignment: DialogAlignment.Center,
     customStyle: true
   })
 
@@ -102,8 +161,9 @@ struct AllCoursePage {
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
-  readonly courseCubeColors: string[] = ['#569EBD','#D3A384','#BA8B6D','#3B86A5','55AD9B','E88D67','FFDA78','7469B6'];
-  private courses:Course[]=[];
+  readonly courseCubeColors: string[] = ['#569EBD', '#D3A384', '#BA8B6D', '#3B86A5', '#55AD9B', '#E88D67', '#FFDA78', '#7469B6','#0E86D4','#333652','#59981A','#FF9636','#4B8378'];
+  private courses: Course[] = [];
+  courseColorMap: Map<string, string> = new Map();
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -120,9 +180,14 @@ struct AllCoursePage {
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
     this.courses=DataPool.courses;
-    this.courses.forEach((course:Course,index:number)=>{
-      let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
-      this.courseViews=this.courseViews.concat(courseViewTemp);
+
+    this.courses.forEach((value:Course,index:number)=>{
+      this.courseColorMap.set(value.courseId,this.courseCubeColors[index%this.courseCubeColors.length]);
+    })
+
+    this.courses.forEach((course: Course, index: number) => {
+      let courseViewTemp: CourseView[] = CourseView.fromCourse(course);
+      this.courseViews = this.courseViews.concat(courseViewTemp);
     })
     this.courseViews.forEach((item: CourseView, index: number) => {
       for (let i = item.startWeek;i <= item.endWeek; i += 1) {
@@ -130,6 +195,8 @@ struct AllCoursePage {
         this.courseSchedule[i-1][idx] = item;
       }
     })
+    let i=1;
+
   }
 
 
@@ -138,11 +205,11 @@ struct AllCoursePage {
     Column() {
       Text(this.weekDaysString[date.getDay()])
         .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
-        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder: FontWeight.Regular)
+        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder : FontWeight.Regular)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
         .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
         .fontSize('14vp')
-    }.margin({top:'5vp'})
+    }.margin({ top: '5vp' })
 
   }
 
@@ -174,22 +241,24 @@ struct AllCoursePage {
     Column() {
       Text(`${courseView.name}@${courseView.location}`)
         .fontSize('12vp')
+        .fontColor(Color.White)
       // Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
       //   .fontSize(10)
       //   .alignSelf(ItemAlign.Center)
       // Text(courseView.name+"@"+courseView.location)
       //   .fontSize('13vp')
-        //.alignSelf(ItemAlign.Center)
+      //.alignSelf(ItemAlign.Center)
       // Text(courseView.location)
       //   .fontSize('12vp')
       //   //.alignSelf(ItemAlign.Center)
       //
       //   .height(72)
     }
+
     .width("100%")
     .height('72vp')
     .justifyContent(FlexAlign.SpaceAround)
-    .backgroundColor(this.courseCubeColors[generateHash(courseView.name)%this.courseCubeColors.length])
+    .backgroundColor(this.courseColorMap.get(courseView.courseId))
     .onClick(() => {
       this.forDetailCourseView = courseView;
       this.courseDetailDialogController.open();
@@ -227,7 +296,7 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 } ,color:'#ff969696'})
+          .border({ width: { bottom: 0.5 }, color: '#ffb7b7b7' })
 
         })
       }
@@ -260,7 +329,7 @@ struct AllCoursePage {
           })
 
           Text(this.showWeekString)
-          .fontColor(Color.White)
+            .fontColor(Color.White)
           Button() {
             Image($r('app.media.icon_forward'))
               .width(20)
@@ -284,45 +353,50 @@ struct AllCoursePage {
     .width("100%")
     .height($r("app.float.course_page_footer_height"))
     .justifyContent(FlexAlign.Center)
-    .backgroundColor($r('app.color.nav_bar_background_color'))
+    // .backgroundColor($r('app.color.nav_bar_background_color'))
+    .backgroundColor(theme.getTheme(this.Sys_color))
   }
 
   build() {
-    Column() {
-      NavBar({ navBarConfig: this.navBarConfig })
+    Stack(){
+      Image(theme.getBackground(this.bgpage))
       Column() {
-        this.DateBar()
-        Swiper(this.swiperController) {
-          ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
-            this.CourseTable(item)
+        NavBar({ navBarConfig: this.navBarConfig })
+        Column() {
+          this.DateBar()
+          Swiper(this.swiperController) {
+            ForEach(this.courseSchedule, (item: (CourseView | null)[], index: number) => {
+              this.CourseTable(item)
+            })
+          }
+          .loop(false)
+          .index(this.curWeek - 1)
+          .layoutWeight(1)
+          .indicator(false)
+          .cachedCount(3)
+          .autoPlay(false)
+          .onChange((index: number) => {
+            this.showWeek = index + 1;
+            this.showWeekDates = this.allWeekStartDates[index];
+            this.showWeekString = '第' + this.showWeek.toString() + '周';
           })
-        }
-        .loop(false)
-        .index(this.curWeek - 1)
-        .layoutWeight(1)
-        .indicator(false)
-        .cachedCount(3)
-        .autoPlay(false)
-        .onChange((index: number) => {
-          this.showWeek = index + 1;
-          this.showWeekDates = this.allWeekStartDates[index];
-          this.showWeekString = '第' + this.showWeek.toString() + '周';
-        })
 
-        this.CourseTableFooter()
+          this.CourseTableFooter()
+        }
+        .justifyContent(FlexAlign.SpaceBetween)
+        .layoutWeight(1)
       }
-      .justifyContent(FlexAlign.SpaceBetween)
-      .layoutWeight(1)
+      .width("100%")
+      .height("100%")
     }
     .width("100%")
     .height("100%")
   }
 
-
-  pageTransition(){
-    PageTransitionEnter({type:RouteType.Push,duration:300})
+  pageTransition() {
+    PageTransitionEnter({ type: RouteType.Push, duration: 300 })
       .slide(SlideEffect.Bottom)
-    PageTransitionExit({type:RouteType.Pop,duration:300})
+    PageTransitionExit({ type: RouteType.Pop, duration: 300 })
       .slide(SlideEffect.Bottom)
   }
 }
