@@ -2,6 +2,7 @@ import GradeTable from '../database/tables/GradeTable';
 import Grade, { gradeToGPA, transToGradeNum } from '../database/models/Grade';
 import GradeSummary from './GradeSummary';
 import { gradeDemo } from '../database/models/Grade';
+import { theme } from './theme'
 
 @Component
 export default struct GradeBlock {
@@ -24,6 +25,7 @@ export default struct GradeBlock {
   @Consume('allSelectedGradeId') allSelectedGradeId: number[];
   //被勾选的 grade 的 id。
   blockSelectedId: number[] = [];
+  @StorageLink('SystemColor') Sys_color: number = 1
 
 
   initGradeInfo(grades: Grade[]) {
@@ -117,7 +119,8 @@ export default struct GradeBlock {
     .columnsTemplate('1fr 3fr 1fr 1fr 1fr 1fr')
     .width($r('app.float.grade_block_header_width'))
     .height($r('app.float.grade_block_header_height'))
-    .backgroundColor(Color.Pink)
+    // .backgroundColor(Color.Pink)
+    .backgroundColor(theme.getTheme(this.Sys_color))
   }
 
   @Builder GradeBlockRow(grade: Grade) {
@@ -125,7 +128,10 @@ export default struct GradeBlock {
       GridItem() {
         Checkbox()
           .select(true)
-          .selectedColor($r('app.color.grade_block_row_checkbox_selected_color'))
+          // .selectedColor($r('app.color.grade_block_row_checkbox_selected_color'))
+          .selectedColor(theme.getTheme(this.Sys_color))
+
+
           .width(18)
           .onChange((selected: boolean) => {
             if (selected) {

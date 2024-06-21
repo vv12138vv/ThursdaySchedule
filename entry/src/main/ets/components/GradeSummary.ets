@@ -1,3 +1,5 @@
+import { theme } from '../components/theme'
+
 @Component
 export default struct GradeSummary {
   @Prop totalCredit: number;
@@ -6,7 +8,7 @@ export default struct GradeSummary {
   @Link selectedCredit: number;
   @Link selectedAverageGrade: number;
   @Link selectedAverageGPA: number;
-
+  @StorageLink('SystemColor') Sys_color: number = 1
 
   @Builder GradeSummaryHeader() {
     Grid() {
@@ -42,7 +44,8 @@ export default struct GradeSummary {
     .columnsTemplate('1fr 1fr 1fr 1fr')
     .width($r('app.float.grade_summary_header_width'))
     .height($r('app.float.grade_summary_header_height'))
-    .backgroundColor($r('app.color.nav_bar_background_color'))
+    // .backgroundColor($r('app.color.nav_bar_background_color'))
+    .backgroundColor(theme.getTheme(this.Sys_color))
   }
 
   @Builder GradeSummaryRow($$: {

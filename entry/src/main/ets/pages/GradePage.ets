@@ -105,7 +105,6 @@ struct GradePage {
             selectedAverageGrade: $selectedAverageGrade,
             selectedAverageGPA: $selectedAverageGPA
           })
-
           ForEach(this.terms, (value: string, index: number) => {
             GradeBlock({
               termInString: value,
