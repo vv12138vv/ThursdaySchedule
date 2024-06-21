@@ -152,7 +152,7 @@ export default struct TodayCourseView {
             })
           }
           .alignListItem(ListItemAlign.Center)
-          .height(512)
+          .height(600)
         } else {
           Text('今天没有课哦')
             .fontSize(32)
@@ -160,7 +160,7 @@ export default struct TodayCourseView {
             .fontColor(Color.White)
         }
       }
-      .height(512)
+      .height(600)
     }
     .height("100%")
     .width("100%")
