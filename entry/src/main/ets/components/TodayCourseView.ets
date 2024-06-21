@@ -2,6 +2,7 @@ import Course, { CourseView, courseDemo } from '../database/models/Course'
 import DateUtils from '../utils/DateUtils';
 import { CourseType } from '../database/models/Course';
 import CourseTable from '../database/tables/CourseTable';
+import DataPool from '../utils/DataPool';
 @CustomDialog
 struct TodayCourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -82,7 +83,7 @@ export default struct TodayCourseView {
     customStyle: true
   })
 
-  aboutToAppear() {
+  async aboutToAppear() {
     //日期相关初始化
     //今日日期
     this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-04-01'));
@@ -92,18 +93,21 @@ export default struct TodayCourseView {
     //数据请求
     let courses:Course[];
     let coursesViewTemp:CourseView[]=[];
-    CourseTable.selectDataByWeek(this.curWeek,(result:Course[])=>{
-      courses=result;
-      courses.forEach((course:Course,index:number)=>{
-        let temp=CourseView.fromCourse(course);
-        coursesViewTemp=coursesViewTemp.concat(temp);
+    CourseTable.getRdbStore(()=>{
+      CourseTable.selectDataByWeek(this.curWeek,(result:Course[])=>{
+        courses=result;
+        DataPool.courses=courses;
+        courses.forEach((course:Course,index:number)=>{
+          let temp=CourseView.fromCourse(course);
+          coursesViewTemp=coursesViewTemp.concat(temp);
+        })
+        coursesViewTemp = coursesViewTemp.filter((value: CourseView, index: number) => {
+          let day = this.todayDateInfo.getDay();
+          day = (day === 0 ? 7 : day);
+          return value.weekday === day;
+        })
+        this.courseViews=coursesViewTemp;
       })
-      coursesViewTemp = coursesViewTemp.filter((value: CourseView, index: number) => {
-        let day = this.todayDateInfo.getDay();
-        day = (day === 0 ? 7 : day);
-        return value.weekday === day;
-      })
-      this.courseViews=coursesViewTemp;
     })
   }
 

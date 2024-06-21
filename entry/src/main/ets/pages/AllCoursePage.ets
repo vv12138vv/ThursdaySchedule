@@ -178,8 +178,7 @@ struct AllCoursePage {
     this.showWeekDates = this.allWeekStartDates[weekDiff];
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
-
-    this.courses = DataPool.courses;
+    this.courses=DataPool.courses;
 
     this.courses.forEach((value:Course,index:number)=>{
       this.courseColorMap.set(value.courseId,this.courseCubeColors[index%this.courseCubeColors.length]);

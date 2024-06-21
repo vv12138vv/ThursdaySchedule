@@ -17,8 +17,8 @@ import User from '../database/models/User';
 @Entry
 @Component
 struct LoginPage {
-  @State password: string = '921107810232njust'
-  @State username: string = '921107810232'
+  @State password: string = ''
+  @State username: string = ''
   @State verifyCode: string = ''
   @State imgCode: string = ''
   terms: string[] = [];
@@ -132,12 +132,12 @@ struct LoginPage {
 
   build() {
   Stack(){
-    // Video({
-    //   src:$rawfile('login_video.mp4')
-    // })
-    // .autoPlay(true)
-    // .controls(false)
-    // .loop(true)
+    Video({
+      src:$rawfile('login_video.mp4')
+    })
+    .autoPlay(true)
+    .controls(false)
+    .loop(true)
 
     Column() {
       Text("登  录")
