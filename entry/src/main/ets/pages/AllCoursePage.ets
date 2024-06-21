@@ -14,37 +14,91 @@ export struct CourseDetailDialog {
   @Link courseView: CourseView;
 
   build() {
+    // Column() {
+    //   Row() {
+    //     Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
+    //     Text(this.courseView.name)
+    //       .fontSize(32)
+    //     Button() {
+    //       Image($r("app.media.icon_show_less"))
+    //         .width(16)
+    //         .onClick(() => {
+    //           this.dialogController.close();
+    //         })
+    //     }
+    //     .backgroundColor(Color.Transparent)
+    //   }
+    //   .justifyContent(FlexAlign.SpaceEvenly)
+    //   .width("100%")
+    //
+    //   Column() {
+    //     Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
+    //     Text(this.courseView.teacher + ' (任课教师)')
+    //     Text(this.courseView.location + ' (上课地点) ')
+    //     Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
+    //     Text(this.courseView.credit + ' (课程学分) ')
+    //   }
+    //   .layoutWeight(6)
+    //   .justifyContent(FlexAlign.SpaceAround)
+    //   .alignItems(HorizontalAlign.Start)
+    // }
+    // .width("100%")
+    // .height("30%")
+    // .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+
     Column() {
       Row() {
-        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修")
         Text(this.courseView.name)
-          .fontSize(32)
+          .fontSize(26)
+          .fontWeight(FontWeight.Bold)
+          .margin({top:10})
+
         Button() {
-          Image($r("app.media.icon_show_less"))
-            .width(16)
+          Image($r("app.media.icon_close"))
+            .width(20)
             .onClick(() => {
               this.dialogController.close();
             })
         }
         .backgroundColor(Color.Transparent)
+        .type(ButtonType.Circle)
       }
-      .justifyContent(FlexAlign.SpaceEvenly)
+      .justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
 
-      Column() {
-        Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq))
-        Text(this.courseView.teacher + ' (任课教师)')
-        Text(this.courseView.location + ' (上课地点) ')
-        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + ' (课程周数) ')
-        Text(this.courseView.credit + ' (课程学分) ')
+
+
+      Row() {
+        Text(this.courseView.courseType == CourseType.Required ? "必修" : "选修").fontSize(18)
+        Text(this.courseView.startWeek + '-' + this.courseView.endWeek + '周').fontSize(18)
+        Text(this.courseView.teacher).fontSize(18)
       }
-      .layoutWeight(6)
-      .justifyContent(FlexAlign.SpaceAround)
-      .alignItems(HorizontalAlign.Start)
+      .margin({top:15,bottom:25})
+      .width('80%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      Text(CourseView.courseSeqToTimeString(this.courseView.courseSeq)).fontSize(26) .fontWeight(FontWeight.Medium)
+
+      Row(){
+        Text(this.courseView.location).fontSize(20).fontWeight(FontWeight.Bold)
+        Text(`${this.courseView.credit}`).fontSize(55).fontWeight(FontWeight.Bold)
+      }
+      .width('85%')
+      .justifyContent(FlexAlign.SpaceBetween)
+
     }
-    .width("100%")
-    .height("25%")
-    .backgroundColor($r('app.color.course_cube_detail_dialog_background_color'))
+    .width("80%")
+    .height("30%")
+    .padding({
+      bottom:40,
+      left:30,
+      right:20,
+      top:20
+    })
+    .justifyContent(FlexAlign.SpaceAround)
+    .backgroundColor(Color.White)
+    .borderRadius(16)
+    .alignItems(HorizontalAlign.Start)
   }
 }
 
@@ -76,7 +130,7 @@ struct AllCoursePage {
       courseView: $forDetailCourseView
     }),
     autoCancel: true,
-    alignment: DialogAlignment.Bottom,
+    alignment: DialogAlignment.Center,
     customStyle: true
   })
 
@@ -103,7 +157,7 @@ struct AllCoursePage {
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
-  readonly courseCubeColors: string[] = ['#569EBD', '#D3A384', '#BA8B6D', '#3B86A5', '#55AD9B', '#E88D67', '#FFDA78', '#7469B6'];
+  readonly courseCubeColors: string[] = ['#569EBD', '#D3A384', '#BA8B6D', '#3B86A5', '#55AD9B', '#E88D67', '#FFDA78', '#7469B6','#0E86D4','#333652','#59981A','#FF9636','#4B8378'];
   private courses: Course[] = [];
   courseColorMap: Map<string, string> = new Map();
 
@@ -181,6 +235,7 @@ struct AllCoursePage {
     Column() {
       Text(`${courseView.name}@${courseView.location}`)
         .fontSize('12vp')
+        .fontColor(Color.White)
       // Text(CourseView.courseSeqToTime.get(courseView.courseSeq)[0])
       //   .fontSize(10)
       //   .alignSelf(ItemAlign.Center)
@@ -193,6 +248,7 @@ struct AllCoursePage {
       //
       //   .height(72)
     }
+
     .width("100%")
     .height('72vp')
     .justifyContent(FlexAlign.SpaceAround)
@@ -234,7 +290,7 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 }, color: '#ff969696' })
+          .border({ width: { bottom: 0.5 }, color: '#ffb7b7b7' })
 
         })
       }

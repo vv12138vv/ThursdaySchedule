@@ -16,17 +16,17 @@ struct ExamDetailDialog {
           .fontColor($r('app.color.basic_word'))
           .margin({ left: 16, top: 16, bottom: 16 })
 
-        Button() {
-          Image($r('app.media.icon_close'))
-            .width(16)
-            .height(16)
-            .margin({ right: 16 })
-            .onClick(() => {
-              this.dialogController.close();
-            })
-        }
-        .type(ButtonType.Circle)
-        .backgroundColor(Color.Transparent)
+        // Button() {
+        //   Image($r('app.media.icon_close'))
+        //     .width(16)
+        //     .height(16)
+        //     .margin({ right: 16 })
+        //     .onClick(() => {
+        //       this.dialogController.close();
+        //     })
+        // }
+        // .type(ButtonType.Circle)
+        // .backgroundColor(Color.Transparent)
       }
       .justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
