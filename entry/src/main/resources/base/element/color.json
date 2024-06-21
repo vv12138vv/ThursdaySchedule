@@ -180,6 +180,38 @@
     {
       "name": "exam_card_background",
       "value": "#f1f2f3"
+    },
+    {
+      "name": "system_color_1",
+      "value": "#d81e06"
+    },
+    {
+      "name": "system_color_2",
+      "value": "#ff6100"
+    },
+    {
+      "name": "system_color_3",
+      "value": "#ffff00"
+    },
+    {
+      "name": "system_color_4",
+      "value": "#228b22"
+    },
+    {
+      "name": "system_color_5",
+      "value": "#03a89e"
+    },
+    {
+      "name": "system_color_6",
+      "value": "#0000ff"
+    },
+    {
+      "name": "system_color_7",
+      "value": "#a020f0"
+    },
+    {
+      "name": "system_color_8",
+      "value": "#ffc0cb"
     }
   ]
 }
