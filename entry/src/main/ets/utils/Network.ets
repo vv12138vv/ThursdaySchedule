@@ -40,6 +40,19 @@ export class Network{
     return result
   }
 
+  static async checkLogin():Promise<string>{
+    let result:string = ''
+    const response = await axios.get(`${this.baseURL}/home`)
+    if (response.status === 200){
+      result = response.data.data;
+    } else if (response.status === 400){
+      result = 'null';
+    } else {
+      result = 'error';
+    }
+    return result;
+  }
+
   static async getLesson():Promise<Course[]>{
     let lessons:Course[] = []
     const response = await axios.get(`${Network.baseURL}/lessons`)
