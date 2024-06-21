@@ -12,15 +12,18 @@ import { DataProcess } from '../utils/DataProcess'
 import DataPool from '../utils/DataPool';
 import Exam from '../database/models/Exam';
 import ExamTable from '../database/tables/ExamTable';
+import UserTable from '../database/tables/UserTable';
+import User from '../database/models/User';
 @Entry
 @Component
 struct LoginPage {
-  @State password: string = ''
-  @State username: string = ''
+  @State password: string = '921107810232njust'
+  @State username: string = '921107810232'
   @State verifyCode: string = ''
   @State imgCode: string = ''
   terms: string[] = [];
   icon_input_space: number = 20
+
 
   //todo 这里要加上全局的状态，是否登录
   @State isLogin:Boolean = false
@@ -44,12 +47,30 @@ struct LoginPage {
       this.showVerifyCode();
     } else {
       this.isLogin = true;
+      let user:User={
+        studentId:this.username,
+        name:this.username,
+        password:this.password,
+        lastUpdateTime:new Date().valueOf()
+      };
+      this.addLoginInfo(user)
       await this.fetchAllData();
       router.pushUrl({
         url: "pages/MainPage"
       })
     }
   }
+
+  addLoginInfo(user:User){
+    UserTable.insertData(user,(succeed:boolean)=>{
+      if(succeed){
+        Logger.info("insert user ${user.studentId} successfully");
+      }else{
+        Logger.info("insert user ${user.studentId} failed");
+      }
+    })
+  }
+
 
   async fetchAllData() {
     try {

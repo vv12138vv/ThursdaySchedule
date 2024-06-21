@@ -232,6 +232,7 @@ export default struct TaskList {
               }
               .edgeEffect(EdgeEffect.Spring)
               .scrollBar(BarState.Off)
+              .width('80%')
             }.height('100%')
           }.height('100%')
         }

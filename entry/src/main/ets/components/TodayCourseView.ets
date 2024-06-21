@@ -108,6 +108,8 @@ export default struct TodayCourseView {
 
 
 
+
+
   @Builder CourseCard(courseView: CourseView) {
     Column() {
       Text(courseView.name)

@@ -25,6 +25,7 @@ struct MainPage {
   }
 
 
+
   build() {
     Stack(){
       Column(){
@@ -44,6 +45,7 @@ struct MainPage {
             Image($r('app.media.icon_user'))
           }
           .onClick(()=>{
+
             router.pushUrl({
               url:'pages/LoginPage'
             })

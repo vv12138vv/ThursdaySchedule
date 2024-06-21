@@ -1,4 +1,3 @@
-@Observed
 export default class User{
   id?:number;//主键，与业务无关
   studentId:string;//学号也即用户名。
