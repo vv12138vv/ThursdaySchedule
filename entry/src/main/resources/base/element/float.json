@@ -1,4 +1,4 @@
- {
+{
   "float": [
     {
       "name": "tab_text_font_size",
@@ -407,6 +407,10 @@
     {
       "name": "course_page_footer_height",
       "value": "40vp"
+    },
+    {
+      "name": "font_size",
+      "value": "16fp"
     }
   ]
 }

@@ -1,3 +1,4 @@
+import {theme} from './theme'
 export class NavBarConfig {
   leftIcon?: Resource | null = null;
   leftLabel?: string | null = null;
@@ -14,6 +15,7 @@ export class NavBarConfig {
 export default struct NavBar {
   navBarConfig: NavBarConfig;
 
+  @StorageLink('SystemColor') Sys_color: number = 1
 
   build() {
     Row() {
@@ -24,7 +26,8 @@ export default struct NavBar {
             .width(16)
             .onClick(this.navBarConfig.onClickLeftButton)
           }
-          .backgroundColor(Color.Transparent)
+          // .backgroundColor(Color.Transparent)
+          .backgroundColor(theme.getTheme(this.Sys_color))
           .type(ButtonType.Circle)
           .width(30)
 
@@ -35,7 +38,8 @@ export default struct NavBar {
         }
       }
       .layoutWeight(1)
-      .backgroundColor(Color.Transparent)
+      // .backgroundColor(Color.Transparent)
+      .backgroundColor(theme.getTheme(this.Sys_color))
 
       Stack() {
         if (this.navBarConfig.title) {
@@ -62,7 +66,8 @@ export default struct NavBar {
     .width("100%")
     .height($r("app.float.nav_bar_height"))
     .justifyContent(FlexAlign.Start)
-    .backgroundColor($r('app.color.nav_bar_background_color'))
+    // .backgroundColor($r('app.color.nav_bar_background_color'))
+    .backgroundColor(theme.getTheme(this.Sys_color))
     .alignItems(VerticalAlign.Center)
   }
 }

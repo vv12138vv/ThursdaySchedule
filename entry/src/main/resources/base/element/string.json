@@ -64,7 +64,6 @@
       "name": "net_error",
       "value": "网络错误"
     },
-
     {
       "name": "dialog_about_title1",
       "value": "关于"
@@ -94,7 +93,7 @@
       "value": "GPA"
     },
     {
-      "name":"grade_block_header_column1_label",
+      "name": "grade_block_header_column1_label",
       "value": "课程名"
     },
     {
@@ -116,6 +115,14 @@
     {
       "name": "detail_default_title",
       "value": "Default title"
+    },
+    {
+      "name": "EntryFormAbility_desc",
+      "value": "form_description"
+    },
+    {
+      "name": "EntryFormAbility_label",
+      "value": "form_label"
     }
   ]
 }
