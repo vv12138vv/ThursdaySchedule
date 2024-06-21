@@ -3,10 +3,11 @@ import NavBar, { NavBarConfig } from '../components/NavBar';
 import router from '@ohos.router';
 import Logger from '../utils/Logger';
 import { courseDemo } from '../database/models/Course';
-import {CourseView} from '../database/models/Course';
+import { CourseView } from '../database/models/Course';
 import DateUtils from '../utils/DateUtils';
 import CourseTable from '../database/tables/CourseTable';
 import DataPool from '../utils/DataPool';
+
 @CustomDialog
 export struct CourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -102,8 +103,9 @@ struct AllCoursePage {
   courseSchedule: (CourseView | null)[][] = Array.from({ length: 24 }, () => Array(this.TOTAL_COURSE_CUBE).fill(null));
   @State forDetailCourseView: CourseView | null = null;
   //Todo 这里需要几个 rgb 值
-  readonly courseCubeColors: string[] = ['#569EBD','#D3A384','#BA8B6D','#3B86A5','55AD9B','E88D67','FFDA78','7469B6'];
-  private courses:Course[]=[];
+  readonly courseCubeColors: string[] = ['#569EBD', '#D3A384', '#BA8B6D', '#3B86A5', '#55AD9B', '#E88D67', '#FFDA78', '#7469B6'];
+  private courses: Course[] = [];
+  courseColorMap: Map<string, string> = new Map();
 
   aboutToAppear() {
     //获得自学期开始时 25周的起始日期
@@ -119,10 +121,15 @@ struct AllCoursePage {
     //当前显示第几周
     this.showWeekString = '第' + this.showWeek.toString() + '周';
 
-    this.courses=DataPool.courses;
-    this.courses.forEach((course:Course,index:number)=>{
-      let courseViewTemp:CourseView[]=CourseView.fromCourse(course);
-      this.courseViews=this.courseViews.concat(courseViewTemp);
+    this.courses = DataPool.courses;
+
+    this.courses.forEach((value:Course,index:number)=>{
+      this.courseColorMap.set(value.courseId,this.courseCubeColors[index%this.courseCubeColors.length]);
+    })
+
+    this.courses.forEach((course: Course, index: number) => {
+      let courseViewTemp: CourseView[] = CourseView.fromCourse(course);
+      this.courseViews = this.courseViews.concat(courseViewTemp);
     })
     this.courseViews.forEach((item: CourseView, index: number) => {
       for (let i = item.startWeek;i <= item.endWeek; i += 1) {
@@ -138,11 +145,11 @@ struct AllCoursePage {
     Column() {
       Text(this.weekDaysString[date.getDay()])
         .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
-        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder: FontWeight.Regular)
+        .fontWeight(date.getTime() === this.todayDateInfo.getTime() ? FontWeight.Bolder : FontWeight.Regular)
       Text((date.getMonth() + 1).toString() + '/' + date.getDate().toString())
         .fontColor(date.getTime() === this.todayDateInfo.getTime() ? '#ff1d1d1d' : '#ff696969')
         .fontSize('14vp')
-    }.margin({top:'5vp'})
+    }.margin({ top: '5vp' })
 
   }
 
@@ -179,7 +186,7 @@ struct AllCoursePage {
       //   .alignSelf(ItemAlign.Center)
       // Text(courseView.name+"@"+courseView.location)
       //   .fontSize('13vp')
-        //.alignSelf(ItemAlign.Center)
+      //.alignSelf(ItemAlign.Center)
       // Text(courseView.location)
       //   .fontSize('12vp')
       //   //.alignSelf(ItemAlign.Center)
@@ -189,7 +196,7 @@ struct AllCoursePage {
     .width("100%")
     .height('72vp')
     .justifyContent(FlexAlign.SpaceAround)
-    .backgroundColor(this.courseCubeColors[generateHash(courseView.name)%this.courseCubeColors.length])
+    .backgroundColor(this.courseColorMap.get(courseView.courseId))
     .onClick(() => {
       this.forDetailCourseView = courseView;
       this.courseDetailDialogController.open();
@@ -227,7 +234,7 @@ struct AllCoursePage {
               this.CourseCube(value)
             }
           }
-          .border({ width: { bottom: 0.5 } ,color:'#ff969696'})
+          .border({ width: { bottom: 0.5 }, color: '#ff969696' })
 
         })
       }
@@ -260,7 +267,7 @@ struct AllCoursePage {
           })
 
           Text(this.showWeekString)
-          .fontColor(Color.White)
+            .fontColor(Color.White)
           Button() {
             Image($r('app.media.icon_forward'))
               .width(20)
@@ -318,11 +325,10 @@ struct AllCoursePage {
     .height("100%")
   }
 
-
-  pageTransition(){
-    PageTransitionEnter({type:RouteType.Push,duration:300})
+  pageTransition() {
+    PageTransitionEnter({ type: RouteType.Push, duration: 300 })
       .slide(SlideEffect.Bottom)
-    PageTransitionExit({type:RouteType.Pop,duration:300})
+    PageTransitionExit({ type: RouteType.Pop, duration: 300 })
       .slide(SlideEffect.Bottom)
   }
 }
