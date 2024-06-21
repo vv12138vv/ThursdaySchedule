@@ -5,11 +5,13 @@ import RecentExamView from '../components/RecentExamView';
 import TaskList from '../components/TaskList';
 import TaskTable from '../database/tables/TaskTable';
 import { TaskListItemData } from '../database/models/Task';
+import {Network} from '../utils/Network';
+import DataPool from '../utils/DataPool';
 @Entry
 @Component
 struct MainPage {
   @State currentView: number = 0
-
+  isLogin:boolean=false;
   updateView(index:number){
     this.currentView = index;
   }
@@ -23,7 +25,6 @@ struct MainPage {
       return '#ffd6c262'
     }
   }
-
 
 
   build() {
@@ -45,10 +46,17 @@ struct MainPage {
             Image($r('app.media.icon_user'))
           }
           .onClick(()=>{
+            this.isLogin=DataPool.isLogin;
+            if(this.isLogin===false){
+              router.pushUrl({
+                url:'pages/LoginPage'
+              })
+            }else{
+              router.pushUrl({
+                url:"pages/PersonalPage",
+              })
+            }
 
-            router.pushUrl({
-              url:'pages/LoginPage'
-            })
           }).height('40vp')
           .width('40vp')
           .margin({right:30})

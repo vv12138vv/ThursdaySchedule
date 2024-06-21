@@ -55,6 +55,7 @@ struct LoginPage {
       };
       this.addLoginInfo(user)
       await this.fetchAllData();
+      DataPool.isLogin=true;
       router.pushUrl({
         url: "pages/MainPage"
       })
@@ -117,6 +118,7 @@ struct LoginPage {
   async fetchAllExam(){
     let exams:Exam[]=[];
     exams=await Network.getExam('2023-2024-2');
+    DataPool.exams=DataPool.exams.concat(exams);
     exams.forEach((exam:Exam,index:number)=>{
       ExamTable.insertData(exam,(succeed:boolean)=>{
         if(succeed){
@@ -130,12 +132,12 @@ struct LoginPage {
 
   build() {
   Stack(){
-    Video({
-      src:$rawfile('login_video.mp4')
-    })
-    .autoPlay(true)
-    .controls(false)
-    .loop(true)
+    // Video({
+    //   src:$rawfile('login_video.mp4')
+    // })
+    // .autoPlay(true)
+    // .controls(false)
+    // .loop(true)
 
     Column() {
       Text("登  录")

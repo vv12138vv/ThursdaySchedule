@@ -84,7 +84,7 @@ export default struct TodayCourseView {
   aboutToAppear() {
     //日期相关初始化
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-04-30'));
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-04-16'));
     //
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
@@ -141,7 +141,6 @@ export default struct TodayCourseView {
 
   build() {
     Column() {
-
       Column() {
         if (this.courseViews.length != 0) {
           List({ space: 12 }) {
@@ -153,6 +152,7 @@ export default struct TodayCourseView {
           }
           .alignListItem(ListItemAlign.Center)
           .height(512)
+          .borderWidth(1)
         } else {
           Text('今天没有课哦')
             .fontSize(32)
@@ -161,7 +161,6 @@ export default struct TodayCourseView {
         }
       }
       .height(512)
-
     }
     .height("100%")
     .width("100%")

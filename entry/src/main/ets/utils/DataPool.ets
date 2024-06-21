@@ -6,6 +6,7 @@ class DataPool{
   public courses:Course[]=[];
   public grades:Grade[]=[];
   public exams:Exam[]=[];
+  public isLogin:boolean=false;
 }
 
 export default new DataPool() as DataPool;
