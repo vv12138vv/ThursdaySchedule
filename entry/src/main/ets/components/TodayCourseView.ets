@@ -23,6 +23,7 @@ struct TodayCourseDetailDialog {
             })
         }
         .backgroundColor(Color.Transparent)
+        .type(ButtonType.Circle)
       }
       .justifyContent(FlexAlign.SpaceBetween)
       .width("100%")
@@ -152,7 +153,6 @@ export default struct TodayCourseView {
           }
           .alignListItem(ListItemAlign.Center)
           .height(512)
-          .borderWidth(1)
         } else {
           Text('今天没有课哦')
             .fontSize(32)

@@ -10,16 +10,16 @@ import DataPool from '../utils/DataPool';
 @Entry
 @Component
 struct MainPage {
-  @State currentView: number = 0
+  @State currentView: number = 1;
   isLogin:boolean=false;
   updateView(index:number){
     this.currentView = index;
   }
 
   switchColor(index: number):string{
-    if (index == 0){ // lesson
+    if (index == 1){ // lesson
       return '#ffae9292'
-    } else if (index == 1){ //to do
+    } else if (index == 0){ //to do
       return '#ff4766a4'
     } else {
       return '#ffd6c262'
@@ -33,8 +33,8 @@ struct MainPage {
 
         // 用户头像以及title
         Row(){
-          Text( this.currentView === 0 ? '今日课程' :
-                this.currentView === 1 ? 'Todo List' :
+          Text( this.currentView === 0 ? '我的待办' :
+                this.currentView === 1 ? '今日课程' :
                 '近期考试'
               )
             .fontSize(36)
@@ -68,13 +68,14 @@ struct MainPage {
 
         Stack({ alignContent: Alignment.Bottom }) {
           Swiper(){
-            TodayCourseView()
             TaskList()
+            TodayCourseView()
+
             RecentExamView()
           }
           .onChange((index:number)=> this.updateView(index))
           .loop(false)
-
+          .index(1)
           BottomBar({
             onClickLeftButton:()=>{
               router.pushUrl({

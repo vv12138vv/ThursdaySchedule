@@ -17,7 +17,7 @@ struct ExamDetailDialog {
           .margin({ left: 16, top: 16, bottom: 16 })
 
         Button() {
-          Image($r('app.media.icon_showless'))
+          Image($r('app.media.icon_close'))
             .width(16)
             .height(16)
             .margin({ right: 16 })
@@ -25,6 +25,7 @@ struct ExamDetailDialog {
               this.dialogController.close();
             })
         }
+        .type(ButtonType.Circle)
         .backgroundColor(Color.Transparent)
       }
       .justifyContent(FlexAlign.SpaceBetween)
@@ -63,7 +64,7 @@ struct ExamDetailDialog {
     .width("80%")
     .height("40%")
     .borderRadius(16)
-    .backgroundColor($r('app.color.exam_detail_bbackground'))
+    .backgroundColor(Color.White)
     .padding({ left: 0, right: 0, top: 16, bottom: 16 })
   }
 }
@@ -200,7 +201,6 @@ export default struct RecentExamView {
           }
           .alignListItem(ListItemAlign.Center)
           .height(512)
-          .borderWidth(1)
         } else {
           Text('最近没有考试哦')
             .fontSize(32)
@@ -213,7 +213,6 @@ export default struct RecentExamView {
     .height("100%")
     .width("100%")
     .alignItems(HorizontalAlign.Center)
-    // .borderWidth(1)
   }
 }
 

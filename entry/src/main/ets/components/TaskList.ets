@@ -278,11 +278,11 @@ export default struct TaskList {
             }
           })
         })
-      }.height('100%')
+      }
+      .height('100%')
 
     }
     .height('90%')
-
   }
 }
 
