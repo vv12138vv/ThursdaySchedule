@@ -78,18 +78,20 @@ struct GradePage {
 
   aboutToAppear() {
     let termsTemp:string[] = DataProcess.generateSemesterArray('921107810232').slice(0,6)
-    GradeTable.selectDataAll((result: Grade[]) => {
-      this.allGrades = result;
-      this.initGradeInfo(this.allGrades)
-      termsTemp.forEach((term: string, index: number) => {
-        let termGrade: Grade[] = [];
-        termGrade = this.allGrades.filter((grade: Grade, index: number) => {
-          return grade.time === term;
-        })
-        this.termGrades.set(term, termGrade);
+    // GradeTable.selectDataAll((result: Grade[]) => {
+    //   this.allGrades = result;
+    //
+    // })
+    this.allGrades=DataPool.grades;
+    this.initGradeInfo(this.allGrades)
+    termsTemp.forEach((term: string, index: number) => {
+      let termGrade: Grade[] = [];
+      termGrade = this.allGrades.filter((grade: Grade, index: number) => {
+        return grade.time === term;
       })
-      this.terms=termsTemp.reverse();
+      this.termGrades.set(term, termGrade);
     })
+    this.terms=termsTemp.reverse();
   }
 
   build() {

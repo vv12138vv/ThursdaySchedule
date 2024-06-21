@@ -3,6 +3,8 @@ import DateUtils from '../utils/DateUtils';
 import { CourseType } from '../database/models/Course';
 import CourseTable from '../database/tables/CourseTable';
 import DataPool from '../utils/DataPool';
+import GradeTable from '../database/tables/GradeTable';
+import Grade from '../database/models/Grade';
 @CustomDialog
 struct TodayCourseDetailDialog {
   dialogController?: CustomDialogController;
@@ -96,7 +98,6 @@ export default struct TodayCourseView {
     CourseTable.getRdbStore(()=>{
       CourseTable.selectDataByWeek(this.curWeek,(result:Course[])=>{
         courses=result;
-        DataPool.courses=courses;
         courses.forEach((course:Course,index:number)=>{
           let temp=CourseView.fromCourse(course);
           coursesViewTemp=coursesViewTemp.concat(temp);
@@ -107,6 +108,14 @@ export default struct TodayCourseView {
           return value.weekday === day;
         })
         this.courseViews=coursesViewTemp;
+      });
+      CourseTable.selectDataAll((result:Course[])=>{
+        DataPool.courses=result;
+      });
+    })
+    GradeTable.getRdbStore(()=>{
+      GradeTable.selectDataAll((result:Grade[])=>{
+        DataPool.grades=result;
       })
     })
   }

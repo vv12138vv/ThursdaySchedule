@@ -1,6 +1,7 @@
 import Exam, { examDemo, ExamView } from '../database/models/Exam';
 import DateUtils from '../utils/DateUtils';
 import DataPool from '../utils/DataPool';
+import ExamTable from '../database/tables/ExamTable';
 
 @CustomDialog
 struct ExamDetailDialog {
@@ -72,7 +73,7 @@ struct ExamDetailDialog {
 @Component
 export default struct RecentExamView {
   exams: Exam[] = [];
-  examViews: ExamView[] = [];
+  @State examViews: ExamView[] = [];
   curWeek: number;
   termStartDate = new Date('2024-02-26');
   @State forDetailExamView: ExamView | null = null;
@@ -85,19 +86,25 @@ export default struct RecentExamView {
     customStyle: true
   })
 
-  aboutToAppear() {
+  async aboutToAppear() {
     //数据请求
     let exams: Exam[] = DataPool.exams;
     let examViewTemp: ExamView[] = [];
-    exams.forEach((exam: Exam, index: number) => {
-      let temp = ExamView.fromExam(exam);
-      examViewTemp = examViewTemp.concat(temp);
+    ExamTable.getRdbStore(()=>{
+      ExamTable.selectDataAll((result:Exam[])=>{
+        exams=result;
+        exams.forEach((exam: Exam, index: number) => {
+          let temp = ExamView.fromExam(exam);
+          examViewTemp = examViewTemp.concat(temp);
+        })
+        examViewTemp=examViewTemp.filter((examView:ExamView,index:number)=>{
+          return DateUtils.CompareDaysFromNow(examView.time);
+        })
+        this.examViews = examViewTemp;
+      })
     })
 
-    examViewTemp=examViewTemp.filter((examView:ExamView,index:number)=>{
-      return DateUtils.CompareDaysFromNow(examView.time);
-    })
-    this.examViews = examViewTemp;
+
 
 
   }
