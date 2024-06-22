@@ -88,7 +88,7 @@ export default struct TodayCourseView {
   async aboutToAppear() {
     //日期相关初始化
     //今日日期
-    this.todayDateInfo = DateUtils.getStartOfDay(new Date('2024-04-01'));
+    this.todayDateInfo = DateUtils.getStartOfDay(new Date());
     //
     let weekDiff = DateUtils.getWeekDiff(this.termStartDate, this.todayDateInfo);
     this.curWeek = weekDiff + 1;
